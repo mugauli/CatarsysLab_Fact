@@ -1,0 +1,202 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1AB1156B-9E4A-4C56-8539-FAC072770D22}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>ModeloDatos</RootNamespace>
+    <AssemblyName>ModeloDatos</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
+    </Reference>
+    <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Security" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Asignacion.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="AutoMapperBootstrapperModeloDatos.cs" />
+    <Compile Include="Catalogos\CatalogosData.cs" />
+    <Compile Include="CatarsysLabSGC.Context.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CatarsysLabSGC.Context.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CatarsysLabSGC.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CatarsysLabSGC.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>CatarsysLabSGC.edmx</DependentUpon>
+    </Compile>
+    <Compile Include="Clientes.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Contactos.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="ctPermisos.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_Corte.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_Estatus.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_IVA.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_Moneda.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_Periodos.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_Tipo_Asignacion.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_Tipo_Cambio.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Empleados.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Empresa.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Gestion\AsignacionData.cs" />
+    <Compile Include="Gestion\ClienteData.cs" />
+    <Compile Include="Gestion\EmpreadosData.cs" />
+    <Compile Include="Gestion\EmpresaData.cs" />
+    <Compile Include="Gestion\ProyectosData.cs" />
+    <Compile Include="Perfil.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="PerfilPermiso.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Proyectos.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetAsigPaginacion_Result.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetClientesPaginacion_Result.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetEmpleadosPaginacion_Result.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetEmpresaPaginacion_Result.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetProyectosPaginacion_Result.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <EntityDeploy Include="CatarsysLabSGC.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>CatarsysLabSGC.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <None Include="CatarsysLabSGC.edmx.diagram">
+      <DependentUpon>CatarsysLabSGC.edmx</DependentUpon>
+    </None>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="CatarsysLabSGC.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <LastGenOutput>CatarsysLabSGC.Context.cs</LastGenOutput>
+      <DependentUpon>CatarsysLabSGC.edmx</DependentUpon>
+    </Content>
+    <Content Include="CatarsysLabSGC.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>CatarsysLabSGC.edmx</DependentUpon>
+      <LastGenOutput>CatarsysLabSGC.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{1e40f4df-c2aa-4fad-aa2d-ad9a0be0efde}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

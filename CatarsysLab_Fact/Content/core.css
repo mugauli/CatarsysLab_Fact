@@ -342,11 +342,9 @@ a:focus {
   padding: 20px;
   background-color: #ffffff;
   -webkit-border-radius: 5px;
-  border-radius: 5px;
   -moz-border-radius: 5px;
   background-clip: padding-box;
   margin-bottom: 20px;
-  border: 1px solid #e8e8e8;
 }
 .card-box .card-drop {
   color: #9a9da0;

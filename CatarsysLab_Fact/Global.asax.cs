@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ModeloDatos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -16,6 +17,8 @@ namespace CatarsysLab_Fact
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            AutoMapperBootstrapperModeloDatos.Configurar();
         }
     }
 }

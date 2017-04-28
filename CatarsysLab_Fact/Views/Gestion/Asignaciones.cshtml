@@ -1,0 +1,258 @@
+﻿@model CatarsysLab_Fact.Models.AsignacionModel
+
+@Scripts.Render("~/Plugins/datatTables")
+
+
+<div class="container">
+
+    <!-- Modal -->
+
+    <div class="modal fade" id="addAsignacion" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="TitleModalAsignacion">Asignación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="contAgregar">
+                    <form class="form-horizontal" role="form" id="fnGuardarAsignacion">
+                        <input type="hidden" name="idAsignacion" id="idAsignacion" />
+                        <input type="hidden" name="frIdEmpresa" id="frIdEmpresa" />
+                        <div class="row" id="fnCliente">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label">Cliente:</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" name="Cliente" id="Cliente" tabindex="1">
+                                        <option value="0">Seleccione</option>
+                                        @foreach (var emp in Model.ctClientes)
+                                        {
+                                        <option value="@emp.Id_Cliente">@emp.Nombre_Cliente</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-xs-6 ">
+                                    <div class="col-xs-3"></div>
+                                    <div class="col-xs-9 errorMsg"></div>                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="fnConsultor">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label" for="example-email">Consultor:</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" tabindex="2" id="Consultor" name="Consultor">
+                                        <option value="0">Seleccione</option>
+                                        @foreach (var emp in Model.ctEmpleados)
+                                        {
+                                        <option value="@emp.Id_Empleado">@emp.Nombre_Empleado</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-xs-6 ">
+                                    <div class="col-xs-3"></div>
+                                    <div class="col-xs-9 errorMsg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="fnTipo">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label">Tipo:</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" tabindex="3" name="Tipo" id="Tipo">
+                                        <option value="0">Seleccione</option>
+                                        @foreach (var emp in Model.ctTipoAsignacion)
+                                        {
+                                        <option value="@emp.C_Id_Tipo">@emp.C_Desc_Tipo</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-xs-6 ">
+                                    <div class="col-xs-3"></div>
+                                    <div class="col-xs-9 errorMsg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="fnFecha">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label">Fecha Inicio:</label>
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="fecha_inicio" name="fecha_inicio" tabindex="4">
+                                        <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
+                                    </div><!-- input-group -->
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label">Fecha Fin:</label>
+                                <div class="col-md-9">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="fecha_fin" name="fecha_fin" tabindex="5">
+                                        <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
+                                    </div><!-- input-group -->
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-xs-6 ">
+                                    <div class="col-xs-3"></div>
+                                    <div class="col-xs-9 errorMsg"></div>
+                                </div>
+                                <div class="col-xs-6 ">
+                                    <div class="col-xs-3"></div>
+                                    <div class="col-xs-9 errorMsg2"></div>
+                                </div>
+                            </div>                           
+                        </div>
+                        <div class="row" id="fnCorte">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label">Corte Facturación:</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" tabindex="6" name="Corte" id="Corte">
+                                        <option value="0">Seleccione</option>
+                                        @foreach (var emp in Model.ctCorte)
+                                        {
+                                        <option value="@emp.C_Id_Corte">@emp.C_Desc_Corte</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-xs-6 ">
+                                    <div class="col-xs-3"></div>
+                                    <div class="col-xs-9 errorMsg"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row" id="fnCostoPeriodo">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label">Costo pactado:</label>
+                                <div class="col-md-9">
+                                    <input type="number" class="form-control" id="Costo" name="Costo" tabindex="7">
+                                </div>
+                                <div class="col-xs-12 error"></div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label">Periodo:</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" tabindex="8" name="Periodo" id="Periodo">
+                                        <option value="0">Seleccione</option>
+                                        @foreach (var emp in Model.ctPeriodo)
+                                        {
+                                        <option value="@emp.C_Id_Periodo">@emp.C_Desc_Periodo</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-xs-6 ">
+                                    <div class="col-xs-3"></div>
+                                    <div class="col-xs-9 errorMsg"></div>
+                                </div>
+                                <div class="col-xs-6 ">
+                                    <div class="col-xs-3"></div>
+                                    <div class="col-xs-9 errorMsg2"></div>
+                                </div>
+                            </div>         
+                        </div>
+                        <div class="row" id="fnMonedaIva">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label">Moneda a Fact:</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" tabindex="9" name="Moneda" id="Moneda">
+                                        <option value="0">Seleccione</option>
+                                        @foreach (var emp in Model.ctMoneda)
+                                        {
+                                        <option value="@emp.C_Id_Moneda">@emp.C_Desc_Moneda</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label">IVA a fact:</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" tabindex="10" name="IVA" id="IVA">
+                                        <option value="0">Seleccione</option>
+                                        @foreach (var emp in Model.ctIva)
+                                        {
+                                        <option value="@emp.C_Id_IVA">@emp.C_Desc_IVA</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="col-xs-6 ">
+                                    <div class="col-xs-3"></div>
+                                    <div class="col-xs-9 errorMsg"></div>
+                                </div>
+                                <div class="col-xs-6 ">
+                                    <div class="col-xs-3"></div>
+                                    <div class="col-xs-9 errorMsg2"></div>
+                                </div>
+                            </div>         
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-6">
+                                <label class="col-md-3 control-label">Activa:</label>
+                                <div class="col-md-9">
+                                    <div class="contEstado col-md-6  col-centered">
+                                        <label class="radio-inline">
+                                            <input type="radio" name="estado" tabindex="11" value="1" id="rdSI">SI
+                                        </label>
+                                        <label class="radio-inline">
+                                            <input type="radio" checked name="estado" tabindex="12" value="0" id="rdNO">NO
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <a href="#" id="btnVerFacturas" class="btn btn-primary">Ver Facturas de esta asignación</a>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="GuardarAsignacion">Guardar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ENd Modal-->
+    <!-- Page-Title -->
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card-box table-responsive">
+
+                <h4 class="header-title m-t-0 m-b-30">Asignaciones</h4>
+
+                <table id="datatable" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
+                    <thead>
+                        <tr>
+                            <th>IdAsignacion</th>
+                            <th>Consultor</th>
+                            <th>Cliente</th>
+                            <th>Fecha Inicio</th>
+                            <th>Duración</th>
+                            <th>Fecha Fin</th>
+                            <th>Proxima Facturación</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div><!-- end col -->
+    </div>
+    <!-- end row -->
+
+    <script src="~/Scripts/Asignacion.js"></script>
+
+</div> <!-- container -->

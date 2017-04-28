@@ -1,4 +1,9 @@
-﻿using System;
+﻿using CatarsysLab_Fact.Models;
+using CatarsysLab_Fact.Utilerias;
+using DTO.Gestion;
+using ModeloDatos.Catalogos;
+using ModeloDatos.Gestion;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -10,6 +15,7 @@ namespace CatarsysLab_Fact.Controllers
     {
         public ActionResult Index()
         {
+            Session[Constantes.Session.Empresa] = 1;
             return View();
         }
 
@@ -25,6 +31,37 @@ namespace CatarsysLab_Fact.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult BannerEmpresa()
+        {
+
+            var response = new BannerModel();
+
+            var empresas = new EmpresaData().ObtenerEmpresas(0, 1);
+
+            if (empresas.Code != 0)
+            {
+                ViewBag.Titulo = "Info";
+                ViewBag.Mensaje = "Ocurrio un error al obtener las empresas. Error: " + empresas.Message;
+                return View("_InfoMensaje");
+            }
+
+            ViewBag.DateNow = DateTime.Now.ToString("dd / MMMMMM / yyyy");
+
+            response.ctEmpresas = empresas.Result;
+           // response.ctEmpresas = new List<EmpresaDTO>();
+
+            return View(response);
+        }
+
+        [HttpPost]
+        public JsonResult ActualizaEmpresa(int Empresa)
+        {
+            Session[Constantes.Session.Empresa] = Empresa;
+
+            return Json(new { succes = true }, JsonRequestBehavior.AllowGet);
+
         }
     }
 }

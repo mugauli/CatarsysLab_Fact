@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{1E40F4DF-C2AA-4FAD-AA2D-AD9A0BE0EFDE}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>DTO</RootNamespace>
+    <AssemblyName>DTO</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Catalogos\C_EstatusDTO.cs" />
+    <Compile Include="Catalogos\C_IVADTO.cs" />
+    <Compile Include="Catalogos\C_MonedaDTO.cs" />
+    <Compile Include="Catalogos\C_PeriodosDTO.cs" />
+    <Compile Include="Catalogos\C_Tipo_AsignacionDTO.cs" />
+    <Compile Include="Catalogos\C_Tipo_CambioDTO.cs" />
+    <Compile Include="General\MethodResponseDTO.cs" />
+    <Compile Include="Gestion\AsignacionDTO.cs" />
+    <Compile Include="Catalogos\C_CorteDTO.cs" />
+    <Compile Include="Gestion\ClientesDTO.cs" />
+    <Compile Include="Gestion\ContactosDTO.cs" />
+    <Compile Include="Gestion\EmpresaDTO.cs" />
+    <Compile Include="Gestion\FacturasDTO.cs" />
+    <Compile Include="Gestion\PaginacionDTO.cs" />
+    <Compile Include="Gestion\ProyectosDTO.cs" />
+    <Compile Include="Gestion\EmpleadosDTO.cs" />
+    <Compile Include="Paginador\AsignacionPaginadorDTO.cs" />
+    <Compile Include="Paginador\ClientesPaginadorDTO.cs" />
+    <Compile Include="Paginador\EmpleadosPaginadorDTO.cs" />
+    <Compile Include="Paginador\EmpresasPaginadorDTO.cs" />
+    <Compile Include="Paginador\ProyectosPaginadorDTO.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Seguridad\PerfilDTO.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

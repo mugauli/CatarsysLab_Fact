@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=4.0.4.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.4.0.4\lib\net45\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.3\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
     </Reference>
@@ -141,11 +144,20 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\ConfiguracionController.cs" />
+    <Compile Include="Controllers\GestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AsignacionModel.cs" />
+    <Compile Include="Models\BannerModel.cs" />
+    <Compile Include="Models\ClientesModel.cs" />
+    <Compile Include="Models\EmpleadoModel.cs" />
+    <Compile Include="Models\EmpresasModel.cs" />
+    <Compile Include="Models\ProyectoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilerias\Constantes.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
@@ -157,6 +169,86 @@
     <Content Include="Content\menu.css" />
     <Content Include="Content\menu_light.css" />
     <Content Include="Content\pages.css" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\css\bootstrap-datepicker.css" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\css\bootstrap-datepicker.min.css" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\css\bootstrap-datepicker.standalone.css" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\css\bootstrap-datepicker.standalone.min.css" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\css\bootstrap-datepicker3.css" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\css\bootstrap-datepicker3.min.css" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\css\bootstrap-datepicker3.standalone.css" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\css\bootstrap-datepicker3.standalone.min.css" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\js\bootstrap-datepicker.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\js\bootstrap-datepicker.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ar.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.az.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.bg.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.bs.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ca.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.cs.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.cy.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.da.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.de.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.el.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.en-GB.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.es.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.et.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.eu.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.fa.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.fi.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.fo.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.fr-CH.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.fr.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.gl.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.he.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.hr.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.hu.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.hy.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.id.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.is.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.it-CH.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.it.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ja.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ka.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.kh.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.kk.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.kr.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.lt.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.lv.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.me.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.mk.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ms.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.nb.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.nl-BE.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.nl.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.no.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.pl.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.pt-BR.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.pt.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ro.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.rs-latin.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.rs.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.ru.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sk.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sl.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sq.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sr-latin.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sr.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sv.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.sw.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.th.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.tr.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.uk.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.vi.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.zh-CN.min.js" />
+    <Content Include="Content\Plugins\bootstrap-datepicker\dist\locales\bootstrap-datepicker.zh-TW.min.js" />
+    <Content Include="Content\Plugins\bootstrap-daterangepicker\daterangepicker.css" />
+    <Content Include="Content\Plugins\bootstrap-daterangepicker\daterangepicker.js" />
+    <Content Include="Content\Plugins\bootstrap-daterangepicker\drp.png" />
+    <Content Include="Content\Plugins\bootstrap-maxlength\bootstrap-maxlength.js" />
+    <Content Include="Content\Plugins\bootstrap-maxlength\bootstrap-maxlength.min.js" />
+    <Content Include="Content\Plugins\bootstrap-maxlength\src\bootstrap-maxlength.js" />
+    <Content Include="Content\Plugins\switchery\switchery.min.css" />
+    <Content Include="Content\Plugins\switchery\switchery.min.js" />
     <Content Include="Content\responsive.css" />
     <Content Include="Content\variables.css" />
     <Content Include="favicon.ico" />
@@ -169,6 +261,47 @@
     <Content Include="Images\logo_firma_small.jpg" />
     <Content Include="Images\logo_firma_small_2.png" />
     <Content Include="Images\logo_small.jpg" />
+    <Content Include="Content\Plugins\counterup\jquery.counterup.min.js" />
+    <Content Include="Content\Plugins\datatables\buttons.bootstrap.min.css" />
+    <Content Include="Content\Plugins\datatables\buttons.bootstrap.min.js" />
+    <Content Include="Content\Plugins\datatables\buttons.html5.min.js" />
+    <Content Include="Content\Plugins\datatables\buttons.print.min.js" />
+    <Content Include="Content\Plugins\datatables\dataTables.bootstrap.js" />
+    <Content Include="Content\Plugins\datatables\dataTables.buttons.min.js" />
+    <Content Include="Content\Plugins\datatables\dataTables.fixedHeader.min.js" />
+    <Content Include="Content\Plugins\datatables\dataTables.keyTable.min.js" />
+    <Content Include="Content\Plugins\datatables\dataTables.responsive.min.js" />
+    <Content Include="Content\Plugins\datatables\dataTables.scroller.min.js" />
+    <Content Include="Content\Plugins\datatables\fixedHeader.bootstrap.min.css" />
+    <Content Include="Content\Plugins\datatables\Images\sort_asc.png" />
+    <Content Include="Content\Plugins\datatables\Images\sort_both.png" />
+    <Content Include="Content\Plugins\datatables\Images\sort_desc.png" />
+    <Content Include="Content\Plugins\datatables\jquery.dataTables.min.css" />
+    <Content Include="Content\Plugins\datatables\jquery.dataTables.min.js" />
+    <Content Include="Content\Plugins\datatables\jszip.min.js" />
+    <Content Include="Content\Plugins\datatables\pdfmake.min.js" />
+    <Content Include="Content\Plugins\datatables\responsive.bootstrap.min.css" />
+    <Content Include="Content\Plugins\datatables\responsive.bootstrap.min.js" />
+    <Content Include="Content\Plugins\datatables\scroller.bootstrap.min.css" />
+    <Content Include="Content\Plugins\datatables\vfs_fonts.js" />
+    <Content Include="Content\Plugins\morris\morris.css" />
+    <Content Include="Content\Plugins\morris\morris.js" />
+    <Content Include="Content\Plugins\morris\morris.min.js" />
+    <Content Include="Content\Plugins\raphael\raphael-min.js" />
+    <Content Include="Content\Plugins\waypoints\lib\jquery.waypoints.js" />
+    <Content Include="Content\Plugins\waypoints\lib\jquery.waypoints.min.js" />
+    <Content Include="Content\Plugins\waypoints\lib\noframework.waypoints.js" />
+    <Content Include="Content\Plugins\waypoints\lib\noframework.waypoints.min.js" />
+    <Content Include="Content\Plugins\waypoints\lib\shortcuts\infinite.js" />
+    <Content Include="Content\Plugins\waypoints\lib\shortcuts\infinite.min.js" />
+    <Content Include="Content\Plugins\waypoints\lib\shortcuts\inview.js" />
+    <Content Include="Content\Plugins\waypoints\lib\shortcuts\inview.min.js" />
+    <Content Include="Content\Plugins\waypoints\lib\shortcuts\sticky.js" />
+    <Content Include="Content\Plugins\waypoints\lib\shortcuts\sticky.min.js" />
+    <Content Include="Content\Plugins\waypoints\lib\waypoints.debug.js" />
+    <Content Include="Content\Plugins\waypoints\lib\zepto.waypoints.js" />
+    <Content Include="Content\Plugins\waypoints\lib\zepto.waypoints.min.js" />
+    <Content Include="Scripts\Asignacion.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -187,10 +320,15 @@
     <Content Include="fonts\themify.eot" />
     <Content Include="fonts\themify.ttf" />
     <Content Include="fonts\themify.woff" />
+    <Content Include="Content\Plugins\datatables\json\scroller-demo.json" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="Scripts\Clientes.js" />
     <Content Include="Scripts\detect.js" />
+    <Content Include="Scripts\Empleados.js" />
+    <Content Include="Scripts\Empresas.js" />
     <Content Include="Scripts\fastclick.js" />
+    <Content Include="Scripts\funciones.SGC.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -198,6 +336,7 @@
     <Content Include="Scripts\jquery.blockUI.js" />
     <Content Include="Scripts\jquery.core.js" />
     <Content Include="Scripts\jquery.dashboard.js" />
+    <Content Include="Scripts\jquery.datatables.init.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.nicescroll.js" />
     <Content Include="Scripts\jquery.scrollTo.min.js" />
@@ -206,8 +345,10 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\main.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\modernizr.min.js" />
+    <Content Include="Scripts\Proyectos.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\waves.js" />
@@ -226,11 +367,17 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Gestion\Asignaciones.cshtml" />
+    <Content Include="Views\Shared\_InfoMensaje.cshtml" />
+    <Content Include="Views\Home\BannerEmpresa.cshtml" />
+    <Content Include="Views\Gestion\Proyectos.cshtml" />
+    <Content Include="Views\Configuracion\Empresas.cshtml" />
+    <Content Include="Views\Configuracion\Clientes.cshtml" />
+    <Content Include="Views\Configuracion\Empleados.cshtml" />
+    <Content Include="Views\Gestion\Facturacion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
-    <Folder Include="Plugins\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -246,6 +393,16 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\jquery-1.10.2.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DTO\DTO.csproj">
+      <Project>{1e40f4df-c2aa-4fad-aa2d-ad9a0be0efde}</Project>
+      <Name>DTO</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ModeloDatos\ModeloDatos.csproj">
+      <Project>{1ab1156b-9e4a-4c56-8539-fac072770d22}</Project>
+      <Name>ModeloDatos</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
