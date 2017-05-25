@@ -18,8 +18,9 @@ namespace ModeloDatos
         public Clientes()
         {
             this.Asignacion = new HashSet<Asignacion>();
-            this.Proyectos = new HashSet<Proyectos>();
             this.Contactos = new HashSet<Contactos>();
+            this.Facturas = new HashSet<Facturas>();
+            this.Proyectos = new HashSet<Proyectos>();
         }
     
         public int Id_Cliente { get; set; }
@@ -27,18 +28,24 @@ namespace ModeloDatos
         public string Nombre_Cliente { get; set; }
         public string Razon_Social_Cliente { get; set; }
         public string RFC_Cliente { get; set; }
-        public string Contactos_Cliente { get; set; }
-        public string Domicilio_Cliente { get; set; }
+        public string Calle_Cliente { get; set; }
+        public string Exterior_Cliente { get; set; }
+        public string Interior_Cliente { get; set; }
+        public string Colonia_Cliente { get; set; }
+        public string DelMun_Cliente { get; set; }
+        public Nullable<short> CP_Cliente { get; set; }
+        public string Estado_Dom_Cliente { get; set; }
         public string Dias_de_Pago_Cliente { get; set; }
-        public string Envio_Fact_Empresa { get; set; }
         public Nullable<bool> Estado { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Asignacion> Asignacion { get; set; }
         public virtual Empresa Empresa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Proyectos> Proyectos { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contactos> Contactos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Facturas> Facturas { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Proyectos> Proyectos { get; set; }
     }
 }

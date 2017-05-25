@@ -12,22 +12,18 @@ namespace ModeloDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class Perfil
+    public partial class C_Metodo_Pago
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Perfil()
+        public C_Metodo_Pago()
         {
-            this.Empleados = new HashSet<Empleados>();
-            this.PerfilPermiso = new HashSet<PerfilPermiso>();
+            this.Facturas = new HashSet<Facturas>();
         }
     
-        public int Id_Perfil { get; set; }
-        public string Nombre_Perfil { get; set; }
-        public bool Estado_Perfil { get; set; }
+        public int C_ID_Metodo_Pago { get; set; }
+        public string C_de_Metodo_Pago { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Empleados> Empleados { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PerfilPermiso> PerfilPermiso { get; set; }
+        public virtual ICollection<Facturas> Facturas { get; set; }
     }
 }

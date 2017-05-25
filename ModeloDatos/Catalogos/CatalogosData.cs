@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DTO.Catalogos;
 using DTO.General;
+using DTO.Gestion;
 using DTO.Seguridad;
 using System;
 using System.Collections.Generic;
@@ -169,27 +170,27 @@ namespace ModeloDatos.Catalogos
         }
 
         /// <summary>
-        /// Obtener Perfiles
+        /// Obtener Permisos
         /// </summary>
         /// <returns>Lista de tipo asignacion</returns>
-        public MethodResponseDTO<List<PerfilDTO>> ObtenerPerfiles()
+        public MethodResponseDTO<List<PermisosDTO>> ObtenerPermisos()
         {
             using (var context = new DB_9F97CF_CatarsysSGCEntities())
             {
                 try
                 {
-                    var response = new MethodResponseDTO<List<PerfilDTO>>() { Code = 0 };
+                    var response = new MethodResponseDTO<List<PermisosDTO>>() { Code = 0 };
 
 
-                    var tipoAsignacion = context.Perfil.Where(x=>x.Estado_Perfil == true).ToList();
+                    var tipoAsignacion = context.ctPermisos.Where(x=>x.Estado_Permiso == true).ToList();
 
-                    response.Result = Mapper.Map<List<PerfilDTO>>(tipoAsignacion);
+                    response.Result = Mapper.Map<List<PermisosDTO>>(tipoAsignacion);
 
                     return response;
                 }
                 catch (Exception ex)
                 {
-                    return new MethodResponseDTO<List<PerfilDTO>> { Code = -100, Message = "ObtenerPerfiles: " + ex.Message };
+                    return new MethodResponseDTO<List<PermisosDTO>> { Code = -100, Message = "Obtener Permisos DTO: " + ex.Message };
                 }
             }
         }

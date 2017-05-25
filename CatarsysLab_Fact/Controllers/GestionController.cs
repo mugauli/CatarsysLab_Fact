@@ -4,6 +4,7 @@ using DTO.Catalogos;
 using DTO.Gestion;
 using ModeloDatos.Catalogos;
 using ModeloDatos.Gestion;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -145,6 +146,8 @@ namespace CatarsysLab_Fact.Controllers
                 sortDirection = datos2[1];
 
             }
+
+            sortColumn = sortColumn == 0 ? 1 : sortColumn;
 
 
             var data = new AsignacionData().ObtenerAsignacionesPaginacion(start, length, sortColumn, sortDirection, search, company);
@@ -312,7 +315,7 @@ namespace CatarsysLab_Fact.Controllers
         }
 
         [HttpPost] 
-        public JsonResult GuardarProyecto(int idProyecto, int frIdEmpresa, int Cliente, string NombreProyecto, string fecha_inicio, string fecha_fin, decimal Costo, int Moneda, int CantidadFacturas, int TipoCambio, int IVA, int estado, string Comentarios)
+        public JsonResult GuardarProyecto(int idProyecto, int frIdEmpresa, int Cliente, string NombreProyecto, string fecha_inicio, string fecha_fin, decimal Costo, int Moneda, int CantidadFacturas, int TipoCambio, int IVA, int estado, string Comentarios,string tablaJSON)
         {
 
             var proyecto = new ProyectosDTO();
@@ -330,6 +333,37 @@ namespace CatarsysLab_Fact.Controllers
             proyecto.Id_IVA_Proyectos = IVA;
             proyecto.Comentarios_Proyecto = Comentarios;
             proyecto.Estado = estado == 1;
+
+            var factLts = new List<FacturasDTO>();
+
+            #region JSN Facturas
+
+            var jArray = JArray.Parse(tablaJSON);
+            JObject a = JObject.Parse(jArray.First().ToString());
+
+            foreach (var prod in ((JArray)a.SelectToken("ltsFacturas")))
+            {
+                var facturaJ = new FacturasDTO();
+                facturaJ.IdFactura = Convert.ToInt16(((JValue)prod.SelectToken("IdFactura")).Value);
+                facturaJ.Monto_Factura = Convert.ToDecimal(((JValue)prod.SelectToken("Monto")).Value);
+                facturaJ.Fecha_fin_Factura = Convert.ToDateTime(((JValue)prod.SelectToken("Fecha")).Value);
+                facturaJ.IdCliente = Cliente;
+                facturaJ.IdEmpresa = frIdEmpresa;
+                if (idProyecto != 0) facturaJ.IdProyecto = idProyecto;
+                facturaJ.C_Id_IVA = IVA;
+                facturaJ.C_Id_Moneda = Moneda;
+                facturaJ.C_Id_Tipo_Cambio = TipoCambio;
+                facturaJ.Tipo_Factura = "PR";
+                var EstadoFact = ((JValue)prod.SelectToken("Estado")).Value.ToString();
+                facturaJ.Id_Estado_Factura = Convert.ToInt16(EstadoFact.Equals("SI") ? 2 :(EstadoFact.Equals("NO") ? 1 : 3)); 
+                if (((JValue)prod.SelectToken("NoFactura")).Value.ToString() != "0") facturaJ.No_Factura = Convert.ToInt16(((JValue)prod.SelectToken("NoFactura")).Value);
+
+                factLts.Add(facturaJ);
+            }
+                 
+            #endregion
+
+            proyecto.facturas = factLts;
 
             var gdProyecto = new ProyectosData().GuardarProyecto(proyecto);
 
@@ -356,6 +390,81 @@ namespace CatarsysLab_Fact.Controllers
         public ActionResult Facturacion()
         {
             return View();
+        }
+
+        [HttpPost]
+        public JsonResult TablePaginacionFacturas(int draw, int start, int length, int company, int filter2, string search, string order)
+        {
+            Session[Constantes.Session.Empresa] = company;
+
+            //string search = Request["search[value]"] == null ? string.Empty : Request["search[value]"];
+
+            int sortColumn = 1;
+            string sortDirection = "asc";
+
+            if (length == -1)
+            {
+                length = 100;
+            }
+
+            if (Request["order[0][]"] != null)
+            {
+                string datos = Request["order[0][]"];
+                string[] datos2 = datos.Split(',');
+
+                sortColumn = int.Parse(datos2[0]) > 0 ? int.Parse(datos2[0]) : 1;
+                sortDirection = datos2[1];
+
+            }
+
+            sortColumn = sortColumn == 0 ? 1 : sortColumn;
+
+            var data = new FacturasData().ObtenerFacturasPaginacion(start, length, sortColumn, sortDirection, search,0,0,DateTime.Now.AddYears(-10), company);
+
+            data.Result.draw = draw;
+            data.Result.recordsFiltered = data.Result.recordsTotal;
+
+            return Json(data.Result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult GuardarFacturas(int IdFacturas, int frIdEmpresa, int Cliente, string NombreProyecto, string fecha_inicio, string fecha_fin, decimal Costo, int Moneda, int CantidadFacturas, int TipoCambio, int IVA, int estado, string Comentarios)
+        {
+
+            var proyecto = new ProyectosDTO();
+
+            //if (IdFacturas != 0) proyecto.Id_Proyectos = IdFacturas;
+            //proyecto.Id_Empresa = frIdEmpresa;
+            //proyecto.Id_Clientes_Proyectos = Cliente;
+            //proyecto.Nombre_Proyectos = NombreProyecto;
+            //proyecto.Numero_Facturas_Proyectos = CantidadFacturas;
+            //proyecto.Fecha_Ini_Proyectos = Convert.ToDateTime(fecha_inicio);
+            //if (fecha_fin != string.Empty) proyecto.Fecha_Fin_Proyectos = Convert.ToDateTime(fecha_fin);
+            //proyecto.Costo_Proyectos = Costo;
+            //proyecto.Id_Tipo_Cambio_Proyectos = TipoCambio;
+            //proyecto.Id_Moneda_Proyectos = Moneda;
+            //proyecto.Id_IVA_Proyectos = IVA;
+            //proyecto.Comentarios_Proyecto = Comentarios;
+            //proyecto.Estado = estado == 1;
+
+            var gdProyecto = new ProyectosData().GuardarProyecto(proyecto);
+
+            if (gdProyecto.Code != 0)
+                return Json(new { success = false, message = gdProyecto.Message }, JsonRequestBehavior.AllowGet);
+
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult ObtenerFacturas(int IdFacturas)
+        {
+
+            var gdAsignacion = new FacturasData().ObtenerFacturas(IdFacturas);
+
+            if (gdAsignacion.Code != 0)
+                return Json(new { success = false, message = gdAsignacion.Message }, JsonRequestBehavior.AllowGet);
+
+            return Json(new { success = true, info = gdAsignacion.Result }, JsonRequestBehavior.AllowGet);
         }
         #endregion
 

@@ -12,21 +12,18 @@ namespace ModeloDatos
     using System;
     using System.Collections.Generic;
     
-    public partial class C_Tipo_Cambio
+    public partial class C_Estado_Factura
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public C_Tipo_Cambio()
+        public C_Estado_Factura()
         {
             this.Facturas = new HashSet<Facturas>();
-            this.Proyectos = new HashSet<Proyectos>();
         }
     
-        public int C_Id_Tipo_Cambio { get; set; }
-        public string C_Desc_Tipo_Cambio { get; set; }
+        public short Id_Estado_Factura { get; set; }
+        public string C_Desc_Estado_Factura { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Facturas> Facturas { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Proyectos> Proyectos { get; set; }
     }
 }

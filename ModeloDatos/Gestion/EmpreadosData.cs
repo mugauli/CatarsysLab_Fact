@@ -49,7 +49,7 @@ namespace ModeloDatos.Gestion
         }
 
         /// <summary>
-        /// Guardar Asignacion
+        /// Guardar Permisos
         /// </summary>
         /// <returns>Lista de tipo asignacion</returns>
         public MethodResponseDTO<int> GuardarEmpleado(EmpleadosDTO empleado)
@@ -89,7 +89,69 @@ namespace ModeloDatos.Gestion
                         objDB.Id_Perfil = empleado.Id_Perfil;
 
                     }
+
                     context.SaveChanges();
+
+                    var permisos = GuardarPermisos(empleado.EmpleadoPermiso);
+                    if (permisos.Code != 0)
+                    {
+                        return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = permisos.Message};
+                    }
+
+
+                 
+
+                    return response;
+                }
+                catch (DbEntityValidationException e)
+                {
+                    string Result = string.Empty;
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Result += string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Result += string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    Result += ("Code: -100, Mensaje: " + e.Message + ", InnerException: " + (e.InnerException != null ? e.InnerException.Message : ""));
+                    return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = e.Message };
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = "GuardarAsignacion: " + ex.Message };
+                }
+            }
+        }
+
+        /// <summary>
+        /// Guardar Asignacion
+        /// </summary>
+        /// <returns>Lista de tipo asignacion</returns>
+        public MethodResponseDTO<int> GuardarPermisos(List<EmpleadoPermisoDTO> permisos)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<int>() { Code = 0, Result = 1 };
+
+                    foreach (var perm in permisos)
+                    {
+                        var objDB = context.EmpleadoPermiso.Where(x => x.Id_Empleado == perm.Id_Empleado && perm.Id_Permiso == x.Id_Permiso).FirstOrDefault();
+                        if (objDB == null)
+                        {
+                            objDB = Mapper.Map<EmpleadoPermiso>(perm);
+                            context.EmpleadoPermiso.Add(objDB);
+                        }
+                        else
+                        {                            
+                            objDB.Id_Empleado = perm.Id_Empleado;
+                            objDB.Id_Permiso = perm.Id_Permiso;
+                            objDB.Tipo_Permiso = perm.Tipo_Permiso;                          
+                        }
+                        context.SaveChanges();
+                    }
 
                     return response;
                 }

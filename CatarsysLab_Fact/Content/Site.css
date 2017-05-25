@@ -100,12 +100,12 @@
     margin-top: -10px;
     margin-bottom: 10px;
 }
+
 .errorMsg2 {
     color: red;
     font-size: 10px;
     margin-top: -10px;
     margin-bottom: 10px;
-
 }
 
 .inputError {
@@ -134,16 +134,16 @@
     position: relative;
 }
 
-#datatableFacturasProyecto .sorting:after,
-#datatableFacturasProyecto .sorting_asc:after,
-#datatableFacturasProyecto .sorting_desc:after {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    display: block;
-    font-family: 'Glyphicons Halflings';
-    opacity: 0.5;
-}
+    #datatableFacturasProyecto .sorting:after,
+    #datatableFacturasProyecto .sorting_asc:after,
+    #datatableFacturasProyecto .sorting_desc:after {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: block;
+        font-family: 'Glyphicons Halflings';
+        opacity: 0.5;
+    }
 
     #datatableFacturasProyecto .sorting:after {
         opacity: 0.2;
@@ -162,6 +162,7 @@
     #datatableFacturasProyecto .sorting_desc_disabled:after {
         color: #eee;
     }
+
 #datatableFacturasProyecto {
     margin-top: 20px;
 }
@@ -171,7 +172,75 @@
     overflow-y: auto;
     box-shadow: 1px 1px 2px;
 }
-#fnGuardarAsignacion, #fnGuardarProyecto {
+
+#fnGuardarAsignacion, #fnGuardarProyecto, #fnGuardar {
     width: 96%;
     margin: auto;
+}
+
+#agregarAsgContacto {
+    float: right;
+}
+#datatableContactos tbody tr:hover,
+#datatableFacturasProyecto tbody tr:hover,
+#datatable tbody tr:hover {
+    opacity: 0.7;
+    box-shadow: 1px 1px 8px;
+    cursor: pointer;
+}
+
+
+
+
+#datatableServiciosActuales .sorting,
+#datatableServiciosActuales .sorting_asc,
+#datatableServiciosActuales .sorting_desc,
+#datatableServiciosActuales .sorting_asc_disabled,
+#datatableServiciosActuales .sorting_desc_disabled {
+    cursor: pointer;
+    position: relative;
+}
+
+    #datatableServiciosActuales .sorting:after,
+    #datatableServiciosActuales .sorting_asc:after,
+    #datatableServiciosActuales .sorting_desc:after {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: block;
+        font-family: 'Glyphicons Halflings';
+        opacity: 0.5;
+    }
+
+    #datatableServiciosActuales .sorting:after {
+        opacity: 0.2;
+        content: "\e150"; /* sort */
+    }
+
+    #datatableServiciosActuales .sorting_asc:after {
+        content: "\e155"; /* sort-by-attributes */
+    }
+
+    #datatableServiciosActuales .sorting_desc:after {
+        content: "\e156"; /* sort-by-attributes-alt */
+    }
+
+    #datatableServiciosActuales .sorting_asc_disabled:after,
+    #datatableServiciosActuales .sorting_desc_disabled:after {
+        color: #eee;
+    }
+
+#datatableServiciosActuales {
+    margin-top: 20px;
+}
+
+.checkboxPer {
+    margin-left: 25px;
+}
+input:-moz-read-only { /* For Firefox */
+    cursor: not-allowed !important;
+}
+
+input:read-only {
+    cursor: not-allowed !important;
 }

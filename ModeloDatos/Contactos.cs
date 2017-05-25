@@ -22,7 +22,9 @@ namespace ModeloDatos
         public string Telefono_Contacto { get; set; }
         public string Movil__Contacto { get; set; }
         public string Skype_Contacto { get; set; }
+        public Nullable<bool> EnviaFactura_Contacto { get; set; }
         public string Comentario_Contacto { get; set; }
+        public bool Estado { get; set; }
     
         public virtual Clientes Clientes { get; set; }
     }

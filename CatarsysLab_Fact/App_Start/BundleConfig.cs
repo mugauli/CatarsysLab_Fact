@@ -18,7 +18,8 @@ namespace CatarsysLab_Fact
                         "~/Scripts/wow.min.js",
                         "~/Scripts/jquery.nicescroll.js",
                         "~/Scripts/jquery.scrollTo.min.js",
-                        "~/Scripts/main.js"));
+                        "~/Scripts/main.js",
+                         "~/Scripts/serializeAll.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));

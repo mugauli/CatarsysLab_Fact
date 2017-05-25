@@ -92,10 +92,16 @@
     <Compile Include="C_Corte.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="C_Estado_Factura.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="C_Estatus.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
     <Compile Include="C_IVA.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="C_Metodo_Pago.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
     <Compile Include="C_Moneda.cs">
@@ -110,23 +116,24 @@
     <Compile Include="C_Tipo_Cambio.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="EmpleadoPermiso.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Empleados.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
     <Compile Include="Empresa.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="Facturas.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Gestion\AsignacionData.cs" />
     <Compile Include="Gestion\ClienteData.cs" />
     <Compile Include="Gestion\EmpreadosData.cs" />
     <Compile Include="Gestion\EmpresaData.cs" />
+    <Compile Include="Gestion\FacturasData.cs" />
     <Compile Include="Gestion\ProyectosData.cs" />
-    <Compile Include="Perfil.cs">
-      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
-    </Compile>
-    <Compile Include="PerfilPermiso.cs">
-      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
-    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proyectos.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
@@ -141,6 +148,9 @@
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_GetEmpresaPaginacion_Result.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetFacturasPaginacion_Result.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_GetProyectosPaginacion_Result.cs">

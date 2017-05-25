@@ -10,15 +10,16 @@
 namespace ModeloDatos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class PerfilPermiso
+    public partial class sp_GetFacturasPaginacion_Result
     {
-        public int Id_Perfil { get; set; }
-        public int Id_Permisos { get; set; }
+        public Nullable<int> IdFactura { get; set; }
         public string Tipo { get; set; }
-    
-        public virtual ctPermisos ctPermisos { get; set; }
-        public virtual Perfil Perfil { get; set; }
+        public string Cliente { get; set; }
+        public string Concepto { get; set; }
+        public string Monto { get; set; }
+        public string Facturado { get; set; }
+        public Nullable<System.DateTime> DiaFacturacion { get; set; }
+        public string estado { get; set; }
     }
 }

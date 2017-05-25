@@ -14,6 +14,12 @@ namespace ModeloDatos
     
     public partial class Proyectos
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Proyectos()
+        {
+            this.Facturas = new HashSet<Facturas>();
+        }
+    
         public int Id_Proyectos { get; set; }
         public Nullable<int> Id_Clientes_Proyectos { get; set; }
         public Nullable<int> Id_Empresa { get; set; }
@@ -33,5 +39,7 @@ namespace ModeloDatos
         public virtual C_Tipo_Cambio C_Tipo_Cambio { get; set; }
         public virtual Clientes Clientes { get; set; }
         public virtual Empresa Empresa { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Facturas> Facturas { get; set; }
     }
 }

@@ -21,6 +21,7 @@
                     <form class="form-horizontal" role="form" id="fnGuardarProyecto">
                         <input type="hidden" name="idProyecto" id="idProyecto" />
                         <input type="hidden" name="frIdEmpresa" id="frIdEmpresa" />
+
                         <div class="row" id="fnCliente">
                             <div class="form-group col-md-6">
                                 <label class="col-md-3 control-label">Cliente:</label>
@@ -149,32 +150,6 @@
                             </div>
                         </div>
 
-                        <div class="row" id="fnTablaFacturas">
-                              <div class="col-xs-12">
-                                <div class="card-box table-responsive">
-                                    <table id="datatableFacturasProyecto" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
-                                        <thead>
-                                            <tr>
-                                                <th>No. Factura</th>
-                                                <th>Monto</th>
-                                                <th>Fecha de Facturación</th>                                               
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach (var emp in Model.Facturas)
-                                            {
-                                                <tr>
-                                                    <th>@emp.Id_Factura</th>
-                                                    <th>@emp.Monto</th>
-                                                    <th>@emp.FechaFactura</th>
-                                                </tr>
-                                            }
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                        
                         <div class="row" id="fnIVA">
                             <div class="form-group col-md-6">
                                 <label class="col-md-3 control-label">IVA a fact:</label>
@@ -198,6 +173,37 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="row" id="fnTablaFacturas">
+                              <div class="col-xs-12">
+                                <div class="card-box table-responsive">
+                                    <input type="hidden" name="tablaJSON" id="tablaJSON" />
+                                    <table id="datatableFacturasProyecto" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Monto</th>
+                                                <th>Fecha de Facturación</th>                                               
+                                                <th>Facturado</th>                                               
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @*@foreach (var emp in Model.Facturas)
+                                            {
+                                                <tr>
+                                                    <th>@emp.Id_Factura</th>
+                                                    <th>@emp.Monto</th>
+                                                    <th>@emp.FechaFactura</th>
+                                                </tr>
+                                            }*@
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        
+                     
+
                         <div class="row">
                             <div class="form-group col-md-6">
                                 <label class="col-md-3 control-label">Activa:</label>
@@ -216,6 +222,7 @@
                                 <a href="#" id="btnFacturar" class="btn btn-primary">Facturar</a>
                             </div>
                         </div>
+
                         <div class="row">
                             <div class="form-group col-md-12">
                                 <label class="col-md-2 control-label" style="width: 12%;">Comentarios:</label>
@@ -224,6 +231,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </form>
                 </div>
                 <div class="modal-footer">

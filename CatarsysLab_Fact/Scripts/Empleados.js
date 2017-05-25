@@ -71,11 +71,11 @@ $(document).ready(function () {
         }
 
         if ($("#Usuario").val() == '' && $("#IsLogin").is("checked")) {
-            $("#fnUsuario .errorMsg").html('Debe ingresar el usuario si empleado tiene acceso al sistema.');
+            $("#fnPerfilEstado .errorMsg").html('Debe ingresar el usuario si empleado tiene acceso al sistema.');
             $("#Usuario").addClass("inputError");
             correcto = false;
         } else {
-            $("#fnUsuario .errorMsg").html('');
+            $("#fnPerfilEstado .errorMsg").html('');
             $("#Usuario").removeClass("inputError");
         }
 
@@ -117,9 +117,12 @@ $(document).ready(function () {
         $("#Casa ").val('');
         $("#Domicilio").val('');
         $("#Usuario").val('');
-        $("#IsLogin").prop('checked',false);        
+        $("#IsLogin").prop('checked', false);
         $("#Password").val('');
         $("#Password2").val('');
+
+        $(".chkPermisoLeer").prop("checked", false);
+        $(".chkPermisoEscribir").prop("checked", false);
     }
 
     var cargarModal = function (info) {
@@ -136,7 +139,28 @@ $(document).ready(function () {
         $("#Casa ").val(info.Telefono_L_Empleado);
         $("#Domicilio").val(info.Domicilio_Empleado);
         $("#Usuario").val(info.Usuario_Empleado);
-        $("#IsLogin").prop('checked', info.IsLogIn); 
+        $("#rdSI").attr('checked', info.Estado);
+        $("#rdNO").attr('checked', !info.Estado);
+        $("#rdlgSI").attr('checked', info.IsLogIn == 1);
+        $("#rdlgNO").attr('checked', info.IsLogIn != 1);
+
+        $(".chkPermisoLeer").prop("checked", false);
+        $(".chkPermisoEscribir").prop("checked", false);
+
+        $(info.EmpleadoPermiso).each(function (i, v) {
+            if (v.Tipo_Permiso == 1)
+                $("#cont" + v.Id_Permiso).find(".chkPermisoLeer").prop("checked", true);
+            if (v.Tipo_Permiso == 2)
+                $("#cont" + v.Id_Permiso).find(".chkPermisoEscribir").prop("checked", true);
+            if (v.Tipo_Permiso == 3) {
+                $("#cont" + v.Id_Permiso).find(".chkPermisoLeer").prop("checked", true);
+                $("#cont" + v.Id_Permiso).find(".chkPermisoEscribir").prop("checked", true);
+            }
+
+        });
+
+        $("#hdPermisos").val(createJSON());
+
     }
 
     var cargarInfoModal = function (IdEmpleado) {
@@ -218,6 +242,59 @@ $(document).ready(function () {
             }]
     });
 
+    var createJSON = function () {
+        var item = {};
+        jsonCompleto = [];
+
+        jsonPermisos = [];
+
+        $(".chkPermisos").each(function (i, v) {
+
+
+          
+
+            if ($(this).find(".chkPermisoLeer").is(":checked") && $(this).find(".chkPermisoEscribir").is(":checked")) {
+
+                item = {};
+                item["Id_Permiso"] = $(this).data("id");
+                item["Tipo_Permiso"] = 3;
+                jsonPermisos.push(item);
+            }
+            else if ($(this).find(".chkPermisoLeer").is(":checked")) {
+
+                item = {};
+                item["Id_Permiso"] = $(this).data("id");
+                item["Tipo_Permiso"] = 1;
+                jsonPermisos.push(item);
+            }
+            else if ($(this).find(".chkPermisoEscribir").is(":checked")) {
+
+                item = {};
+                item["Id_Permiso"] = $(this).data("id");
+                item["Tipo_Permiso"] = 2;
+                jsonPermisos.push(item);
+            }
+            else{
+
+                item = {};
+                item["Id_Permiso"] = $(this).data("id");
+                item["Tipo_Permiso"] = 0;
+                jsonPermisos.push(item);
+            }
+
+           
+
+        });
+
+
+        item = {};
+
+        item["ltsPermisos"] = jsonPermisos;
+        jsonCompleto.push(item);
+        jsonString = JSON.stringify(jsonCompleto);
+        return jsonString;
+    }
+
     $('#datatable tbody').on('click', 'tr', function () {
         var data = table.row(this).data();
         cargarInfoModal(data["IdEmpleado"]);
@@ -227,7 +304,9 @@ $(document).ready(function () {
 
     $("#agregarAsg").click(function () {
         $("#TitleModalAsignacion").html("Alta - Empleados");
+
         $("#idEmpleado").val('0');
+        limpiarModal();
     });
 
     $("#sltEmpresa").change(function () {
@@ -235,7 +314,7 @@ $(document).ready(function () {
     });
 
     $("#Guardar").click(function () {
-        alert($("#fnGuardar").serialize());
+        //alert($("#fnGuardar").serialize());
 
         $("#frIdEmpresa").val($("#sltEmpresa").val());
         if (validarGuardar()) {
@@ -305,6 +384,18 @@ $(document).ready(function () {
         }
 
 
+    });
+
+    $("#rdlgSI").change(function () {
+        $(".userActive").fadeIn();
+    });
+
+    $("#rdlgNO").change(function () {
+        $(".userActive").fadeOut();
+    });
+
+    $(".chkPermisoLeer, .chkPermisoEscribir").change(function () {
+        $("#hdPermisos").val(createJSON());
     });
 
 });

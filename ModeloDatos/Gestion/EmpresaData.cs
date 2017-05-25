@@ -77,6 +77,7 @@ namespace ModeloDatos.Gestion
                         objDB.Colonia_Empresa = empresa.Colonia_Empresa;
                         objDB.CP_Empresa = empresa.CP_Empresa;
                         objDB.Del_Mun_Empresa = empresa.Del_Mun_Empresa;
+                        objDB.Estado_Dom_Empresa = empresa.Estado_Dom_Empresa;
                         objDB.Email_Empresa = empresa.Email_Empresa;
                         objDB.Fecha_Creacion_Empresa = empresa.Fecha_Creacion_Empresa;
                         objDB.Estado_Empresa = empresa.Estado_Empresa;
@@ -98,7 +99,7 @@ namespace ModeloDatos.Gestion
                         }
                     }
                     Result += ("Code: -100, Mensaje: " + e.Message + ", InnerException: " + (e.InnerException != null ? e.InnerException.Message : ""));
-                    return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = e.Message };
+                    return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = Result };
                 }
                 catch (Exception ex)
                 {

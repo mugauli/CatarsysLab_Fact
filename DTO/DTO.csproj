@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="Catalogos\C_EstatusDTO.cs" />
     <Compile Include="Catalogos\C_IVADTO.cs" />
+    <Compile Include="Catalogos\C_Metodo_PagoDTO.cs" />
     <Compile Include="Catalogos\C_MonedaDTO.cs" />
     <Compile Include="Catalogos\C_PeriodosDTO.cs" />
     <Compile Include="Catalogos\C_Tipo_AsignacionDTO.cs" />
@@ -62,15 +63,18 @@
     <Compile Include="Catalogos\C_CorteDTO.cs" />
     <Compile Include="Gestion\ClientesDTO.cs" />
     <Compile Include="Gestion\ContactosDTO.cs" />
+    <Compile Include="Gestion\EmpleadoPermisoDTO.cs" />
     <Compile Include="Gestion\EmpresaDTO.cs" />
     <Compile Include="Gestion\FacturasDTO.cs" />
     <Compile Include="Gestion\PaginacionDTO.cs" />
+    <Compile Include="Gestion\PermisosDTO.cs" />
     <Compile Include="Gestion\ProyectosDTO.cs" />
     <Compile Include="Gestion\EmpleadosDTO.cs" />
     <Compile Include="Paginador\AsignacionPaginadorDTO.cs" />
     <Compile Include="Paginador\ClientesPaginadorDTO.cs" />
     <Compile Include="Paginador\EmpleadosPaginadorDTO.cs" />
     <Compile Include="Paginador\EmpresasPaginadorDTO.cs" />
+    <Compile Include="Paginador\FacturasPaginadorDTO.cs" />
     <Compile Include="Paginador\ProyectosPaginadorDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguridad\PerfilDTO.cs" />

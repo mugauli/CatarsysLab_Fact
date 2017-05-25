@@ -23,6 +23,9 @@ namespace DTO.Gestion
         public string Comentarios_Proyecto { get; set; }
         public Nullable<int> Id_IVA_Proyectos { get; set; }
         public Nullable<bool> Estado { get; set; }
+        public List<FacturasDTO> facturas { get; set; }
+
+
 
         //public virtual C_IVA C_IVA { get; set; }
         //public virtual C_Moneda C_Moneda { get; set; }

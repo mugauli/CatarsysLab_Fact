@@ -18,6 +18,7 @@ namespace ModeloDatos
         public Empleados()
         {
             this.Asignacion = new HashSet<Asignacion>();
+            this.EmpleadoPermiso = new HashSet<EmpleadoPermiso>();
             this.Empleados1 = new HashSet<Empleados>();
         }
     
@@ -34,17 +35,18 @@ namespace ModeloDatos
         public string Telefono_M_Empleado { get; set; }
         public Nullable<int> Id_JefeInmediato_Empleado { get; set; }
         public Nullable<int> IsLogIn { get; set; }
+        public Nullable<int> Id_Perfil { get; set; }
         public string Usuario_Empleado { get; set; }
         public string Password_Empleado { get; set; }
         public Nullable<bool> Estado { get; set; }
-        public Nullable<int> Id_Perfil { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Asignacion> Asignacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<EmpleadoPermiso> EmpleadoPermiso { get; set; }
         public virtual Empresa Empresa { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Empleados> Empleados1 { get; set; }
         public virtual Empleados Empleados2 { get; set; }
-        public virtual Perfil Perfil { get; set; }
     }
 }

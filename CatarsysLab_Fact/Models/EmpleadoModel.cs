@@ -10,6 +10,6 @@ namespace CatarsysLab_Fact.Models
     public class EmpleadoModel
     {
         public List<EmpleadosDTO> ctEmpleados { get; set; }
-        public List<PerfilDTO> ctPerfil { get; set; }
+        public List<PermisosDTO> ctPermisos { get; set; }
     }
 }

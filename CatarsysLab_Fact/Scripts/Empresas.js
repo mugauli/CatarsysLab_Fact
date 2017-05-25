@@ -8,7 +8,7 @@ $(document).ready(function () {
         var correcto = true;
 
         if ($("#Nombre").val() == '') {
-            $("#fnNombre .errorMsg").html("Debe introducir el nombre del empleado.");
+            $("#fnNombre .errorMsg").html("Debe ingresar el nombre de la empresa.");
             $("#Nombre").addClass("inputError");
             correcto = false;
         } else {
@@ -16,88 +16,95 @@ $(document).ready(function () {
             $("#Nombre").removeClass("inputError");
         }
 
-        if ($("#Puesto").val() == '') {
-            $("#fnPuesto .errorMsg").html("Debe introducir el puesto del empleado.");
-            $("#Puesto").addClass("inputError");
+        if ($("#RazonSocial").val() == '') {
+            $("#fnRFC .errorMsg").html("Debe ingresar la razón social de la empresa.");
+            $("#RazonSocial").addClass("inputError");
             correcto = false;
         } else {
-            $("#fnPuesto .errorMsg").html('');
-            $("#Puesto").removeClass("inputError");
+            $("#fnRFC .errorMsg").html('');
+            $("#RazonSocial").removeClass("inputError");
         }
 
-        if ($("#fecha_ingreso").val() == '') {
-            $("#fnFecha .errorMsg2").html("Debe ingresar la fecha de ingreso.");
-            $("#fecha_ingreso").addClass("inputError");
+        if ($("#RFC").val() == '') {
+            $("#fnRFC .errorMsg2").html("Debe ingresar el RFC de la empresa.");
+            $("#RFC").addClass("inputError");
             correcto = false;
         } else {
-            $("#fnFecha .errorMsg2").html('');
-            $("#fecha_ingreso").removeClass("inputError");
+            $("#fnRFC .errorMsg2").html('');
+            $("#RFC").removeClass("inputError");
         }
 
-        if ($("#fecha_nacimiento").val() == '') {
-            $("#fnFecha .errorMsg").html('Debe agregar una fecha de nacimiento.');
-            $("#fecha_nacimiento").addClass("inputError");
+        if ($("#calle").val() == '') {
+            $("#fnCalle .errorMsg").html("Debe ingresar la calle del domicilio de la empresa.");
+            $("#calle").addClass("inputError");
             correcto = false;
         } else {
-            $("#fnFecha .errorMsg").html('');
-            $("#fecha_nacimiento").removeClass("inputError");
+            $("#fnCalle .errorMsg").html('');
+            $("#calle").removeClass("inputError");
+        }
+
+        if ($("#Exterior").val() == '') {
+            $("#fnCalle .errorMsg2").html('Debe ingresar el número exterior del domicilio de la empresa.');
+            $("#Exterior").addClass("inputError");
+            correcto = false;
+        } else {
+            $("#fnCalle .errorMsg2").html('');
+            $("#Exterior").removeClass("inputError");
+        }
+
+        if ($("#Colonia").val() == '') {
+            $("#fnColonia .errorMsg").html("Debe ingresar la colonia del domicilio de la empresa.");
+            $("#Colonia").addClass("inputError");
+            correcto = false;
+        } else {
+            $("#fnColonia .errorMsg").html('');
+            $("#Colonia").removeClass("inputError");
+        }
+
+        if ($("#CP").val() == '') {
+            $("#fnColonia .errorMsg").html('Debe ingresar el C.P. del domicilio de la empresa.');
+            $("#CP").addClass("inputError");
+            correcto = false;
+        } else {
+            $("#fnColonia .errorMsg").html('');
+            $("#CP").removeClass("inputError");
+        }
+
+        if ($("#DelMpio").val() == '') {
+            $("#fnEstadoDomicilio .errorMsg").html('Debe ingresar la delegación o el municipio del domicilio de la empresa.');
+            $("#DelMpio").addClass("inputError");
+            correcto = false;
+        } else {
+            $("#fnEstadoDomicilio .errorMsg").html('');
+            $("#DelMpio").removeClass("inputError");
+        }
+
+        if ($("#EstadoDomicilio").val() == '') {
+            $("#fnEstadoDomicilio .errorMsg2").html('Debe ingresar el estado del domicilio de la empresa.');
+            $("#EstadoDomicilio").addClass("inputError");
+            correcto = false;
+        } else {
+            $("#fnEstadoDomicilio .errorMsg2").html('');
+            $("#EstadoDomicilio").removeClass("inputError");
         }
 
         if ($("#Email").val() == '') {
-            $("#fnEmailSkype .errorMsg").html("Debe ingresar la dirección de correo electrónico.");
+            $("#fnEmail .errorMsg").html('Debe ingresar la dirección de correo electrónico de la empresa.');
             $("#Email").addClass("inputError");
             correcto = false;
         } else {
-            $("#fnEmailSkype .errorMsg").html('');
+            $("#fnEmail .errorMsg").html('');
             $("#Email").removeClass("inputError");
         }
 
-        if ($("#Skype").val() == '') {
-            $("#fnEmailSkype .errorMsg2").html('Debe ingresar el skype.');
-            $("#Skype").addClass("inputError");
+        if ($("#fecha_creacion").val() == '') {
+            $("#fnFecha .errorMsg2").html('Debe ingresar la fecha de creación de la empresa.');
+            $("#fecha_creacion").addClass("inputError");
             correcto = false;
         } else {
-            $("#fnEmailSkype .errorMsg2").html('');
-            $("#Skype").removeClass("inputError");
+            $("#fnFecha .errorMsg2").html('');
+            $("#fecha_creacion").removeClass("inputError");
         }
-
-        if ($("#Domicilio").val() == '') {
-            $("#fnDomicilio .errorMsg").html("Debe ingresar el domicilio del empleado.");
-            $("#Domicilio").addClass("inputError");
-            correcto = false;
-        } else {
-            $("#fnDomicilio .errorMsg").html('');
-            $("#Domicilio").removeClass("inputError");
-        }
-
-        if ($("#Usuario").val() == '' && $("#IsLogin").is("checked")) {
-            $("#fnUsuario .errorMsg").html('Debe ingresar el usuario si empleado tiene acceso al sistema.');
-            $("#Usuario").addClass("inputError");
-            correcto = false;
-        } else {
-            $("#fnUsuario .errorMsg").html('');
-            $("#Usuario").removeClass("inputError");
-        }
-
-        if ($("#Password").val() == '' && $("#IsLogin").is("checked")) {
-            $("#fnPassword .errorMsg").html('Debe ingresar el password si empleado tiene acceso al sistema.');
-            $("#Password").addClass("inputError");
-            correcto = false;
-        } else {
-            $("#fnPassword .errorMsg").html('');
-            $("#Password").removeClass("inputError");
-        }
-
-
-        if ($("#Password2").val() == '' && $("#IsLogin").is("checked")) {
-            $("#fnPassword .errorMsg2").html('Debe ingresar el password si empleado tiene acceso al sistema.');
-            $("#Password2").addClass("inputError");
-            correcto = false;
-        } else {
-            $("#fnPassword .errorMsg2").html('');
-            $("#Password2").removeClass("inputError");
-        }
-
 
         return correcto;
 
@@ -107,49 +114,50 @@ $(document).ready(function () {
 
 
         $("#Nombre").val('');
-        $("#Puesto").val('');
-        $("#JefeInmediato").val(0);
-        $("#fecha_ingreso").val('');
-        $("#fecha_nacimiento").val('');
+        $("#RazonSocial").val('');
+        $("#RFC").val('');
+        $("#calle").val('');
+        $("#Exterior").val('');
+        $("#Interior").val('');
+        $("#Colonia").val('');
+        $("#CP").val('');
+        $("#DelMpio").val('');
+        $("#EstadoDomicilio").val('');
         $("#Email").val('');
-        $("#Skype").val('');
-        $("#Movil").val('');
-        $("#Casa ").val('');
-        $("#Domicilio").val('');
-        $("#Usuario").val('');
-        $("#IsLogin").prop('checked', false);
-        $("#Password").val('');
-        $("#Password2").val('');
+        $("#fecha_creacion").val('');
+        $("#rdNO").attr("checked", true);
+
     }
 
     var cargarModal = function (info) {
-
-        $("#idEmpleado").val(info.Id_Empleado);
-        $("#Nombre").val(info.Nombre_Empleado);
-        $("#Puesto").val(info.Puesto_Empleado);
-        $("#JefeInmediato").val(info.Id_JefeInmediato_Empleado);
-        $("#fecha_ingreso").val(info.Antiguedad_EmpleadoSTR);
-        $("#fecha_nacimiento").val(info.Fecha_Nacimiento_EmpleadoSTR);
-        $("#Email").val(info.Email_Empleado);
-        $("#Skype").val(info.Skype_Empleado);
-        $("#Movil").val(info.Telefono_M_Empleado);
-        $("#Casa ").val(info.Telefono_L_Empleado);
-        $("#Domicilio").val(info.Domicilio_Empleado);
-        $("#Usuario").val(info.Usuario_Empleado);
-        $("#IsLogin").prop('checked', info.IsLogIn);
+        $("#idEmpresa").val(info.Id_Empresa);
+        $("#Nombre").val(info.Nombre_Empresa);
+        $("#RazonSocial").val(info.Razon_Social_Empresa);
+        $("#RFC").val(info.RFC_Empresa);
+        $("#calle").val(info.Calle_Empresa);
+        $("#Exterior").val(info.No_Ext_Empresa);
+        $("#Interior").val(info.No_Int_Empresa);
+        $("#Colonia").val(info.Colonia_Empresa);
+        $("#CP").val(info.CP_Empresa);
+        $("#DelMpio").val(info.Del_Mun_Empresa);
+        $("#EstadoDomicilio").val(info.Estado_Dom_Empresa);
+        $("#Email").val(info.Email_Empresa);
+        $("#fecha_creacion").val(info.Fecha_Creacion_EmpresaSTR);
+        $("#rdNO").attr("checked", !info.Estado_Empresa);
+        $("#rdSI").attr("checked", info.Estado_Empresa);
     }
 
-    var cargarInfoModal = function (IdEmpleado) {
+    var cargarInfoModal = function (IdEmpresa) {
 
 
         $.ajax({
             type: 'POST',
-            url: '/Configuracion/ObtenerEmpleado',
-            data: { IdEmpleado: IdEmpleado },
+            url: '/Configuracion/ObtenerEmpresa',
+            data: { IdEmpresa: IdEmpresa },
             success: function (response) {
                 if (response.success) {
                     cargarModal(response.info[0]);
-                    $("#TitleModalAsignacion").html("Detalle - Empleado");
+                    $("#TitleModalAsignacion").html("Detalle - Empresa");
                     $("#addModal").modal("show");
                 }
                 else
@@ -183,7 +191,7 @@ $(document).ready(function () {
         serverSide: true,
         ajax: function (data, callback, settings) {  // Make the Ajax call ourselves
             $.ajax({
-                url: "/Configuracion/TablePaginacionEmpleados",
+                url: "/Configuracion/TablePaginacionEmpresas",
                 type: "POST",
                 data: {
                     draw: data.draw,   // Needed for paging
@@ -204,12 +212,11 @@ $(document).ready(function () {
 
         },
         columns: [
-            { "data": "IdEmpleado" },
-            { "data": "Nombre" },
-            { "data": "Puesto" },
-            { "data": "Email" },
-            { "data": "Movil" },
-            { "data": "Antiguedad" }],
+            { "data": "Id_Empresa" },
+            { "data": "Nombre_Empresa" },
+            { "data": "Razon_Social_Empresa" },
+            { "data": "Fecha_Creacion_Empresa" },
+            { "data": "Estado_Empresa" }],
         columnDefs: [
             {
                 "targets": [0],
@@ -220,14 +227,14 @@ $(document).ready(function () {
 
     $('#datatable tbody').on('click', 'tr', function () {
         var data = table.row(this).data();
-        cargarInfoModal(data["IdEmpleado"]);
+        cargarInfoModal(data["Id_Empresa"]);
     });
 
     $(".conBtnAgregar").html('<button type="button" id="agregarAsg" class="btn btn-custom dropdown-toggle waves-effect waves-light" data-toggle="modal" data-target="#addModal">Agregar <span class="m-l-5"><i class="fa fa-plus-circle"></i></span></button>');
 
     $("#agregarAsg").click(function () {
-        $("#TitleModalAsignacion").html("Alta - Empleados");
-        $("#idEmpleado").val('0');
+        $("#TitleModalAsignacion").html("Alta - Empresa");
+        $("#idEmpresa").val('0');
     });
 
     $("#sltEmpresa").change(function () {
@@ -235,14 +242,14 @@ $(document).ready(function () {
     });
 
     $("#Guardar").click(function () {
-        alert($("#fnGuardar").serialize());
+        //alert($("#fnGuardar").serialize());
 
         $("#frIdEmpresa").val($("#sltEmpresa").val());
         if (validarGuardar()) {
 
             $.ajax({
                 type: 'POST',
-                url: '/Configuracion/GuardarEmpleado',
+                url: '/Configuracion/GuardarEmpresa',
                 data: $("#fnGuardar").serialize(),
                 success: function (response) {
                     if (response.success) {
@@ -274,36 +281,8 @@ $(document).ready(function () {
         weekStart: 1
     };
 
-    $('#fecha_nacimiento').datepicker({
+    $('#fecha_creacion').datepicker({
         language: "es"
-
-    });
-
-    $('#fecha_ingreso').datepicker({
-        language: "es"
-    });
-
-    $('#Password,#Password2').change(function () {
-
-        if ($('#Password').val() == '' || $('#Password2').val() == '')
-            return 0;
-
-
-        var Password = $("#Password").val();
-        var Password2 = $("#Password2").val();
-
-
-        if (Password == Password2) {
-            $("#fnPassword .errorMsg").html('');
-            $("#Password2").removeClass("inputError");
-            $("#Password").removeClass("inputError");
-        }
-        else {
-            $("#fnPassword .errorMsg").html("Las contraseñas no coinciden");
-            $("#Password").addClass("inputError");
-            $("#Password2").addClass("inputError");
-        }
-
 
     });
 

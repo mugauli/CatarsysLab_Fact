@@ -18,6 +18,7 @@ namespace ModeloDatos
         public C_IVA()
         {
             this.Asignacion = new HashSet<Asignacion>();
+            this.Facturas = new HashSet<Facturas>();
             this.Proyectos = new HashSet<Proyectos>();
         }
     
@@ -26,6 +27,8 @@ namespace ModeloDatos
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Asignacion> Asignacion { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Facturas> Facturas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proyectos> Proyectos { get; set; }
     }

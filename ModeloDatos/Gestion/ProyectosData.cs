@@ -51,6 +51,24 @@ namespace ModeloDatos.Gestion
                     }
                     context.SaveChanges();
 
+                    
+                    var _FacturasData = new FacturasData();
+
+                    var BrFacturas = _FacturasData.BorrarFacturas(proyecto.Id_Proyectos, 1);
+
+                    if (BrFacturas.Code != 0)
+                    {
+                        return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = "Borrar Facturas: " + BrFacturas.Message };
+                    }
+
+                    var Facturas = _FacturasData.GuardarFacturas(proyecto.facturas);
+
+                    if (Facturas.Code != 0)
+                    {
+                        return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = "Guardar Facturas: " + Facturas.Message };
+                    }
+                
+
                     return response;
                 }
                 catch (DbEntityValidationException e)
@@ -69,7 +87,7 @@ namespace ModeloDatos.Gestion
                 }
                 catch (Exception ex)
                 {
-                    return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = "GuardarAsignacion: " + ex.Message };
+                    return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = "Guardar Proyecto: " + ex.Message };
                 }
             }
         }
@@ -98,7 +116,7 @@ namespace ModeloDatos.Gestion
                 }
                 catch (Exception ex)
                 {
-                    return new MethodResponseDTO<List<ProyectosDTO>> { Code = -100, Message = "ObtenerAsignaciones: " + ex.Message };
+                    return new MethodResponseDTO<List<ProyectosDTO>> { Code = -100, Message = "ObtenerProyecto: " + ex.Message };
                 }
             }
         }

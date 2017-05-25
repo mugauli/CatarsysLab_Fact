@@ -30,6 +30,13 @@
           <Property Name="C_Id_Corte" Type="int" Nullable="false" />
           <Property Name="C_Desc_Corte" Type="nvarchar" MaxLength="50" />
         </EntityType>
+        <EntityType Name="C_Estado_Factura">
+          <Key>
+            <PropertyRef Name="Id_Estado_Factura" />
+          </Key>
+          <Property Name="Id_Estado_Factura" Type="smallint" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="C_Desc_Estado_Factura" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="C_Estatus">
           <Key>
             <PropertyRef Name="C_Id_Estatus" />
@@ -43,6 +50,13 @@
           </Key>
           <Property Name="C_Id_IVA" Type="int" Nullable="false" />
           <Property Name="C_Desc_IVA" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="C_Metodo_Pago">
+          <Key>
+            <PropertyRef Name="C_ID_Metodo_Pago" />
+          </Key>
+          <Property Name="C_ID_Metodo_Pago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="C_de_Metodo_Pago" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="C_Moneda">
           <Key>
@@ -82,10 +96,14 @@
           <Property Name="Nombre_Cliente" Type="nvarchar" MaxLength="100" />
           <Property Name="Razon_Social_Cliente" Type="nvarchar" MaxLength="100" />
           <Property Name="RFC_Cliente" Type="nvarchar" MaxLength="13" />
-          <Property Name="Contactos_Cliente" Type="nvarchar" MaxLength="250" />
-          <Property Name="Domicilio_Cliente" Type="nvarchar" MaxLength="250" />
+          <Property Name="Calle_Cliente" Type="varchar" MaxLength="50" />
+          <Property Name="Exterior_Cliente" Type="varchar" MaxLength="10" />
+          <Property Name="Interior_Cliente" Type="varchar" MaxLength="10" />
+          <Property Name="Colonia_Cliente" Type="varchar" MaxLength="50" />
+          <Property Name="DelMun_Cliente" Type="varchar" MaxLength="50" />
+          <Property Name="CP_Cliente" Type="smallint" />
+          <Property Name="Estado_Dom_Cliente" Type="varchar" MaxLength="25" />
           <Property Name="Dias_de_Pago_Cliente" Type="nvarchar" MaxLength="50" />
-          <Property Name="Envio_Fact_Empresa" Type="varchar" MaxLength="50" />
           <Property Name="Estado" Type="bit" />
         </EntityType>
         <EntityType Name="Contactos">
@@ -96,11 +114,13 @@
           <Property Name="Id_Cliente" Type="int" Nullable="false" />
           <Property Name="Nombre_Contacto" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Puesto_Contacto" Type="varchar" MaxLength="50" />
-          <Property Name="Email_Contacto" Type="varchar" MaxLength="30" />
+          <Property Name="Email_Contacto" Type="varchar" MaxLength="50" />
           <Property Name="Telefono_Contacto" Type="varchar" MaxLength="15" />
           <Property Name="Movil__Contacto" Type="varchar" MaxLength="15" />
           <Property Name="Skype_Contacto" Type="varchar" MaxLength="20" />
+          <Property Name="EnviaFactura_Contacto" Type="bit" />
           <Property Name="Comentario_Contacto" Type="varchar" MaxLength="250" />
+          <Property Name="Estado" Type="bit" Nullable="false" />
         </EntityType>
         <EntityType Name="ctPermisos">
           <Key>
@@ -108,7 +128,16 @@
           </Key>
           <Property Name="Id_Permisos" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Nombre_Permiso" Type="varchar" MaxLength="30" Nullable="false" />
-          <Property Name="Id_Tipo_Permiso" Type="int" Nullable="false" />
+          <Property Name="Estado_Permiso" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EmpleadoPermiso">
+          <Key>
+            <PropertyRef Name="Id_Empleado" />
+            <PropertyRef Name="Id_Permiso" />
+          </Key>
+          <Property Name="Id_Empleado" Type="int" Nullable="false" />
+          <Property Name="Id_Permiso" Type="int" Nullable="false" />
+          <Property Name="Tipo_Permiso" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Empleados">
           <Key>
@@ -146,26 +175,32 @@
           <Property Name="Colonia_Empresa" Type="nvarchar" MaxLength="50" />
           <Property Name="CP_Empresa" Type="smallint" />
           <Property Name="Del_Mun_Empresa" Type="nvarchar" MaxLength="50" />
+          <Property Name="Estado_Dom_Empresa" Type="varchar" MaxLength="25" />
           <Property Name="Email_Empresa" Type="nvarchar" MaxLength="50" />
           <Property Name="Fecha_Creacion_Empresa" Type="datetime" />
           <Property Name="Estado_Empresa" Type="bit" />
         </EntityType>
-        <EntityType Name="Perfil">
+        <EntityType Name="Facturas">
           <Key>
-            <PropertyRef Name="Id_Perfil" />
+            <PropertyRef Name="IdFactura" />
           </Key>
-          <Property Name="Id_Perfil" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="Nombre_Perfil" Type="varchar" MaxLength="15" Nullable="false" />
-          <Property Name="Estado_Perfil" Type="bit" Nullable="false" />
-        </EntityType>
-        <EntityType Name="PerfilPermiso">
-          <Key>
-            <PropertyRef Name="Id_Perfil" />
-            <PropertyRef Name="Id_Permisos" />
-          </Key>
-          <Property Name="Id_Perfil" Type="int" Nullable="false" />
-          <Property Name="Id_Permisos" Type="int" Nullable="false" />
-          <Property Name="Tipo" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="IdFactura" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdCliente" Type="int" Nullable="false" />
+          <Property Name="IdEmpresa" Type="int" Nullable="false" />
+          <Property Name="IdAsignacion" Type="int" />
+          <Property Name="IdProyecto" Type="int" />
+          <Property Name="C_Id_IVA" Type="int" />
+          <Property Name="C_Id_Moneda" Type="int" />
+          <Property Name="C_Id_Tipo_Cambio" Type="int" />
+          <Property Name="C_Id_Metodo_Pago" Type="int" />
+          <Property Name="Tipo_Factura" Type="varchar" MaxLength="5" />
+          <Property Name="Fecha_Inicio_Factura" Type="datetime" />
+          <Property Name="Fecha_fin_Factura" Type="datetime" />
+          <Property Name="No_Factura" Type="smallint" />
+          <Property Name="Descuento_Factura" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Monto_Factura" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Ultimos_4_digitos_Factura" Type="smallint" />
+          <Property Name="Id_Estado_Factura" Type="smallint" Nullable="false" />
         </EntityType>
         <EntityType Name="Proyectos">
           <Key>
@@ -317,39 +352,135 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Empleados_Perfil">
-          <End Role="Perfil" Type="Self.Perfil" Multiplicity="0..1" />
-          <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Perfil">
-              <PropertyRef Name="Id_Perfil" />
-            </Principal>
-            <Dependent Role="Empleados">
-              <PropertyRef Name="Id_Perfil" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PerfilPermiso_ctPermisos">
+        <Association Name="FK_EmpleadoPermiso_ctPermisos">
           <End Role="ctPermisos" Type="Self.ctPermisos" Multiplicity="1" />
-          <End Role="PerfilPermiso" Type="Self.PerfilPermiso" Multiplicity="*" />
+          <End Role="EmpleadoPermiso" Type="Self.EmpleadoPermiso" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="ctPermisos">
               <PropertyRef Name="Id_Permisos" />
             </Principal>
-            <Dependent Role="PerfilPermiso">
-              <PropertyRef Name="Id_Permisos" />
+            <Dependent Role="EmpleadoPermiso">
+              <PropertyRef Name="Id_Permiso" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_PerfilPermiso_Perfil">
-          <End Role="Perfil" Type="Self.Perfil" Multiplicity="1" />
-          <End Role="PerfilPermiso" Type="Self.PerfilPermiso" Multiplicity="*" />
+        <Association Name="FK_EmpleadoPermiso_Empleados">
+          <End Role="Empleados" Type="Self.Empleados" Multiplicity="1" />
+          <End Role="EmpleadoPermiso" Type="Self.EmpleadoPermiso" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Perfil">
-              <PropertyRef Name="Id_Perfil" />
+            <Principal Role="Empleados">
+              <PropertyRef Name="Id_Empleado" />
             </Principal>
-            <Dependent Role="PerfilPermiso">
-              <PropertyRef Name="Id_Perfil" />
+            <Dependent Role="EmpleadoPermiso">
+              <PropertyRef Name="Id_Empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_Asignacion">
+          <End Role="Asignacion" Type="Self.Asignacion" Multiplicity="0..1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asignacion">
+              <PropertyRef Name="Id_Asignacion" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdAsignacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_Estado_Factura">
+          <End Role="C_Estado_Factura" Type="Self.C_Estado_Factura" Multiplicity="1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Estado_Factura">
+              <PropertyRef Name="Id_Estado_Factura" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="Id_Estado_Factura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_IVA">
+          <End Role="C_IVA" Type="Self.C_IVA" Multiplicity="0..1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_IVA">
+              <PropertyRef Name="C_Id_IVA" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_IVA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_Metodo_Pago">
+          <End Role="C_Metodo_Pago" Type="Self.C_Metodo_Pago" Multiplicity="0..1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Metodo_Pago">
+              <PropertyRef Name="C_ID_Metodo_Pago" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_Metodo_Pago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_Moneda">
+          <End Role="C_Moneda" Type="Self.C_Moneda" Multiplicity="0..1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Moneda">
+              <PropertyRef Name="C_Id_Moneda" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_Moneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_Tipo_Cambio">
+          <End Role="C_Tipo_Cambio" Type="Self.C_Tipo_Cambio" Multiplicity="0..1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Tipo_Cambio">
+              <PropertyRef Name="C_Id_Tipo_Cambio" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_Tipo_Cambio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_Clientes">
+          <End Role="Clientes" Type="Self.Clientes" Multiplicity="1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="Id_Cliente" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_Empresa">
+          <End Role="Empresa" Type="Self.Empresa" Multiplicity="1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_Proyectos">
+          <End Role="Proyectos" Type="Self.Proyectos" Multiplicity="0..1" />
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Proyectos">
+              <PropertyRef Name="Id_Proyectos" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdProyecto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -473,6 +604,18 @@
           <Parameter Name="filter" Type="varchar" Mode="In" />
           <Parameter Name="totalrow" Type="int" Mode="InOut" />
         </Function>
+        <Function Name="sp_GetFacturasPaginacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="page" Type="int" Mode="In" />
+          <Parameter Name="size" Type="int" Mode="In" />
+          <Parameter Name="sort" Type="int" Mode="In" />
+          <Parameter Name="company" Type="int" Mode="In" />
+          <Parameter Name="sortDireccion" Type="varchar" Mode="In" />
+          <Parameter Name="filter" Type="varchar" Mode="In" />
+          <Parameter Name="filterCliente" Type="int" Mode="In" />
+          <Parameter Name="filterEstado" Type="int" Mode="In" />
+          <Parameter Name="filterPeriodo" Type="datetime" Mode="In" />
+          <Parameter Name="totalrow" Type="int" Mode="InOut" />
+        </Function>
         <Function Name="sp_GetProyectosPaginacion" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="page" Type="int" Mode="In" />
           <Parameter Name="size" Type="int" Mode="In" />
@@ -486,8 +629,10 @@
         <EntityContainer Name="DB_9F97CF_CatarsysSGCModelStoreContainer">
           <EntitySet Name="Asignacion" EntityType="Self.Asignacion" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="C_Corte" EntityType="Self.C_Corte" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Estado_Factura" EntityType="Self.C_Estado_Factura" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="C_Estatus" EntityType="Self.C_Estatus" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="C_IVA" EntityType="Self.C_IVA" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="C_Metodo_Pago" EntityType="Self.C_Metodo_Pago" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="C_Moneda" EntityType="Self.C_Moneda" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="C_Periodos" EntityType="Self.C_Periodos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="C_Tipo_Asignacion" EntityType="Self.C_Tipo_Asignacion" Schema="dbo" store:Type="Tables" />
@@ -495,10 +640,10 @@
           <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contactos" EntityType="Self.Contactos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ctPermisos" EntityType="Self.ctPermisos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EmpleadoPermiso" EntityType="Self.EmpleadoPermiso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="Perfil" EntityType="Self.Perfil" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="PerfilPermiso" EntityType="Self.PerfilPermiso" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Facturas" EntityType="Self.Facturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyectos" EntityType="Self.Proyectos" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_Asignacion_Clientes" Association="Self.FK_Asignacion_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
@@ -544,17 +689,49 @@
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Contactos" EntitySet="Contactos" />
           </AssociationSet>
-          <AssociationSet Name="FK_Empleados_Perfil" Association="Self.FK_Empleados_Perfil">
-            <End Role="Perfil" EntitySet="Perfil" />
-            <End Role="Empleados" EntitySet="Empleados" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PerfilPermiso_ctPermisos" Association="Self.FK_PerfilPermiso_ctPermisos">
+          <AssociationSet Name="FK_EmpleadoPermiso_ctPermisos" Association="Self.FK_EmpleadoPermiso_ctPermisos">
             <End Role="ctPermisos" EntitySet="ctPermisos" />
-            <End Role="PerfilPermiso" EntitySet="PerfilPermiso" />
+            <End Role="EmpleadoPermiso" EntitySet="EmpleadoPermiso" />
           </AssociationSet>
-          <AssociationSet Name="FK_PerfilPermiso_Perfil" Association="Self.FK_PerfilPermiso_Perfil">
-            <End Role="Perfil" EntitySet="Perfil" />
-            <End Role="PerfilPermiso" EntitySet="PerfilPermiso" />
+          <AssociationSet Name="FK_EmpleadoPermiso_Empleados" Association="Self.FK_EmpleadoPermiso_Empleados">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="EmpleadoPermiso" EntitySet="EmpleadoPermiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Asignacion" Association="Self.FK_Facturas_Asignacion">
+            <End Role="Asignacion" EntitySet="Asignacion" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Estado_Factura" Association="Self.FK_Facturas_C_Estado_Factura">
+            <End Role="C_Estado_Factura" EntitySet="C_Estado_Factura" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_IVA" Association="Self.FK_Facturas_C_IVA">
+            <End Role="C_IVA" EntitySet="C_IVA" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Metodo_Pago" Association="Self.FK_Facturas_C_Metodo_Pago">
+            <End Role="C_Metodo_Pago" EntitySet="C_Metodo_Pago" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Moneda" Association="Self.FK_Facturas_C_Moneda">
+            <End Role="C_Moneda" EntitySet="C_Moneda" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Tipo_Cambio" Association="Self.FK_Facturas_C_Tipo_Cambio">
+            <End Role="C_Tipo_Cambio" EntitySet="C_Tipo_Cambio" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Clientes" Association="Self.FK_Facturas_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Empresa" Association="Self.FK_Facturas_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Proyectos" Association="Self.FK_Facturas_Proyectos">
+            <End Role="Proyectos" EntitySet="Proyectos" />
+            <End Role="Facturas" EntitySet="Facturas" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Clientes" Association="Self.FK_Proyectos_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
@@ -609,17 +786,62 @@
             <Parameter Name="filter2" Mode="In" Type="Int32" />
             <Parameter Name="totalrow" Mode="InOut" Type="Int32" />
           </FunctionImport>
+          <FunctionImport Name="sp_GetEmpleadosPaginacion" ReturnType="Collection(DB_9F97CF_CatarsysSGCModel.sp_GetEmpleadosPaginacion_Result)">
+            <Parameter Name="page" Mode="In" Type="Int32" />
+            <Parameter Name="size" Mode="In" Type="Int32" />
+            <Parameter Name="sort" Mode="In" Type="Int32" />
+            <Parameter Name="company" Mode="In" Type="Int32" />
+            <Parameter Name="sortDireccion" Mode="In" Type="String" />
+            <Parameter Name="filter" Mode="In" Type="String" />
+            <Parameter Name="totalrow" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetClientesPaginacion" ReturnType="Collection(DB_9F97CF_CatarsysSGCModel.sp_GetClientesPaginacion_Result)">
+            <Parameter Name="page" Mode="In" Type="Int32" />
+            <Parameter Name="size" Mode="In" Type="Int32" />
+            <Parameter Name="sort" Mode="In" Type="Int32" />
+            <Parameter Name="company" Mode="In" Type="Int32" />
+            <Parameter Name="sortDireccion" Mode="In" Type="String" />
+            <Parameter Name="filter" Mode="In" Type="String" />
+            <Parameter Name="totalrow" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetEmpresaPaginacion" ReturnType="Collection(DB_9F97CF_CatarsysSGCModel.sp_GetEmpresaPaginacion_Result)">
+            <Parameter Name="page" Mode="In" Type="Int32" />
+            <Parameter Name="size" Mode="In" Type="Int32" />
+            <Parameter Name="sort" Mode="In" Type="Int32" />
+            <Parameter Name="company" Mode="In" Type="Int32" />
+            <Parameter Name="sortDireccion" Mode="In" Type="String" />
+            <Parameter Name="filter" Mode="In" Type="String" />
+            <Parameter Name="totalrow" Mode="InOut" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="sp_GetFacturasPaginacion" ReturnType="Collection(DB_9F97CF_CatarsysSGCModel.sp_GetFacturasPaginacion_Result)">
+            <Parameter Name="page" Mode="In" Type="Int32" />
+            <Parameter Name="size" Mode="In" Type="Int32" />
+            <Parameter Name="sort" Mode="In" Type="Int32" />
+            <Parameter Name="company" Mode="In" Type="Int32" />
+            <Parameter Name="sortDireccion" Mode="In" Type="String" />
+            <Parameter Name="filter" Mode="In" Type="String" />
+            <Parameter Name="filterCliente" Mode="In" Type="Int32" />
+            <Parameter Name="filterEstado" Mode="In" Type="Int32" />
+            <Parameter Name="filterPeriodo" Mode="In" Type="DateTime" />
+            <Parameter Name="totalrow" Mode="InOut" Type="Int32" />
+          </FunctionImport>
           <EntitySet Name="Asignacion" EntityType="DB_9F97CF_CatarsysSGCModel.Asignacion" />
           <EntitySet Name="C_Corte" EntityType="DB_9F97CF_CatarsysSGCModel.C_Corte" />
+          <EntitySet Name="C_Estado_Factura" EntityType="DB_9F97CF_CatarsysSGCModel.C_Estado_Factura" />
           <EntitySet Name="C_Estatus" EntityType="DB_9F97CF_CatarsysSGCModel.C_Estatus" />
           <EntitySet Name="C_IVA" EntityType="DB_9F97CF_CatarsysSGCModel.C_IVA" />
+          <EntitySet Name="C_Metodo_Pago" EntityType="DB_9F97CF_CatarsysSGCModel.C_Metodo_Pago" />
           <EntitySet Name="C_Moneda" EntityType="DB_9F97CF_CatarsysSGCModel.C_Moneda" />
           <EntitySet Name="C_Periodos" EntityType="DB_9F97CF_CatarsysSGCModel.C_Periodos" />
           <EntitySet Name="C_Tipo_Asignacion" EntityType="DB_9F97CF_CatarsysSGCModel.C_Tipo_Asignacion" />
           <EntitySet Name="C_Tipo_Cambio" EntityType="DB_9F97CF_CatarsysSGCModel.C_Tipo_Cambio" />
           <EntitySet Name="Clientes" EntityType="DB_9F97CF_CatarsysSGCModel.Clientes" />
+          <EntitySet Name="Contactos" EntityType="DB_9F97CF_CatarsysSGCModel.Contactos" />
+          <EntitySet Name="ctPermisos" EntityType="DB_9F97CF_CatarsysSGCModel.ctPermisos" />
+          <EntitySet Name="EmpleadoPermiso" EntityType="DB_9F97CF_CatarsysSGCModel.EmpleadoPermiso" />
           <EntitySet Name="Empleados" EntityType="DB_9F97CF_CatarsysSGCModel.Empleados" />
           <EntitySet Name="Empresa" EntityType="DB_9F97CF_CatarsysSGCModel.Empresa" />
+          <EntitySet Name="Facturas" EntityType="DB_9F97CF_CatarsysSGCModel.Facturas" />
           <EntitySet Name="Proyectos" EntityType="DB_9F97CF_CatarsysSGCModel.Proyectos" />
           <AssociationSet Name="FK_Asignacion_Clientes" Association="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
@@ -657,13 +879,37 @@
             <End Role="Empleados" EntitySet="Empleados" />
             <End Role="Asignacion" EntitySet="Asignacion" />
           </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Asignacion" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Asignacion">
+            <End Role="Asignacion" EntitySet="Asignacion" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Estado_Factura" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Estado_Factura">
+            <End Role="C_Estado_Factura" EntitySet="C_Estado_Factura" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_IVA" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_IVA">
+            <End Role="C_IVA" EntitySet="C_IVA" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
           <AssociationSet Name="FK_Proyectos_IVA" Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_IVA">
             <End Role="C_IVA" EntitySet="C_IVA" />
             <End Role="Proyectos" EntitySet="Proyectos" />
           </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Metodo_Pago" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Metodo_Pago">
+            <End Role="C_Metodo_Pago" EntitySet="C_Metodo_Pago" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Moneda" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Moneda">
+            <End Role="C_Moneda" EntitySet="C_Moneda" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Moneda" Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Moneda">
             <End Role="C_Moneda" EntitySet="C_Moneda" />
             <End Role="Proyectos" EntitySet="Proyectos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Tipo_Cambio" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Tipo_Cambio">
+            <End Role="C_Tipo_Cambio" EntitySet="C_Tipo_Cambio" />
+            <End Role="Facturas" EntitySet="Facturas" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Tipo_Cambio" Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Tipo_Cambio">
             <End Role="C_Tipo_Cambio" EntitySet="C_Tipo_Cambio" />
@@ -673,9 +919,25 @@
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Clientes" EntitySet="Clientes" />
           </AssociationSet>
+          <AssociationSet Name="FK_Contactos_Clientes" Association="DB_9F97CF_CatarsysSGCModel.FK_Contactos_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Contactos" EntitySet="Contactos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Clientes" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Clientes" Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Proyectos" EntitySet="Proyectos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpleadoPermiso_ctPermisos" Association="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_ctPermisos">
+            <End Role="ctPermisos" EntitySet="ctPermisos" />
+            <End Role="EmpleadoPermiso" EntitySet="EmpleadoPermiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpleadoPermiso_Empleados" Association="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_Empleados">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="EmpleadoPermiso" EntitySet="EmpleadoPermiso" />
           </AssociationSet>
           <AssociationSet Name="FK_Usuarios_Empresa" Association="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
@@ -685,56 +947,17 @@
             <End Role="Empleados" EntitySet="Empleados" />
             <End Role="Empleados1" EntitySet="Empleados" />
           </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Empresa" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Empresa" Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Proyectos" EntitySet="Proyectos" />
           </AssociationSet>
-          <FunctionImport Name="sp_GetEmpleadosPaginacion" ReturnType="Collection(DB_9F97CF_CatarsysSGCModel.sp_GetEmpleadosPaginacion_Result)">
-            <Parameter Name="page" Mode="In" Type="Int32" />
-            <Parameter Name="size" Mode="In" Type="Int32" />
-            <Parameter Name="sort" Mode="In" Type="Int32" />
-            <Parameter Name="company" Mode="In" Type="Int32" />
-            <Parameter Name="sortDireccion" Mode="In" Type="String" />
-            <Parameter Name="filter" Mode="In" Type="String" />
-            <Parameter Name="totalrow" Mode="InOut" Type="Int32" />
-          </FunctionImport>
-          <EntitySet Name="Perfil" EntityType="DB_9F97CF_CatarsysSGCModel.Perfil" />
-          <AssociationSet Name="FK_Empleados_Perfil" Association="DB_9F97CF_CatarsysSGCModel.FK_Empleados_Perfil">
-            <End Role="Perfil" EntitySet="Perfil" />
-            <End Role="Empleados" EntitySet="Empleados" />
-          </AssociationSet>
-          <FunctionImport Name="sp_GetClientesPaginacion" ReturnType="Collection(DB_9F97CF_CatarsysSGCModel.sp_GetClientesPaginacion_Result)">
-            <Parameter Name="page" Mode="In" Type="Int32" />
-            <Parameter Name="size" Mode="In" Type="Int32" />
-            <Parameter Name="sort" Mode="In" Type="Int32" />
-            <Parameter Name="company" Mode="In" Type="Int32" />
-            <Parameter Name="sortDireccion" Mode="In" Type="String" />
-            <Parameter Name="filter" Mode="In" Type="String" />
-            <Parameter Name="totalrow" Mode="InOut" Type="Int32" />
-          </FunctionImport>
-          <FunctionImport Name="sp_GetEmpresaPaginacion" ReturnType="Collection(DB_9F97CF_CatarsysSGCModel.sp_GetEmpresaPaginacion_Result)">
-            <Parameter Name="page" Mode="In" Type="Int32" />
-            <Parameter Name="size" Mode="In" Type="Int32" />
-            <Parameter Name="sort" Mode="In" Type="Int32" />
-            <Parameter Name="company" Mode="In" Type="Int32" />
-            <Parameter Name="sortDireccion" Mode="In" Type="String" />
-            <Parameter Name="filter" Mode="In" Type="String" />
-            <Parameter Name="totalrow" Mode="InOut" Type="Int32" />
-          </FunctionImport>
-          <EntitySet Name="Contactos" EntityType="DB_9F97CF_CatarsysSGCModel.Contactos" />
-          <EntitySet Name="ctPermisos" EntityType="DB_9F97CF_CatarsysSGCModel.ctPermisos" />
-          <EntitySet Name="PerfilPermiso" EntityType="DB_9F97CF_CatarsysSGCModel.PerfilPermiso" />
-          <AssociationSet Name="FK_Contactos_Clientes" Association="DB_9F97CF_CatarsysSGCModel.FK_Contactos_Clientes">
-            <End Role="Clientes" EntitySet="Clientes" />
-            <End Role="Contactos" EntitySet="Contactos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PerfilPermiso_ctPermisos" Association="DB_9F97CF_CatarsysSGCModel.FK_PerfilPermiso_ctPermisos">
-            <End Role="ctPermisos" EntitySet="ctPermisos" />
-            <End Role="PerfilPermiso" EntitySet="PerfilPermiso" />
-          </AssociationSet>
-          <AssociationSet Name="FK_PerfilPermiso_Perfil" Association="DB_9F97CF_CatarsysSGCModel.FK_PerfilPermiso_Perfil">
-            <End Role="Perfil" EntitySet="Perfil" />
-            <End Role="PerfilPermiso" EntitySet="PerfilPermiso" />
+          <AssociationSet Name="FK_Facturas_Proyectos" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Proyectos">
+            <End Role="Proyectos" EntitySet="Proyectos" />
+            <End Role="Facturas" EntitySet="Facturas" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_GetAsigPaginacion_Result">
@@ -757,6 +980,38 @@
           <Property Type="DateTime" Name="Prox_Facturacion" Nullable="true" Precision="23" />
           <Property Type="String" Name="Estado" Nullable="true" MaxLength="50" />
           <Property Type="String" Name="Comentarios" Nullable="true" MaxLength="250" />
+        </ComplexType>
+        <ComplexType Name="sp_GetEmpleadosPaginacion_Result">
+          <Property Type="Int32" Name="IdEmpleado" Nullable="true" />
+          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Puesto" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Movil" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="Antiguedad" Nullable="true" Precision="23" />
+        </ComplexType>
+        <ComplexType Name="sp_GetClientesPaginacion_Result">
+          <Property Type="Int32" Name="Id_Cliente" Nullable="true" />
+          <Property Type="String" Name="Nombre_Cliente" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Razon_Social_Cliente" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="RFC_Cliente" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Contacto" Nullable="true" MaxLength="50" />
+        </ComplexType>
+        <ComplexType Name="sp_GetEmpresaPaginacion_Result">
+          <Property Type="Int32" Name="Id_Empresa" Nullable="true" />
+          <Property Type="String" Name="Nombre_Empresa" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Razon_Social_Empresa" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="Fecha_Creacion_Empresa" Nullable="true" Precision="23" />
+          <Property Type="Boolean" Name="Estado_Empresa" Nullable="true" />
+        </ComplexType>
+        <ComplexType Name="sp_GetFacturasPaginacion_Result">
+          <Property Type="Int32" Name="IdFactura" Nullable="true" />
+          <Property Type="String" Name="Tipo" Nullable="true" MaxLength="10" />
+          <Property Type="String" Name="Cliente" Nullable="true" MaxLength="100" />
+          <Property Type="String" Name="Concepto" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Monto" Nullable="true" MaxLength="50" />
+          <Property Type="String" Name="Facturado" Nullable="true" MaxLength="50" />
+          <Property Type="DateTime" Name="DiaFacturacion" Nullable="true" Precision="23" />
+          <Property Type="String" Name="estado" Nullable="true" MaxLength="25" />
         </ComplexType>
         <EntityType Name="Asignacion">
           <Key>
@@ -784,6 +1039,7 @@
           <NavigationProperty Name="C_Periodos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Periodo" FromRole="Asignacion" ToRole="C_Periodos" />
           <NavigationProperty Name="C_Tipo_Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Tipo" FromRole="Asignacion" ToRole="C_Tipo_Asignacion" />
           <NavigationProperty Name="Empleados" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Usuario" FromRole="Asignacion" ToRole="Empleados" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Asignacion" FromRole="Asignacion" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="C_Corte">
           <Key>
@@ -792,6 +1048,14 @@
           <Property Name="C_Id_Corte" Type="Int32" Nullable="false" />
           <Property Name="C_Desc_Corte" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Corte" FromRole="C_Corte" ToRole="Asignacion" />
+        </EntityType>
+        <EntityType Name="C_Estado_Factura">
+          <Key>
+            <PropertyRef Name="Id_Estado_Factura" />
+          </Key>
+          <Property Name="Id_Estado_Factura" Type="Int16" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_Desc_Estado_Factura" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Estado_Factura" FromRole="C_Estado_Factura" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="C_Estatus">
           <Key>
@@ -808,7 +1072,16 @@
           <Property Name="C_Id_IVA" Type="Int32" Nullable="false" />
           <Property Name="C_Desc_IVA" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_IVA" FromRole="C_IVA" ToRole="Asignacion" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_IVA" FromRole="C_IVA" ToRole="Facturas" />
           <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_IVA" FromRole="C_IVA" ToRole="Proyectos" />
+        </EntityType>
+        <EntityType Name="C_Metodo_Pago">
+          <Key>
+            <PropertyRef Name="C_ID_Metodo_Pago" />
+          </Key>
+          <Property Name="C_ID_Metodo_Pago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="C_de_Metodo_Pago" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Metodo_Pago" FromRole="C_Metodo_Pago" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="C_Moneda">
           <Key>
@@ -817,6 +1090,7 @@
           <Property Name="C_Id_Moneda" Type="Int32" Nullable="false" />
           <Property Name="C_Desc_Moneda" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Moneda" FromRole="C_Moneda" ToRole="Asignacion" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Moneda" FromRole="C_Moneda" ToRole="Facturas" />
           <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Moneda" FromRole="C_Moneda" ToRole="Proyectos" />
         </EntityType>
         <EntityType Name="C_Periodos">
@@ -842,6 +1116,7 @@
           </Key>
           <Property Name="C_Id_Tipo_Cambio" Type="Int32" Nullable="false" />
           <Property Name="C_Desc_Tipo_Cambio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Tipo_Cambio" FromRole="C_Tipo_Cambio" ToRole="Facturas" />
           <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Tipo_Cambio" FromRole="C_Tipo_Cambio" ToRole="Proyectos" />
         </EntityType>
         <EntityType Name="Clientes">
@@ -853,15 +1128,57 @@
           <Property Name="Nombre_Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="Razon_Social_Cliente" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
           <Property Name="RFC_Cliente" Type="String" MaxLength="13" FixedLength="false" Unicode="true" />
-          <Property Name="Contactos_Cliente" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
-          <Property Name="Domicilio_Cliente" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <Property Name="Calle_Cliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Exterior_Cliente" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Interior_Cliente" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="Colonia_Cliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="DelMun_Cliente" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="CP_Cliente" Type="Int16" />
+          <Property Name="Estado_Dom_Cliente" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Name="Dias_de_Pago_Cliente" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Envio_Fact_Empresa" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Estado" Type="Boolean" />
           <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Clientes" FromRole="Clientes" ToRole="Asignacion" />
           <NavigationProperty Name="Empresa" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Clientes_Empresa" FromRole="Clientes" ToRole="Empresa" />
-          <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Clientes" FromRole="Clientes" ToRole="Proyectos" />
           <NavigationProperty Name="Contactos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Contactos_Clientes" FromRole="Clientes" ToRole="Contactos" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Clientes" FromRole="Clientes" ToRole="Facturas" />
+          <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Clientes" FromRole="Clientes" ToRole="Proyectos" />
+        </EntityType>
+        <EntityType Name="Contactos">
+          <Key>
+            <PropertyRef Name="Id_Contacto" />
+          </Key>
+          <Property Name="Id_Contacto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Cliente" Type="Int32" Nullable="false" />
+          <Property Name="Nombre_Contacto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Puesto_Contacto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Email_Contacto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Telefono_Contacto" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Movil__Contacto" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Skype_Contacto" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="EnviaFactura_Contacto" Type="Boolean" />
+          <Property Name="Comentario_Contacto" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Clientes" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Contactos_Clientes" FromRole="Contactos" ToRole="Clientes" />
+        </EntityType>
+        <EntityType Name="ctPermisos">
+          <Key>
+            <PropertyRef Name="Id_Permisos" />
+          </Key>
+          <Property Name="Id_Permisos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Permiso" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
+          <Property Name="Estado_Permiso" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="EmpleadoPermiso" Relationship="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_ctPermisos" FromRole="ctPermisos" ToRole="EmpleadoPermiso" />
+        </EntityType>
+        <EntityType Name="EmpleadoPermiso">
+          <Key>
+            <PropertyRef Name="Id_Empleado" />
+            <PropertyRef Name="Id_Permiso" />
+          </Key>
+          <Property Name="Id_Empleado" Type="Int32" Nullable="false" />
+          <Property Name="Id_Permiso" Type="Int32" Nullable="false" />
+          <Property Name="Tipo_Permiso" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="ctPermisos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_ctPermisos" FromRole="EmpleadoPermiso" ToRole="ctPermisos" />
+          <NavigationProperty Name="Empleados" Relationship="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_Empleados" FromRole="EmpleadoPermiso" ToRole="Empleados" />
         </EntityType>
         <EntityType Name="Empleados">
           <Key>
@@ -880,15 +1197,15 @@
           <Property Name="Telefono_M_Empleado" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <Property Name="Id_JefeInmediato_Empleado" Type="Int32" />
           <Property Name="IsLogIn" Type="Int32" />
+          <Property Name="Id_Perfil" Type="Int32" />
           <Property Name="Usuario_Empleado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Password_Empleado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Estado" Type="Boolean" />
           <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Usuario" FromRole="Empleados" ToRole="Asignacion" />
+          <NavigationProperty Name="EmpleadoPermiso" Relationship="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_Empleados" FromRole="Empleados" ToRole="EmpleadoPermiso" />
           <NavigationProperty Name="Empresa" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa" FromRole="Empleados" ToRole="Empresa" />
           <NavigationProperty Name="Empleados1" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_JefeInmediato" FromRole="Empleados" ToRole="Empleados1" />
           <NavigationProperty Name="Empleados2" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_JefeInmediato" FromRole="Empleados1" ToRole="Empleados" />
-          <Property Name="Id_Perfil" Type="Int32" />
-          <NavigationProperty Name="Perfil" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Empleados_Perfil" FromRole="Empleados" ToRole="Perfil" />
         </EntityType>
         <EntityType Name="Empresa">
           <Key>
@@ -904,13 +1221,46 @@
           <Property Name="Colonia_Empresa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="CP_Empresa" Type="Int16" />
           <Property Name="Del_Mun_Empresa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Estado_Dom_Empresa" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
           <Property Name="Email_Empresa" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <Property Name="Fecha_Creacion_Empresa" Type="DateTime" Precision="3" />
           <Property Name="Estado_Empresa" Type="Boolean" />
           <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Empresa" FromRole="Empresa" ToRole="Asignacion" />
           <NavigationProperty Name="Clientes" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Clientes_Empresa" FromRole="Empresa" ToRole="Clientes" />
           <NavigationProperty Name="Empleados" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa" FromRole="Empresa" ToRole="Empleados" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa" FromRole="Empresa" ToRole="Facturas" />
           <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Empresa" FromRole="Empresa" ToRole="Proyectos" />
+        </EntityType>
+        <EntityType Name="Facturas">
+          <Key>
+            <PropertyRef Name="IdFactura" />
+          </Key>
+          <Property Name="IdFactura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" Nullable="false" />
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+          <Property Name="IdAsignacion" Type="Int32" />
+          <Property Name="IdProyecto" Type="Int32" />
+          <Property Name="C_Id_IVA" Type="Int32" />
+          <Property Name="C_Id_Moneda" Type="Int32" />
+          <Property Name="C_Id_Tipo_Cambio" Type="Int32" />
+          <Property Name="C_Id_Metodo_Pago" Type="Int32" />
+          <Property Name="Tipo_Factura" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_Inicio_Factura" Type="DateTime" Precision="3" />
+          <Property Name="Fecha_fin_Factura" Type="DateTime" Precision="3" />
+          <Property Name="No_Factura" Type="Int16" />
+          <Property Name="Descuento_Factura" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Monto_Factura" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Ultimos_4_digitos_Factura" Type="Int16" />
+          <Property Name="Id_Estado_Factura" Type="Int16" Nullable="false" />
+          <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Asignacion" FromRole="Facturas" ToRole="Asignacion" />
+          <NavigationProperty Name="C_Estado_Factura" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Estado_Factura" FromRole="Facturas" ToRole="C_Estado_Factura" />
+          <NavigationProperty Name="C_IVA" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_IVA" FromRole="Facturas" ToRole="C_IVA" />
+          <NavigationProperty Name="C_Metodo_Pago" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Metodo_Pago" FromRole="Facturas" ToRole="C_Metodo_Pago" />
+          <NavigationProperty Name="C_Moneda" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Moneda" FromRole="Facturas" ToRole="C_Moneda" />
+          <NavigationProperty Name="C_Tipo_Cambio" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Tipo_Cambio" FromRole="Facturas" ToRole="C_Tipo_Cambio" />
+          <NavigationProperty Name="Clientes" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Clientes" FromRole="Facturas" ToRole="Clientes" />
+          <NavigationProperty Name="Empresa" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa" FromRole="Facturas" ToRole="Empresa" />
+          <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Proyectos" FromRole="Facturas" ToRole="Proyectos" />
         </EntityType>
         <EntityType Name="Proyectos">
           <Key>
@@ -934,6 +1284,7 @@
           <NavigationProperty Name="C_Tipo_Cambio" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Tipo_Cambio" FromRole="Proyectos" ToRole="C_Tipo_Cambio" />
           <NavigationProperty Name="Clientes" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Clientes" FromRole="Proyectos" ToRole="Clientes" />
           <NavigationProperty Name="Empresa" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Empresa" FromRole="Proyectos" ToRole="Empresa" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Proyectos" FromRole="Proyectos" ToRole="Facturas" />
         </EntityType>
         <Association Name="FK_Asignacion_Clientes">
           <End Type="DB_9F97CF_CatarsysSGCModel.Clientes" Role="Clientes" Multiplicity="0..1" />
@@ -1043,6 +1394,42 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Facturas_Asignacion">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Asignacion" Role="Asignacion" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Asignacion">
+              <PropertyRef Name="Id_Asignacion" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdAsignacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_Estado_Factura">
+          <End Type="DB_9F97CF_CatarsysSGCModel.C_Estado_Factura" Role="C_Estado_Factura" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Estado_Factura">
+              <PropertyRef Name="Id_Estado_Factura" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="Id_Estado_Factura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_IVA">
+          <End Type="DB_9F97CF_CatarsysSGCModel.C_IVA" Role="C_IVA" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_IVA">
+              <PropertyRef Name="C_Id_IVA" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_IVA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Proyectos_IVA">
           <End Type="DB_9F97CF_CatarsysSGCModel.C_IVA" Role="C_IVA" Multiplicity="0..1" />
           <End Type="DB_9F97CF_CatarsysSGCModel.Proyectos" Role="Proyectos" Multiplicity="*" />
@@ -1055,6 +1442,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Facturas_C_Metodo_Pago">
+          <End Type="DB_9F97CF_CatarsysSGCModel.C_Metodo_Pago" Role="C_Metodo_Pago" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Metodo_Pago">
+              <PropertyRef Name="C_ID_Metodo_Pago" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_Metodo_Pago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_Moneda">
+          <End Type="DB_9F97CF_CatarsysSGCModel.C_Moneda" Role="C_Moneda" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Moneda">
+              <PropertyRef Name="C_Id_Moneda" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_Moneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Proyectos_Moneda">
           <End Type="DB_9F97CF_CatarsysSGCModel.C_Moneda" Role="C_Moneda" Multiplicity="0..1" />
           <End Type="DB_9F97CF_CatarsysSGCModel.Proyectos" Role="Proyectos" Multiplicity="*" />
@@ -1064,6 +1475,18 @@
             </Principal>
             <Dependent Role="Proyectos">
               <PropertyRef Name="Id_Moneda_Proyectos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_Tipo_Cambio">
+          <End Type="DB_9F97CF_CatarsysSGCModel.C_Tipo_Cambio" Role="C_Tipo_Cambio" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Tipo_Cambio">
+              <PropertyRef Name="C_Id_Tipo_Cambio" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_Tipo_Cambio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1091,6 +1514,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Contactos_Clientes">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Clientes" Role="Clientes" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Contactos" Role="Contactos" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="Id_Cliente" />
+            </Principal>
+            <Dependent Role="Contactos">
+              <PropertyRef Name="Id_Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_Clientes">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Clientes" Role="Clientes" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="Id_Cliente" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Proyectos_Clientes">
           <End Type="DB_9F97CF_CatarsysSGCModel.Clientes" Role="Clientes" Multiplicity="0..1" />
           <End Type="DB_9F97CF_CatarsysSGCModel.Proyectos" Role="Proyectos" Multiplicity="*" />
@@ -1100,6 +1547,30 @@
             </Principal>
             <Dependent Role="Proyectos">
               <PropertyRef Name="Id_Clientes_Proyectos" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpleadoPermiso_ctPermisos">
+          <End Type="DB_9F97CF_CatarsysSGCModel.ctPermisos" Role="ctPermisos" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.EmpleadoPermiso" Role="EmpleadoPermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="ctPermisos">
+              <PropertyRef Name="Id_Permisos" />
+            </Principal>
+            <Dependent Role="EmpleadoPermiso">
+              <PropertyRef Name="Id_Permiso" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpleadoPermiso_Empleados">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.EmpleadoPermiso" Role="EmpleadoPermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="Id_Empleado" />
+            </Principal>
+            <Dependent Role="EmpleadoPermiso">
+              <PropertyRef Name="Id_Empleado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1127,6 +1598,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Facturas_Empresa">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdEmpresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Proyectos_Empresa">
           <End Type="DB_9F97CF_CatarsysSGCModel.Empresa" Role="Empresa" Multiplicity="0..1" />
           <End Type="DB_9F97CF_CatarsysSGCModel.Proyectos" Role="Proyectos" Multiplicity="*" />
@@ -1139,118 +1622,15 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <ComplexType Name="sp_GetEmpleadosPaginacion_Result">
-          <Property Type="Int32" Name="IdEmpleado" Nullable="true" />
-          <Property Type="String" Name="Nombre" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Puesto" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Email" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Movil" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="Antiguedad" Nullable="true" Precision="23" />
-        </ComplexType>
-        <EntityType Name="Perfil">
-          <Key>
-            <PropertyRef Name="Id_Perfil" />
-          </Key>
-          <Property Name="Id_Perfil" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre_Perfil" Type="String" Nullable="false" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Estado_Perfil" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Empleados" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Empleados_Perfil" FromRole="Perfil" ToRole="Empleados" />
-          <NavigationProperty Name="PerfilPermiso" Relationship="DB_9F97CF_CatarsysSGCModel.FK_PerfilPermiso_Perfil" FromRole="Perfil" ToRole="PerfilPermiso" />
-        </EntityType>
-        <Association Name="FK_Empleados_Perfil">
-          <End Type="DB_9F97CF_CatarsysSGCModel.Perfil" Role="Perfil" Multiplicity="0..1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados" Multiplicity="*" />
+        <Association Name="FK_Facturas_Proyectos">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Proyectos" Role="Proyectos" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Perfil">
-              <PropertyRef Name="Id_Perfil" />
+            <Principal Role="Proyectos">
+              <PropertyRef Name="Id_Proyectos" />
             </Principal>
-            <Dependent Role="Empleados">
-              <PropertyRef Name="Id_Perfil" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <ComplexType Name="sp_GetClientesPaginacion_Result">
-          <Property Type="Int32" Name="Id_Cliente" Nullable="true" />
-          <Property Type="String" Name="Nombre_Cliente" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Razon_Social_Cliente" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="RFC_Cliente" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Contacto" Nullable="true" MaxLength="50" />
-        </ComplexType>
-        <ComplexType Name="sp_GetEmpresaPaginacion_Result">
-          <Property Type="Int32" Name="Id_Empresa" Nullable="true" />
-          <Property Type="String" Name="Nombre_Empresa" Nullable="true" MaxLength="50" />
-          <Property Type="String" Name="Razon_Social_Empresa" Nullable="true" MaxLength="50" />
-          <Property Type="DateTime" Name="Fecha_Creacion_Empresa" Nullable="true" Precision="23" />
-          <Property Type="Boolean" Name="Estado_Empresa" Nullable="true" />
-        </ComplexType>
-        <EntityType Name="Contactos">
-          <Key>
-            <PropertyRef Name="Id_Contacto" />
-          </Key>
-          <Property Name="Id_Contacto" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_Cliente" Type="Int32" Nullable="false" />
-          <Property Name="Nombre_Contacto" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Puesto_Contacto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Email_Contacto" Type="String" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Telefono_Contacto" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Movil__Contacto" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
-          <Property Name="Skype_Contacto" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Comentario_Contacto" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="Clientes" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Contactos_Clientes" FromRole="Contactos" ToRole="Clientes" />
-        </EntityType>
-        <EntityType Name="ctPermisos">
-          <Key>
-            <PropertyRef Name="Id_Permisos" />
-          </Key>
-          <Property Name="Id_Permisos" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Nombre_Permiso" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="false" />
-          <Property Name="Id_Tipo_Permiso" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="PerfilPermiso" Relationship="DB_9F97CF_CatarsysSGCModel.FK_PerfilPermiso_ctPermisos" FromRole="ctPermisos" ToRole="PerfilPermiso" />
-        </EntityType>
-        <EntityType Name="PerfilPermiso">
-          <Key>
-            <PropertyRef Name="Id_Perfil" />
-            <PropertyRef Name="Id_Permisos" />
-          </Key>
-          <Property Name="Id_Perfil" Type="Int32" Nullable="false" />
-          <Property Name="Id_Permisos" Type="Int32" Nullable="false" />
-          <Property Name="Tipo" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="ctPermisos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_PerfilPermiso_ctPermisos" FromRole="PerfilPermiso" ToRole="ctPermisos" />
-          <NavigationProperty Name="Perfil" Relationship="DB_9F97CF_CatarsysSGCModel.FK_PerfilPermiso_Perfil" FromRole="PerfilPermiso" ToRole="Perfil" />
-        </EntityType>
-        <Association Name="FK_Contactos_Clientes">
-          <End Type="DB_9F97CF_CatarsysSGCModel.Clientes" Role="Clientes" Multiplicity="1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Contactos" Role="Contactos" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Clientes">
-              <PropertyRef Name="Id_Cliente" />
-            </Principal>
-            <Dependent Role="Contactos">
-              <PropertyRef Name="Id_Cliente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PerfilPermiso_ctPermisos">
-          <End Type="DB_9F97CF_CatarsysSGCModel.ctPermisos" Role="ctPermisos" Multiplicity="1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.PerfilPermiso" Role="PerfilPermiso" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="ctPermisos">
-              <PropertyRef Name="Id_Permisos" />
-            </Principal>
-            <Dependent Role="PerfilPermiso">
-              <PropertyRef Name="Id_Permisos" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_PerfilPermiso_Perfil">
-          <End Type="DB_9F97CF_CatarsysSGCModel.Perfil" Role="Perfil" Multiplicity="1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.PerfilPermiso" Role="PerfilPermiso" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Perfil">
-              <PropertyRef Name="Id_Perfil" />
-            </Principal>
-            <Dependent Role="PerfilPermiso">
-              <PropertyRef Name="Id_Perfil" />
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdProyecto" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1289,6 +1669,54 @@
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetEmpleadosPaginacion" FunctionName="DB_9F97CF_CatarsysSGCModel.Store.sp_GetEmpleadosPaginacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.sp_GetEmpleadosPaginacion_Result">
+                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Puesto" ColumnName="Puesto" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Movil" ColumnName="Movil" />
+                <ScalarProperty Name="Antiguedad" ColumnName="Antiguedad" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetClientesPaginacion" FunctionName="DB_9F97CF_CatarsysSGCModel.Store.sp_GetClientesPaginacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.sp_GetClientesPaginacion_Result">
+                <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
+                <ScalarProperty Name="Nombre_Cliente" ColumnName="Nombre_Cliente" />
+                <ScalarProperty Name="Razon_Social_Cliente" ColumnName="Razon_Social_Cliente" />
+                <ScalarProperty Name="RFC_Cliente" ColumnName="RFC_Cliente" />
+                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetEmpresaPaginacion" FunctionName="DB_9F97CF_CatarsysSGCModel.Store.sp_GetEmpresaPaginacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.sp_GetEmpresaPaginacion_Result">
+                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
+                <ScalarProperty Name="Nombre_Empresa" ColumnName="Nombre_Empresa" />
+                <ScalarProperty Name="Razon_Social_Empresa" ColumnName="Razon_Social_Empresa" />
+                <ScalarProperty Name="Fecha_Creacion_Empresa" ColumnName="Fecha_Creacion_Empresa" />
+                <ScalarProperty Name="Estado_Empresa" ColumnName="Estado_Empresa" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_GetFacturasPaginacion" FunctionName="DB_9F97CF_CatarsysSGCModel.Store.sp_GetFacturasPaginacion">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.sp_GetFacturasPaginacion_Result">
+                <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
+                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
+                <ScalarProperty Name="Cliente" ColumnName="Cliente" />
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Facturado" ColumnName="Facturado" />
+                <ScalarProperty Name="DiaFacturacion" ColumnName="DiaFacturacion" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
           <EntitySetMapping Name="Asignacion">
             <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Asignacion">
               <MappingFragment StoreEntitySet="Asignacion">
@@ -1316,6 +1744,14 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="C_Estado_Factura">
+            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.C_Estado_Factura">
+              <MappingFragment StoreEntitySet="C_Estado_Factura">
+                <ScalarProperty Name="C_Desc_Estado_Factura" ColumnName="C_Desc_Estado_Factura" />
+                <ScalarProperty Name="Id_Estado_Factura" ColumnName="Id_Estado_Factura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="C_Estatus">
             <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.C_Estatus">
               <MappingFragment StoreEntitySet="C_Estatus">
@@ -1329,6 +1765,14 @@
               <MappingFragment StoreEntitySet="C_IVA">
                 <ScalarProperty Name="C_Desc_IVA" ColumnName="C_Desc_IVA" />
                 <ScalarProperty Name="C_Id_IVA" ColumnName="C_Id_IVA" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="C_Metodo_Pago">
+            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.C_Metodo_Pago">
+              <MappingFragment StoreEntitySet="C_Metodo_Pago">
+                <ScalarProperty Name="C_de_Metodo_Pago" ColumnName="C_de_Metodo_Pago" />
+                <ScalarProperty Name="C_ID_Metodo_Pago" ColumnName="C_ID_Metodo_Pago" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1369,10 +1813,14 @@
             <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Clientes">
               <MappingFragment StoreEntitySet="Clientes">
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="Envio_Fact_Empresa" ColumnName="Envio_Fact_Empresa" />
                 <ScalarProperty Name="Dias_de_Pago_Cliente" ColumnName="Dias_de_Pago_Cliente" />
-                <ScalarProperty Name="Domicilio_Cliente" ColumnName="Domicilio_Cliente" />
-                <ScalarProperty Name="Contactos_Cliente" ColumnName="Contactos_Cliente" />
+                <ScalarProperty Name="Estado_Dom_Cliente" ColumnName="Estado_Dom_Cliente" />
+                <ScalarProperty Name="CP_Cliente" ColumnName="CP_Cliente" />
+                <ScalarProperty Name="DelMun_Cliente" ColumnName="DelMun_Cliente" />
+                <ScalarProperty Name="Colonia_Cliente" ColumnName="Colonia_Cliente" />
+                <ScalarProperty Name="Interior_Cliente" ColumnName="Interior_Cliente" />
+                <ScalarProperty Name="Exterior_Cliente" ColumnName="Exterior_Cliente" />
+                <ScalarProperty Name="Calle_Cliente" ColumnName="Calle_Cliente" />
                 <ScalarProperty Name="RFC_Cliente" ColumnName="RFC_Cliente" />
                 <ScalarProperty Name="Razon_Social_Cliente" ColumnName="Razon_Social_Cliente" />
                 <ScalarProperty Name="Nombre_Cliente" ColumnName="Nombre_Cliente" />
@@ -1381,13 +1829,48 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Contactos">
+            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Contactos">
+              <MappingFragment StoreEntitySet="Contactos">
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Comentario_Contacto" ColumnName="Comentario_Contacto" />
+                <ScalarProperty Name="EnviaFactura_Contacto" ColumnName="EnviaFactura_Contacto" />
+                <ScalarProperty Name="Skype_Contacto" ColumnName="Skype_Contacto" />
+                <ScalarProperty Name="Movil__Contacto" ColumnName="Movil__Contacto" />
+                <ScalarProperty Name="Telefono_Contacto" ColumnName="Telefono_Contacto" />
+                <ScalarProperty Name="Email_Contacto" ColumnName="Email_Contacto" />
+                <ScalarProperty Name="Puesto_Contacto" ColumnName="Puesto_Contacto" />
+                <ScalarProperty Name="Nombre_Contacto" ColumnName="Nombre_Contacto" />
+                <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
+                <ScalarProperty Name="Id_Contacto" ColumnName="Id_Contacto" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ctPermisos">
+            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.ctPermisos">
+              <MappingFragment StoreEntitySet="ctPermisos">
+                <ScalarProperty Name="Estado_Permiso" ColumnName="Estado_Permiso" />
+                <ScalarProperty Name="Nombre_Permiso" ColumnName="Nombre_Permiso" />
+                <ScalarProperty Name="Id_Permisos" ColumnName="Id_Permisos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EmpleadoPermiso">
+            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.EmpleadoPermiso">
+              <MappingFragment StoreEntitySet="EmpleadoPermiso">
+                <ScalarProperty Name="Tipo_Permiso" ColumnName="Tipo_Permiso" />
+                <ScalarProperty Name="Id_Permiso" ColumnName="Id_Permiso" />
+                <ScalarProperty Name="Id_Empleado" ColumnName="Id_Empleado" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Empleados">
             <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Empleados">
               <MappingFragment StoreEntitySet="Empleados">
-                <ScalarProperty Name="Id_Perfil" ColumnName="Id_Perfil" />
                 <ScalarProperty Name="Estado" ColumnName="Estado" />
                 <ScalarProperty Name="Password_Empleado" ColumnName="Password_Empleado" />
                 <ScalarProperty Name="Usuario_Empleado" ColumnName="Usuario_Empleado" />
+                <ScalarProperty Name="Id_Perfil" ColumnName="Id_Perfil" />
                 <ScalarProperty Name="IsLogIn" ColumnName="IsLogIn" />
                 <ScalarProperty Name="Id_JefeInmediato_Empleado" ColumnName="Id_JefeInmediato_Empleado" />
                 <ScalarProperty Name="Telefono_M_Empleado" ColumnName="Telefono_M_Empleado" />
@@ -1410,6 +1893,7 @@
                 <ScalarProperty Name="Estado_Empresa" ColumnName="Estado_Empresa" />
                 <ScalarProperty Name="Fecha_Creacion_Empresa" ColumnName="Fecha_Creacion_Empresa" />
                 <ScalarProperty Name="Email_Empresa" ColumnName="Email_Empresa" />
+                <ScalarProperty Name="Estado_Dom_Empresa" ColumnName="Estado_Dom_Empresa" />
                 <ScalarProperty Name="Del_Mun_Empresa" ColumnName="Del_Mun_Empresa" />
                 <ScalarProperty Name="CP_Empresa" ColumnName="CP_Empresa" />
                 <ScalarProperty Name="Colonia_Empresa" ColumnName="Colonia_Empresa" />
@@ -1420,6 +1904,29 @@
                 <ScalarProperty Name="Razon_Social_Empresa" ColumnName="Razon_Social_Empresa" />
                 <ScalarProperty Name="Nombre_Empresa" ColumnName="Nombre_Empresa" />
                 <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facturas">
+            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Facturas">
+              <MappingFragment StoreEntitySet="Facturas">
+                <ScalarProperty Name="Id_Estado_Factura" ColumnName="Id_Estado_Factura" />
+                <ScalarProperty Name="Ultimos_4_digitos_Factura" ColumnName="Ultimos_4_digitos_Factura" />
+                <ScalarProperty Name="Monto_Factura" ColumnName="Monto_Factura" />
+                <ScalarProperty Name="Descuento_Factura" ColumnName="Descuento_Factura" />
+                <ScalarProperty Name="No_Factura" ColumnName="No_Factura" />
+                <ScalarProperty Name="Fecha_fin_Factura" ColumnName="Fecha_fin_Factura" />
+                <ScalarProperty Name="Fecha_Inicio_Factura" ColumnName="Fecha_Inicio_Factura" />
+                <ScalarProperty Name="Tipo_Factura" ColumnName="Tipo_Factura" />
+                <ScalarProperty Name="C_Id_Metodo_Pago" ColumnName="C_Id_Metodo_Pago" />
+                <ScalarProperty Name="C_Id_Tipo_Cambio" ColumnName="C_Id_Tipo_Cambio" />
+                <ScalarProperty Name="C_Id_Moneda" ColumnName="C_Id_Moneda" />
+                <ScalarProperty Name="C_Id_IVA" ColumnName="C_Id_IVA" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdAsignacion" ColumnName="IdAsignacion" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1439,82 +1946,6 @@
                 <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
                 <ScalarProperty Name="Id_Clientes_Proyectos" ColumnName="Id_Clientes_Proyectos" />
                 <ScalarProperty Name="Id_Proyectos" ColumnName="Id_Proyectos" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetEmpleadosPaginacion" FunctionName="DB_9F97CF_CatarsysSGCModel.Store.sp_GetEmpleadosPaginacion">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.sp_GetEmpleadosPaginacion_Result">
-                <ScalarProperty Name="IdEmpleado" ColumnName="IdEmpleado" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="Puesto" ColumnName="Puesto" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Movil" ColumnName="Movil" />
-                <ScalarProperty Name="Antiguedad" ColumnName="Antiguedad" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="Perfil">
-            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Perfil">
-              <MappingFragment StoreEntitySet="Perfil">
-                <ScalarProperty Name="Estado_Perfil" ColumnName="Estado_Perfil" />
-                <ScalarProperty Name="Nombre_Perfil" ColumnName="Nombre_Perfil" />
-                <ScalarProperty Name="Id_Perfil" ColumnName="Id_Perfil" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetClientesPaginacion" FunctionName="DB_9F97CF_CatarsysSGCModel.Store.sp_GetClientesPaginacion">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.sp_GetClientesPaginacion_Result">
-                <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
-                <ScalarProperty Name="Nombre_Cliente" ColumnName="Nombre_Cliente" />
-                <ScalarProperty Name="Razon_Social_Cliente" ColumnName="Razon_Social_Cliente" />
-                <ScalarProperty Name="RFC_Cliente" ColumnName="RFC_Cliente" />
-                <ScalarProperty Name="Contacto" ColumnName="Contacto" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <FunctionImportMapping FunctionImportName="sp_GetEmpresaPaginacion" FunctionName="DB_9F97CF_CatarsysSGCModel.Store.sp_GetEmpresaPaginacion">
-            <ResultMapping>
-              <ComplexTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.sp_GetEmpresaPaginacion_Result">
-                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
-                <ScalarProperty Name="Nombre_Empresa" ColumnName="Nombre_Empresa" />
-                <ScalarProperty Name="Razon_Social_Empresa" ColumnName="Razon_Social_Empresa" />
-                <ScalarProperty Name="Fecha_Creacion_Empresa" ColumnName="Fecha_Creacion_Empresa" />
-                <ScalarProperty Name="Estado_Empresa" ColumnName="Estado_Empresa" />
-              </ComplexTypeMapping>
-            </ResultMapping>
-          </FunctionImportMapping>
-          <EntitySetMapping Name="Contactos">
-            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Contactos">
-              <MappingFragment StoreEntitySet="Contactos">
-                <ScalarProperty Name="Comentario_Contacto" ColumnName="Comentario_Contacto" />
-                <ScalarProperty Name="Skype_Contacto" ColumnName="Skype_Contacto" />
-                <ScalarProperty Name="Movil__Contacto" ColumnName="Movil__Contacto" />
-                <ScalarProperty Name="Telefono_Contacto" ColumnName="Telefono_Contacto" />
-                <ScalarProperty Name="Email_Contacto" ColumnName="Email_Contacto" />
-                <ScalarProperty Name="Puesto_Contacto" ColumnName="Puesto_Contacto" />
-                <ScalarProperty Name="Nombre_Contacto" ColumnName="Nombre_Contacto" />
-                <ScalarProperty Name="Id_Cliente" ColumnName="Id_Cliente" />
-                <ScalarProperty Name="Id_Contacto" ColumnName="Id_Contacto" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="ctPermisos">
-            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.ctPermisos">
-              <MappingFragment StoreEntitySet="ctPermisos">
-                <ScalarProperty Name="Id_Tipo_Permiso" ColumnName="Id_Tipo_Permiso" />
-                <ScalarProperty Name="Nombre_Permiso" ColumnName="Nombre_Permiso" />
-                <ScalarProperty Name="Id_Permisos" ColumnName="Id_Permisos" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="PerfilPermiso">
-            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.PerfilPermiso">
-              <MappingFragment StoreEntitySet="PerfilPermiso">
-                <ScalarProperty Name="Tipo" ColumnName="Tipo" />
-                <ScalarProperty Name="Id_Permisos" ColumnName="Id_Permisos" />
-                <ScalarProperty Name="Id_Perfil" ColumnName="Id_Perfil" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

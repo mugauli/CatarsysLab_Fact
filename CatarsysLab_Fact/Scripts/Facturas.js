@@ -116,8 +116,6 @@ $(document).ready(function () {
 
     var cargarModal = function (info) {
 
-        limpiarModal();
-
         $("#idProyecto").val(info.Id_Proyectos);
 
         $("#Cliente").val(info.Id_Clientes_Proyectos);
@@ -147,21 +145,24 @@ $(document).ready(function () {
             $("#rdNO").attr('checked', true);
         }
 
-        table2.destroy();
+        $(info.facturas).each(function (i, cont) {
+            alert("");
+            //var enviar = 'NO';
+            //if (cont.EnviaFactura_Contacto) enviar = 'SI';
 
-        $("#datatableFacturasProyecto tbody").html("");
+            //$("#datatableContactos tbody").append('<tr class="detalleContacto" data-id="' + cont.Id_Contacto + '"  data-telefono="' + cont.Telefono_Contacto + '" data-skype="' + cont.Skype_Contacto + '" data-estado="' + cont.Estado + '" data-movil="' + cont.Movil__Contacto + '" data-envia="' + cont.EnviaFactura_Contacto + '">'
+            //    + '<td class="nombre"> ' + cont.Nombre_Contacto + '</td> '
+            //    + '<td class="puesto"> ' + cont.Puesto_Contacto + '</td> '
+            //    + '<td class="email"> ' + cont.Email_Contacto + '</td> '
+            //    + '<td class="movil"> ' + cont.Movil__Contacto + '</td> '
+            //    + '<td class="envia"> ' + enviar + '</td> '
+            //    + '<td class="comentario"> ' + cont.Comentario_Contacto + '</td> '
+            //    + '</tr >');
 
-        $(info.facturas).each(function (i, v) {
-
-            var EstadoFat = v.Id_Estado_Factura == 2 ? "SI" : v.Id_Estado_Factura == 1 ? "NO" : "CANCELADA";
-
-            $("#datatableFacturasProyecto tbody").append('<tr data-IdFactura="' + v.IdFactura + '"><td class="IdFactura">' + v.No_Factura + '</td><td><input ' + (v.Id_Estado_Factura == 1 ? '' : 'readonly = "readonly"') + ' type="text" class="monto" value="' + v.Monto_Factura + '"></td><td><input type="text" ' + (v.Id_Estado_Factura == 1 ? '' : 'readonly = "readonly"') + '  class="fecha" value="' + v.Fecha_fin_FacturaSTR + '"></td><td class="Fact">' + EstadoFat + '</td></tr>');
+            //alert('entro');
 
         });
 
-        table2 = $('#datatableFacturasProyecto').DataTable({
-            dom: "t",
-        });
     }
 
     var cargarInfoModal = function (IdProyecto) {
@@ -248,14 +249,12 @@ $(document).ready(function () {
 
         $("#datatableFacturasProyecto tbody tr").each(function (i, v) {
 
-           
+
             item = {};
-            //alert($(this).attr("data-IdFactura"));
-            item["IdFactura"] = $(this).attr("data-IdFactura");
+            item["IdFactura"] = $(this).data("IdFactura");
             item["NoFactura"] = $(this).find(".IdFactura").html();
             item["Monto"] = $(this).find(".monto").val();
             item["Fecha"] = $(this).find(".fecha").val();
-            item["Estado"] = $(this).find(".Fact").html();
             jsonFacturas.push(item);
 
         });
@@ -290,12 +289,11 @@ $(document).ready(function () {
             return false;
         }
 
-        table2.destroy();
+
 
         $("#datatableFacturasProyecto tbody tr").each(function (i, v) {
 
             if ($(this).find(".Fact").html() != "SI") {
-                alert($(this).find(".Fact").html());
 
                 $(this).remove();
             }
@@ -334,8 +332,6 @@ $(document).ready(function () {
             dias = getDias(fecha_ini_2, fecha_fin);
 
         }
-
-      
 
         if (cant_Facturas == 1) {
 
@@ -392,17 +388,7 @@ $(document).ready(function () {
         $("#tablaJSON").val(createJSON());
         guardado = false;
 
-  
-
-        table2 = $('#datatableFacturasProyecto').DataTable({
-            dom: "t",
-        });
-
     }
-
-    var table2 = $('#datatableFacturasProyecto').DataTable({
-        dom: "t",
-    });
 
     var table = $('#datatable').DataTable({
         dom: "<'row itemHeader'<'col-sm-9'<'col-sm-12 conBtnAgregar'>><'col-sm-3'<'col-sm-12'f>>><'row itemHeader'<'col-sm-9'<'col-sm-12'l>><'col-sm-3'<'col-sm-12'B>>>rt<p>",
@@ -424,7 +410,7 @@ $(document).ready(function () {
         serverSide: true,
         ajax: function (data, callback, settings) {  // Make the Ajax call ourselves
             $.ajax({
-                url: "/Gestion/TablePaginacionProy",
+                url: "/Gestion/TablePaginacionFacturas",
                 type: "POST",
                 data: {
                     draw: data.draw,   // Needed for paging
@@ -446,15 +432,14 @@ $(document).ready(function () {
 
         },
         columns: [
-            { "data": "IdProyecto" },
+            { "data": "IdFactura" },
+            { "data": "Tipo" },
             { "data": "Cliente" },
-            { "data": "NombreProyecto" },
+            { "data": "Concepto" },
+            { "data": "Monto" },
             { "data": "Facturado" },
-            { "data": "RestaFacturar" },
-            { "data": "Total_Proyecto" },
-            { "data": "Prox_Facturacion" },
-            { "data": "Estado" },
-            { "data": "Comentarios" }],
+            { "data": "DiaFacturacion" },
+            { "data": "estado" }],
         columnDefs: [
             {
                 "targets": [0],
@@ -524,67 +509,67 @@ $(document).ready(function () {
         weekStart: 1
     };
 
-    $('#fecha_inicio').datepicker({
-        language: "es"
+    //$('#fecha_inicio').datepicker({
+    //    language: "es"
 
-    });
+    //});
 
-    $('#fecha_fin').datepicker({
-        language: "es"
-    });
+    //$('#fecha_fin').datepicker({
+    //    language: "es"
+    //});
 
-    $('#fecha_inicio').change(function () {
+    //$('#fecha_inicio').change(function () {
 
-        if ($('#fecha_inicio').val() == '' || $('#fecha_fin').val() == '')
-            return 0;
-
-
-        var start = $("#fecha_inicio").datepicker("getDate");
-        var end = $("#fecha_fin").datepicker("getDate");
+    //    if ($('#fecha_inicio').val() == '' || $('#fecha_fin').val() == '')
+    //        return 0;
 
 
-        var dias = (end - start) / (1000 * 60 * 60 * 24);
-
-        if (dias < 0) {
-            $("#fnFecha .errorMsg").html("La fecha de fin debe ser mayor o igual a la fecha de inicio.");
-            $("#fecha_inicio").val('');
-            $("#fecha_inicio").addClass("inputError");
-        }
-        else {
-            $("#fnFecha .errorMsg").html('');
-            $("#fecha_inicio").removeClass("inputError");
-        }
+    //    var start = $("#fecha_inicio").datepicker("getDate");
+    //    var end = $("#fecha_fin").datepicker("getDate");
 
 
-    });
+    //    var dias = (end - start) / (1000 * 60 * 60 * 24);
 
-    $('#fecha_fin').change(function () {
-
-        if ($('#fecha_fin').val() == '')
-            return 0;
-
-
-        var start = $("#fecha_inicio").datepicker("getDate");
-        var end = $("#fecha_fin").datepicker("getDate");
-
-
-        var dias = (end - start) / (1000 * 60 * 60 * 24);
-
-        if (dias < 0) {
-            $("#fnFecha .errorMsg2").html("La fecha de fin debe ser mayor o igual a la fecha de inicio.");
-            $("#fecha_fin").val('');
-            $("#fecha_fin").addClass("inputError");
-        }
-        else {
-            $("#fnFecha .errorMsg2").html('');
-            $("#fecha_fin").removeClass("inputError");
-        }
+    //    if (dias < 0) {
+    //        $("#fnFecha .errorMsg").html("La fecha de fin debe ser mayor o igual a la fecha de inicio.");
+    //        $("#fecha_inicio").val('');
+    //        $("#fecha_inicio").addClass("inputError");
+    //    }
+    //    else {
+    //        $("#fnFecha .errorMsg").html('');
+    //        $("#fecha_inicio").removeClass("inputError");
+    //    }
 
 
-    });
+    //});
 
-    $('#CantidadFacturas,#Costo,#fecha_fin,#fecha_inicio').change(function () {
-        generarTabla();
-    });
+    //$('#fecha_fin').change(function () {
+
+    //    if ($('#fecha_fin').val() == '')
+    //        return 0;
+
+
+    //    var start = $("#fecha_inicio").datepicker("getDate");
+    //    var end = $("#fecha_fin").datepicker("getDate");
+
+
+    //    var dias = (end - start) / (1000 * 60 * 60 * 24);
+
+    //    if (dias < 0) {
+    //        $("#fnFecha .errorMsg2").html("La fecha de fin debe ser mayor o igual a la fecha de inicio.");
+    //        $("#fecha_fin").val('');
+    //        $("#fecha_fin").addClass("inputError");
+    //    }
+    //    else {
+    //        $("#fnFecha .errorMsg2").html('');
+    //        $("#fecha_fin").removeClass("inputError");
+    //    }
+
+
+    //});
+
+    //$('#CantidadFacturas,#Costo,#fecha_fin,#fecha_inicio').change(function () {
+    //    generarTabla();
+    //});
 
 });

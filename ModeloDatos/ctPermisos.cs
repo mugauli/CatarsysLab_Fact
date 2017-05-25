@@ -17,14 +17,14 @@ namespace ModeloDatos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
         public ctPermisos()
         {
-            this.PerfilPermiso = new HashSet<PerfilPermiso>();
+            this.EmpleadoPermiso = new HashSet<EmpleadoPermiso>();
         }
     
         public int Id_Permisos { get; set; }
         public string Nombre_Permiso { get; set; }
-        public int Id_Tipo_Permiso { get; set; }
+        public bool Estado_Permiso { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<PerfilPermiso> PerfilPermiso { get; set; }
+        public virtual ICollection<EmpleadoPermiso> EmpleadoPermiso { get; set; }
     }
 }

@@ -28,5 +28,7 @@ namespace DTO.Gestion
         public Nullable<bool> Estado { get; set; }
         public Nullable<int> Id_Perfil { get; set; }
 
+        public virtual List<EmpleadoPermisoDTO> EmpleadoPermiso { get; set; }
+
     }
 }

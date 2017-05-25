@@ -19,6 +19,21 @@ namespace CatarsysLab_Fact.Controllers
             return View();
         }
 
+        [AllowAnonymous]
+        public ActionResult Login(string Usuario, string Password)
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        //[ValidateAntiForgeryToken]
+        public ActionResult LoginIn(string Usuario, string Password)
+        {
+            
+            return RedirectToAction("Index", "Home");
+        }
+
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
