@@ -17,221 +17,276 @@
                     </button>
                 </div>
                 <div class="modal-body" id="contAgregar">
-                    <form class="form-horizontal" role="form" id="fnGuardarProyecto">
-                        <input type="hidden" name="idProyecto" id="idProyecto" />
-                        <input type="hidden" name="frIdEmpresa" id="frIdEmpresa" />
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#ServiciosFacturar">Servicios a Facturar</a></li>
+                        <li><a data-toggle="tab" href="#DatosFiscales">Datos Fiscales</a></li>
+                        <li><a data-toggle="tab" href="#VistaPrevia">Vista Previa</a></li>
+                        <li><a data-toggle="tab" href="#menu1">Descargar y Enviar</a></li>
+                    </ul>
 
-                        <div class="row" id="fnCliente">
-                            <div class="form-group col-md-6">
-                                <label class="col-md-3 control-label">Cliente:</label>
-                                <div class="col-md-9">
-                                    <select class="form-control" name="Cliente" id="Cliente" tabindex="1">
-                                        <option value="0">Seleccione</option>
-                                        @*@foreach (var emp in Model.ctClientes)
-                                        {
-                                            <option value="@emp.Id_Cliente">@emp.Nombre_Cliente</option>
-                                        }*@
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-xs-12">
-                                <div class="col-xs-6 ">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-9 errorMsg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" id="fnNombreProyecto">
-                            <div class="form-group col-md-12">
-                                <label class="col-md-2 control-label" style="width: 12%;">Nombre Proyecto:</label>
-                                <div class="col-md-10" style="width: 88%;">
-                                    <input type="text" class="form-control" id="NombreProyecto" name="NombreProyecto" tabindex="2">
-                                </div>
-                            </div>
-                            <div class="col-xs-12">
-                                <div class="col-xs-6 ">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-9 errorMsg"></div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row" id="fnFecha">
-                            <div class="form-group col-md-6">
-                                <label class="col-md-3 control-label">Fecha Inicio:</label>
-                                <div class="col-md-9">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="fecha_inicio" name="fecha_inicio" tabindex="2">
-                                        <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
-                                    </div><!-- input-group -->
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="col-md-3 control-label">Fecha Fin:</label>
-                                <div class="col-md-9">
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="fecha_fin" name="fecha_fin" tabindex="4">
-                                        <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
-                                    </div><!-- input-group -->
-                                </div>
-                            </div>
-                            <div class="col-xs-12">
-                                <div class="col-xs-6 ">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-9 errorMsg"></div>
-                                </div>
-                                <div class="col-xs-6 ">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-9 errorMsg2"></div>
-                                </div>
-                            </div>
-                        </div>
+                    <div class="tab-content">
+                        <div id="ServiciosFacturar" class="tab-pane fade in active">
+                            <form class="form-horizontal" role="form" id="fnGuardarProyecto">
+                                <input type="hidden" name="idProyecto" id="idProyecto" />
+                                <input type="hidden" name="frIdEmpresa" id="frIdEmpresa" />
 
-                        <div class="row" id="fnCostoMoneda">
-                            <div class="form-group col-md-6">
-                                <label class="col-md-3 control-label">Costo pactado:</label>
-                                <div class="col-md-9">
-                                    <input type="number" class="form-control" id="Costo" name="Costo" tabindex="5">
-                                </div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="col-md-3 control-label">Moneda a Fact:</label>
-                                <div class="col-md-9">
-                                    <select class="form-control" tabindex="6" name="Moneda" id="Moneda">
-                                        <option value="0">Seleccione</option>
-                                        @*@foreach (var emp in Model.ctMoneda)
-                                        {
-                                            <option value="@emp.C_Id_Moneda">@emp.C_Desc_Moneda</option>
-                                        }*@
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-xs-12">
-                                <div class="col-xs-6 ">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-9 errorMsg"></div>
-                                </div>
-                                <div class="col-xs-6 ">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-9 errorMsg2"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row" id="fnCantidadTipo">
-                            <div class="form-group col-md-6">
-                                <label class="col-md-3 control-label">Cantidad Facturas:</label>
-                                <div class="col-md-9">
-                                    <input type="number" class="form-control" id="CantidadFacturas" name="CantidadFacturas" tabindex="7">
-                                </div>
-                                <div class="col-xs-12 error"></div>
-                            </div>
-                            <div class="form-group col-md-6">
-                                <label class="col-md-3 control-label">Tipo de cambio:</label>
-                                <div class="col-md-9">
-                                    <select class="form-control" name="TipoCambio" id="TipoCambio" tabindex="8">
-                                        <option value="0">Seleccione</option>
-                                        @*@foreach (var emp in Model.ctTipoCambio)
-                                        {
-                                            <option value="@emp.C_Id_Tipo_Cambio">@emp.C_Desc_Tipo_Cambio</option>
-                                        }*@
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-xs-12">
-                                <div class="col-xs-6 ">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-9 errorMsg"></div>
-                                </div>
-                                <div class="col-xs-6 ">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-9 errorMsg2"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row" id="fnIVA">
-                            <div class="form-group col-md-6">
-                                <label class="col-md-3 control-label">IVA a fact:</label>
-                                <div class="col-md-9">
-                                    <select class="form-control" tabindex="9" name="IVA" id="IVA">
-                                        <option value="0">Seleccione</option>
-                                        @*@foreach (var emp in Model.ctIva)
-                                        {
-                                            <option value="@emp.C_Id_IVA">@emp.C_Desc_IVA</option>
-                                        }*@
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <a href="#" id="btnVerFacturas" class="btn btn-primary">Ver Facturas de esta asignación</a>
-                            </div>
-                            <div class="col-xs-12">
-                                <div class="col-xs-6 ">
-                                    <div class="col-xs-3"></div>
-                                    <div class="col-xs-9 errorMsg"></div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="row" id="fnTablaFacturas">
-                            <div class="col-xs-12">
-                                <div class="card-box table-responsive">
-                                    <input type="hidden" name="tablaJSON" id="tablaJSON" />
-                                    <table id="datatableFacturasProyecto" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Monto</th>
-                                                <th>Fecha de Facturación</th>
-                                                <th>Facturado</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @*@foreach (var emp in Model.Facturas)
+                                <div class="row" id="fnCliente">
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label">Cliente:</label>
+                                        <div class="col-md-9">
+                                            <select class="form-control" name="Cliente" id="Cliente" tabindex="1">
+                                                <option value="0">Seleccione</option>
+                                                @foreach (var emp in Model.ctClientes)
                                                 {
-                                                    <tr>
-                                                        <th>@emp.Id_Factura</th>
-                                                        <th>@emp.Monto</th>
-                                                        <th>@emp.FechaFactura</th>
-                                                    </tr>
-                                                }*@
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                        <div class="row">
-                            <div class="form-group col-md-6">
-                                <label class="col-md-3 control-label">Activa:</label>
-                                <div class="col-md-9">
-                                    <div class="contEstado col-md-6  col-centered">
-                                        <label class="radio-inline">
-                                            <input type="radio" name="estado" tabindex="10" value="1" id="rdSI">SI
-                                        </label>
-                                        <label class="radio-inline">
-                                            <input type="radio" checked name="estado" tabindex="11" value="0" id="rdNO">NO
-                                        </label>
+                                                    <option value="@emp.Id_Cliente">@emp.Nombre_Cliente</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">                                        
+                                        <div class="col-md-12">
+                                            <div class="contEstado col-md-12  col-centered">
+                                                <label class="radio-inline">
+                                                    <input type="radio" name="asigProy" tabindex="2" value="1" id="rdFact">Asignación
+                                                </label>
+                                                <label class="radio-inline">
+                                                    <input type="radio" checked name="asigProy" tabindex="3" value="0" id="rdProy">Proyecto
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-6 ">
+                                            <div class="col-xs-3"></div>
+                                            <div class="col-xs-9 errorMsg"></div>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="col-md-6">
-                                <a href="#" id="btnFacturar" class="btn btn-primary">Facturar</a>
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="form-group col-md-12">
-                                <label class="col-md-2 control-label" style="width: 12%;">Comentarios:</label>
-                                <div class="col-md-10" style="width: 88%;">
-                                    <textarea class="form-control" name="Comentarios" id="Comentarios" cols="40" rows="5" maxlength="250"></textarea>
+                                <div class="asignacion">
+                                    <div class="row" id="fnCliente">
+                                        <div class="form-group col-md-6">
+                                            <label class="col-md-3 control-label">Cliente:</label>
+                                            <div class="col-md-9">
+                                                <select class="form-control" name="Cliente" id="Cliente" tabindex="4">
+                                                    <option value="0">Seleccione</option>
+                                                    @foreach (var emp in Model.ctEmpleado)
+                                                    {
+                                                        <option value="@emp.Id_Empleado">@emp.Nombre_Empleado</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-6 ">
+                                                <div class="col-xs-3"></div>
+                                                <div class="col-xs-9 errorMsg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row" id="fnFecha">
+                                        <div class="form-group col-md-6">
+                                            <label class="col-md-3 control-label">Fecha Inicio:</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="fecha_inicio" name="fecha_inicio" tabindex="5">
+                                                    <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
+                                                </div><!-- input-group -->
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label class="col-md-3 control-label">Fecha Fin:</label>
+                                            <div class="col-md-9">
+                                                <div class="input-group">
+                                                    <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="fecha_fin" name="fecha_fin" tabindex="6">
+                                                    <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
+                                                </div><!-- input-group -->
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-6 ">
+                                                <div class="col-xs-3"></div>
+                                                <div class="col-xs-9 errorMsg"></div>
+                                            </div>
+                                            <div class="col-xs-6 ">
+                                                <div class="col-xs-3"></div>
+                                                <div class="col-xs-9 errorMsg2"></div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                                <div class="proyecto">
+                                    <div class="row" id="fnNombreProyecto">
+                                        <div class="form-group col-md-12">
+                                            <label class="col-md-2 control-label" style="width: 12%;">Nombre Proyecto:</label>
+                                            <div class="col-md-10" style="width: 88%;">
+                                                <select class="form-control" name="Cliente" id="Cliente" tabindex="7">
+                                                    <option value="0">Seleccione</option>
+                                                    @foreach (var emp in Model.ctProyectos)
+                                                    {
+                                                        <option value="@emp.Id_Proyectos">@emp.Nombre_Proyectos</option>
+                                                    }
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-xs-12">
+                                            <div class="col-xs-6 ">
+                                                <div class="col-xs-3"></div>
+                                                <div class="col-xs-9 errorMsg"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
-                    </form>
+                                <div class="row" id="fnCostoMoneda">
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label">Monto:</label>
+                                        <div class="col-md-9">
+                                            <input type="number" class="form-control" id="Monto" name="Monto" tabindex="8">
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label">IVA a fact:</label>
+                                        <div class="col-md-9">
+                                            <select class="form-control" tabindex="9" name="IVA" id="IVA">
+                                                <option value="0">Seleccione</option>
+                                                @foreach (var emp in Model.ctIva)
+                                                {
+                                                    <option value="@emp.C_Id_IVA">@emp.C_Desc_IVA</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-6 ">
+                                            <div class="col-xs-3"></div>
+                                            <div class="col-xs-9 errorMsg"></div>
+                                        </div>
+                                        <div class="col-xs-6 ">
+                                            <div class="col-xs-3"></div>
+                                            <div class="col-xs-9 errorMsg2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="fnCantidadTipo">
+
+
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-6 ">
+                                            <div class="col-xs-3"></div>
+                                            <div class="col-xs-9 errorMsg"></div>
+                                        </div>
+                                        <div class="col-xs-6 ">
+                                            <div class="col-xs-3"></div>
+                                            <div class="col-xs-9 errorMsg2"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row" id="fnIVA">
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label">Moneda a Fact:</label>
+                                        <div class="col-md-9">
+                                            <select class="form-control" tabindex="10" name="Moneda" id="Moneda">
+                                                <option value="0">Seleccione</option>
+                                                @foreach (var emp in Model.ctMoneda)
+                                                {
+                                                    <option value="@emp.C_Id_Moneda">@emp.C_Desc_Moneda</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label">Tipo de cambio:</label>
+                                        <div class="col-md-9">
+                                            <select class="form-control" name="TipoCambio" id="TipoCambio" tabindex="11">
+                                                <option value="0">Seleccione</option>
+                                                @foreach (var emp in Model.ctTipoCambio)
+                                                {
+                                                    <option value="@emp.C_Id_Tipo_Cambio">@emp.C_Desc_Tipo_Cambio</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12">
+                                        <div class="col-xs-6 ">
+                                            <div class="col-xs-3"></div>
+                                            <div class="col-xs-9 errorMsg"></div>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+                                <div class="row">
+                                    <div class="form-group col-md-12">
+                                        
+                                        <div class="col-md-offset-6">
+                                            <div class="contEstado" style="float: right;font-weight: bold;">
+                                                <table style="width:100%; text-align:right;">
+                                                    <tr>
+                                                        <td>Sub-Total:</td>
+                                                        <td>$12,000.00 USD</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>IVA:</td>
+                                                        <td>$1,920.00 USD</td>
+
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Total:</td>
+                                                        <td>$13,920.00 USD</td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label">Información Adicional:</label>
+                                        <div class="col-md-9" >
+                                            <textarea class="form-control" name="Comentarios" id="Comentarios" cols="40" rows="5" maxlength="250"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label">Tipo de cambio:</label>
+                                        <div class="col-md-9">
+                                            <select class="form-control" name="TipoCambio" id="TipoCambio" tabindex="11">
+                                                <option value="0">Seleccione</option>
+                                                @foreach (var emp in Model.ctMetodoPago)
+                                                {
+                                                    <option value="@emp.C_ID_Metodo_Pago">@emp.C_de_Metodo_Pago</option>
+                                                }
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label">Últimos 4 Digitos:</label>
+                                        <div class="col-md-9">
+                                            <input type="number" class="form-control" id="txtDigitos" name="txtDigitos" tabindex="12">                                            
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div id="DatosFiscales" class="tab-pane fade">
+                            <h3>Menu 1</h3>
+                            <p>Some content in menu 1.</p>
+                        </div>
+                        <div id="VistaPrevia" class="tab-pane fade">
+                            <input type="file" id="FileUpload1" multiple />
+                            <button type="button" id="btnUpload" class="btn btn-primary" value="Subir"></button>
+                        </div>
+                        <div id="DescargarEnviar" class="tab-pane fade">
+                            <h3>Menu 1</h3>
+                            <p>Some content in menu 1.</p>
+                        </div>
+                    </div>
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
@@ -241,7 +296,6 @@
         </div>
     </div>
     <!-- End Modal-->
-
     <!-- Page Title -->
     <div class="row">
         <div class="col-sm-12">
@@ -260,7 +314,7 @@
                             <th>Facturado</th>
                             <th>Día de facturación</th>
                             <th>Estado</th>
-                            <th>Acciones</th>                            
+                            <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody></tbody>

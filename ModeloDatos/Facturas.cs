@@ -14,6 +14,12 @@ namespace ModeloDatos
     
     public partial class Facturas
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Facturas()
+        {
+            this.DocumentosFacturas = new HashSet<DocumentosFacturas>();
+        }
+    
         public int IdFactura { get; set; }
         public int IdCliente { get; set; }
         public int IdEmpresa { get; set; }
@@ -41,5 +47,7 @@ namespace ModeloDatos
         public virtual Clientes Clientes { get; set; }
         public virtual Empresa Empresa { get; set; }
         public virtual Proyectos Proyectos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DocumentosFacturas> DocumentosFacturas { get; set; }
     }
 }

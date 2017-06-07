@@ -1,0 +1,499 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<frases>
+ <frase id="1" enun1="El ratón es negro" enun2="gordo.">
+   <opcion correct="1">y</opcion>
+   <opcion correct="0">por</opcion>
+   <opcion correct="0">con</opcion>
+ </frase>
+ <frase id="2" enun1="El agua está fresca" enun2="sucia.">
+   <opcion correct="1">pero</opcion>
+   <opcion correct="0">a</opcion>
+   <opcion correct="0">por</opcion>
+ </frase>
+ <frase id="3" enun1="Luis es bueno" enun2="mentiroso.">
+   <opcion correct="1">aunque</opcion>
+   <opcion correct="0">desde</opcion>
+   <opcion correct="0">por</opcion>
+ </frase>
+ <frase id="4" enun1="Las galletas son ricas" enun2="engordan.">
+   <opcion correct="1">pero</opcion>
+   <opcion correct="0">si</opcion>
+   <opcion correct="0">con</opcion>
+ </frase>
+ <frase id="5" enun1="Ganamos el partido" enun2="trofeo.">
+   <opcion correct="0">desde</opcion>
+   <opcion correct="1">y</opcion>
+   <opcion correct="0">a</opcion>
+ </frase>
+ <frase id="6" enun1="Me gusta el melón" enun2="sal.">
+   <opcion correct="1">con</opcion>
+   <opcion correct="0">y</opcion>
+   <opcion correct="0">pero</opcion>
+ </frase>
+ <frase id="7" enun1="Tengo ganas de dormir" enun2="despertar.">
+   <opcion correct="1">sin</opcion>
+   <opcion correct="0">y</opcion>
+   <opcion correct="0">por</opcion>
+ </frase>
+ <frase id="8" enun1="Hay estufas de gas" enun2="de electricidad.">
+   <opcion correct="0">con</opcion>
+   <opcion correct="0">pero</opcion>
+   <opcion correct="1">y</opcion>
+ </frase>
+ <frase id="9" enun1="No me gusta el chile" enun2="la salsa.">
+   <opcion correct="1">ni</opcion>
+   <opcion correct="0">pero</opcion>
+   <opcion correct="0">a</opcion>
+ </frase>
+ <frase id="10" enun1="No funciona el radio" enun2="no hay luz.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="1">porque</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="11" enun1="La película fue divertida" enun2="duró mucho.">
+   <opcion correct="0">a pesar</opcion>
+   <opcion correct="1">sin embargo</opcion>
+   <opcion correct="0">excepto</opcion>
+ </frase>
+ <frase id="12" enun1="Paco hizo un bonito dibujo" enun2="no ganó el concurso.">
+   <opcion correct="0">excepto</opcion>
+   <opcion correct="0">sino</opcion>
+   <opcion correct="1">pero</opcion>
+ </frase>
+ <frase id="13" enun1="María planchó la ropa" enun2="los pantalones.">
+   <opcion correct="0">pero</opcion>
+   <opcion correct="0">sino</opcion>
+   <opcion correct="1">excepto</opcion>
+ </frase>
+ <frase id="14" enun1="La bicicleta no es de Toño" enun2="de Beto.">
+   <opcion correct="0">pero</opcion>
+   <opcion correct="1">sino</opcion>
+   <opcion correct="0">aunque</opcion>
+ </frase>
+ <frase id="15" enun1="Ana no quiere ir al cine" enun2="al teatro.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="1">pero sí</opcion>
+   <opcion correct="0">no obstante</opcion>
+ </frase>
+ <frase id="16" enun1="A José no le gusta el fútbol" enun2="el béisbol.">
+   <opcion correct="0">sin embargo</opcion>
+   <opcion correct="1">aunque sí</opcion>
+   <opcion correct="0">más</opcion>
+ </frase>
+ <frase id="17" enun1="Lucía no sirvió la sopa" enun2="el postre.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="1">pero sí</opcion>
+ </frase>
+ <frase id="18" enun1="El mar no es gris" enun2="azul.">
+   <opcion correct="1">sino</opcion>
+   <opcion correct="0">entre</opcion>
+   <opcion correct="0">porque</opcion>
+ </frase>
+ <frase id="19" enun1="No terminé la tarea" enun2="hasta la mitad.">
+   <opcion correct="1">sólo</opcion>
+   <opcion correct="0">ante</opcion>
+   <opcion correct="0">y</opcion>
+ </frase>
+ <frase id="20" enun1="Mi tía no tenía cáncer" enun2="una infección.">
+   <opcion correct="1">sino</opcion>
+   <opcion correct="0">de</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="21" enun1="La maestra no es regañona" enun2="exigente.">
+   <opcion correct="0">pero</opcion>
+   <opcion correct="1">sino</opcion>
+   <opcion correct="0">con</opcion>
+ </frase>
+ <frase id="22" enun1="René es fuerte" enun2="torpe.">
+   <opcion correct="1">aunque</opcion>
+   <opcion correct="0">hasta</opcion>
+   <opcion correct="0">si</opcion>
+ </frase>
+ <frase id="23" enun1="A Laura le gusta el cine" enun2="la televisión.">
+   <opcion correct="0">con</opcion>
+   <opcion correct="1">y</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="24" enun1="A Gaby no le gusta el calor" enun2="el frío.">
+   <opcion correct="0">a</opcion>
+   <opcion correct="1">ni</opcion>
+   <opcion correct="0">del</opcion>
+ </frase>
+ <frase id="25" enun1="A Norma no le gusta la fruta" enun2="el mango.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="0">porque</opcion>
+   <opcion correct="1">excepto</opcion>
+ </frase>
+ <frase id="26" enun1="No me gustó el pollo" enun2="picaba.">
+   <opcion correct="0">de</opcion>
+   <opcion correct="0">sino</opcion>
+   <opcion correct="1">porque</opcion>
+ </frase>
+ <frase id="27" enun1="Me pondré chamarra" enun2="hace frío.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="1">porque</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="28" enun1="Voy a comer" enun2="tengo hambre.">
+   <opcion correct="1">porque</opcion>
+   <opcion correct="0">hasta</opcion>
+   <opcion correct="0">aunque</opcion>
+ </frase>
+ <frase id="29" enun1="El tigre ataca" enun2="tiene hambre.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="1">cuando</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="30" enun1="El gallo canta" enun2="sale el sol.">
+   <opcion correct="1">cuando</opcion>
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="31" enun1="Luis baila" enun2="escucha rock.">
+   <opcion correct="0">pero</opcion>
+   <opcion correct="1">cuando</opcion>
+   <opcion correct="0">porque</opcion>
+ </frase>
+ <frase id="32" enun1="Ana lloró mucho" enun2="la inyectaron.">
+   <opcion correct="1">porque</opcion>
+   <opcion correct="0">cuando</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="33" enun1="Juan se fue a jugar" enun2="no tiene tarea.">
+   <opcion correct="1">porque</opcion>
+   <opcion correct="0">cuando</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="34" enun1="El aire está frío" enun2="no demasiado.">
+   <opcion correct="0">desde</opcion>
+   <opcion correct="1">aunque</opcion>
+   <opcion correct="0">ante</opcion>
+ </frase>
+ <frase id="35" enun1="La cerveza emborracha" enun2="si tomas mucha.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="1">sólo</opcion>
+   <opcion correct="0">para</opcion>
+ </frase>
+ <frase id="36" enun1="Te va a dar frío" enun2="no te abrigas.">
+   <opcion correct="0">entre</opcion>
+   <opcion correct="0">para</opcion>
+   <opcion correct="1">si</opcion>
+ </frase>
+ <frase id="37" enun1="Nos subiremos al tren" enun2="que se detenga.">
+   <opcion correct="0">con</opcion>
+   <opcion correct="0">desde</opcion>
+   <opcion correct="1">hasta</opcion>
+ </frase>
+ <frase id="38" enun1="Las abejas pican" enun2="las molestan.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="1">cuando</opcion>
+   <opcion correct="0">pero</opcion>
+ </frase>
+ <frase id="39" enun1="El agua quema" enun2="está muy caliente.">
+   <opcion correct="1">si</opcion>
+   <opcion correct="0">con</opcion>
+   <opcion correct="0">para</opcion>
+ </frase>
+ <frase id="40" enun1="Apenas amanece" enun2="canta el gallo.">
+   <opcion correct="1">y</opcion>
+   <opcion correct="0">de</opcion>
+   <opcion correct="0">o</opcion>
+ </frase>
+ <frase id="41" enun1="No me gusta la sopa" enun2="las verduras.">
+   <opcion correct="0">pero</opcion>
+   <opcion correct="1">ní</opcion>
+   <opcion correct="0">si</opcion>
+ </frase>
+ <frase id="42" enun1="Me aprieta el zapato" enun2="el cinturón.">
+   <opcion correct="0">en</opcion>
+   <opcion correct="1">y</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="43" enun1="No llegó Juana" enun2="su esposo.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="0">desde</opcion>
+   <opcion correct="1">ni</opcion>
+ </frase>
+ <frase id="44" enun1="La mesa está puesta" enun2="falta la comida.">
+   <opcion correct="0">desde</opcion>
+   <opcion correct="0">ni</opcion>
+   <opcion correct="1">pero</opcion>
+ </frase>
+ <frase id="45" enun1="Hay que apurarse" enun2="llegar temprano.">
+   <opcion correct="1">para</opcion>
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="0">o</opcion>
+ </frase>
+ <frase id="46" enun1="Si comes mucho" enun2="vas a engordar.">
+   <opcion correct="1">entonces</opcion>
+   <opcion correct="0">cuando</opcion>
+   <opcion correct="0">aunque</opcion>
+ </frase>
+ <frase id="47" enun1="Los lobos aúllan" enun2="hay luna llena.">
+   <opcion correct="0">entonces</opcion>
+   <opcion correct="1">cuando</opcion>
+   <opcion correct="0">para</opcion>
+ </frase>
+ <frase id="48" enun1="Me gusta jugar" enun2="también estudiar.">
+   <opcion correct="0">o</opcion>
+   <opcion correct="1">pero</opcion>
+   <opcion correct="0">cuando</opcion>
+ </frase>
+ <frase id="49" enun1="Ya amaneció" enun2="está nublado.">
+   <opcion correct="0">mientras</opcion>
+   <opcion correct="0">desde</opcion>
+   <opcion correct="1">aunque</opcion>
+ </frase>
+ <frase id="50" enun1="Hago la tarea" enun2="escucho música.">
+   <opcion correct="0">con</opcion>
+   <opcion correct="0">entonces</opcion>
+   <opcion correct="1">mientras</opcion>
+ </frase>
+ <frase id="51" enun1="Los barcos flotan" enun2="se pueden hundir.">
+   <opcion correct="1">pero</opcion>
+   <opcion correct="0">mientras</opcion>
+   <opcion correct="0">o</opcion>
+ </frase>
+ <frase id="52" enun1="El caballo relincha" enun2="está nervioso">
+   <opcion correct="1">cuando</opcion>
+   <opcion correct="0">desde</opcion>
+   <opcion correct="0">aunque</opcion>
+ </frase>
+ <frase id="53" enun1="Me pongo nervioso" enun2="hay examen.">
+   <opcion correct="0">y</opcion>
+   <opcion correct="1">cuando</opcion>
+   <opcion correct="0">ni</opcion>
+ </frase>
+ <frase id="54" enun1="Te caíste " enun2="caminar distraído.">
+   <opcion correct="0">de</opcion>
+   <opcion correct="1">por</opcion>
+   <opcion correct="0">con</opcion>
+ </frase>
+ <frase id="55" enun1="Las verduras tienen vitaminas" enun2="saben feo.">
+   <opcion correct="0">ni</opcion>
+   <opcion correct="0">desde</opcion>
+   <opcion correct="1">pero</opcion>
+ </frase>
+ <frase id="56" enun1="A Carlos lo castigan" enun2="no haga nada malo.">
+   <opcion correct="0">mientras</opcion>
+   <opcion correct="0">si</opcion>
+   <opcion correct="1">aunque</opcion>
+ </frase>
+ <frase id="57" enun1="No dijiste adiós" enun2="te fuiste.">
+   <opcion correct="0">ni</opcion>
+   <opcion correct="1">cuando</opcion>
+   <opcion correct="0">entonces</opcion>
+ </frase>
+ <frase id="58" enun1="Me aburro" enun2="estoy solo.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="1">cuando</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="59" enun1="Los moscos molestan y" enun2="pican.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="0">sin embargo</opcion>
+   <opcion correct="1">además</opcion>
+ </frase>
+ <frase id="60" enun1="Obedece ahora" enun2="no cuando tú quieras.">
+   <opcion correct="0">o</opcion>
+   <opcion correct="0">ni</opcion>
+   <opcion correct="1">y</opcion>
+ </frase>
+ <frase id="61" enun1="Si hierve la sopa" enun2="apagas la estufa.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="1">entonces</opcion>
+   <opcion correct="0">cuando</opcion>
+ </frase>
+ <frase id="62" enun1="Me dio gripa" enun2="no fui a la escuela.">
+   <opcion correct="1">y por eso</opcion>
+   <opcion correct="0">pero</opcion>
+   <opcion correct="0">hasts</opcion>
+ </frase>
+ <frase id="63" enun1="Estudié poco y" enun2="me fue bien">
+   <opcion correct="0">porque</opcion>
+   <opcion correct="1">sín embargo</opcion>
+   <opcion correct="0">aunque</opcion>
+ </frase>
+ <frase id="64" enun1="Aprendí a jugar ajedrez" enun2="es muy difícil.">
+   <opcion correct="0">con</opcion>
+   <opcion correct="1">aunque</opcion>
+   <opcion correct="0">mientras</opcion>
+ </frase>
+ <frase id="65" enun1="Comer en la calle es peligroso" enun2="te puedes enfermar.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="0">desdes</opcion>
+   <opcion correct="1">porque</opcion>
+ </frase>
+ <frase id="66" enun1="José dijo una mentira" enun2="lo descubrieron.">
+   <opcion correct="0">ni</opcion>
+   <opcion correct="0">o</opcion>
+   <opcion correct="1">y</opcion>
+ </frase>
+ <frase id="67" enun1="Aplasté una araña" enun2="quedó embarrada.">
+   <opcion correct="1">y</opcion>
+   <opcion correct="0">o</opcion>
+   <opcion correct="0">ni</opcion>
+ </frase>
+ <frase id="68" enun1="Si cenas mucho" enun2="puedes tener pesadillas.">
+   <opcion correct="1">entonces</opcion>
+   <opcion correct="0">porque</opcion>
+   <opcion correct="0">aunque</opcion>
+ </frase>
+ <frase id="69" enun1="Los artistas son famosos" enun2="los conoce mucha gente.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="1">porque</opcion>
+   <opcion correct="0">sin embargo</opcion>
+ </frase>
+ <frase id="70" enun1="El mantel está" enun2="la mesa.">
+   <opcion correct="0">por</opcion>
+   <opcion correct="1">sobre</opcion>
+   <opcion correct="0">según</opcion>
+ </frase>
+ <frase id="71" enun1="Podremos jugar" enun2="encontramos la pelota.">
+   <opcion correct="0">no</opcion>
+   <opcion correct="0">ní</opcion>
+   <opcion correct="1">si</opcion>
+ </frase>
+ <frase id="72" enun1="No habrá calor" enun2="el sol.">
+   <opcion correct="0">ni</opcion>
+   <opcion correct="0">entre</opcion>
+   <opcion correct="1">sin</opcion>
+ </frase>
+ <frase id="73" enun1="Quiero trabajar" enun2="no mucho.">
+   <opcion correct="1">pero</opcion>
+   <opcion correct="0">hasta</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="74" enun1="Voy a llegar" enun2="la meta.">
+   <opcion correct="1">hasta</opcion>
+   <opcion correct="0">para</opcion>
+   <opcion correct="0">desde</opcion>
+ </frase>
+ <frase id="75" enun1="Vamos a jugar" enun2="el equipo más difícil.">
+   <opcion correct="0">según</opcion>
+   <opcion correct="1">contra</opcion>
+   <opcion correct="0">por</opcion>
+ </frase>
+ <frase id="76" enun1="Voy de vacaciones" enun2="la playa.">
+   <opcion correct="0">hasta</opcion>
+   <opcion correct="1">a</opcion>
+   <opcion correct="0">o</opcion>
+ </frase>
+ <frase id="77" enun1="El dentista cobra" enun2="cada consulta.">
+   <opcion correct="0">entre</opcion>
+   <opcion correct="0">hasta</opcion>
+   <opcion correct="1">por</opcion>
+ </frase>
+ <frase id="78" enun1="Mi casa queda" enun2="dos calles iguales.">
+   <opcion correct="0">contra</opcion>
+   <opcion correct="0">con</opcion>
+   <opcion correct="1">entre</opcion>
+ </frase>
+ <frase id="79" enun1="El hielo se derrite" enun2="el calor.">
+   <opcion correct="0">sin</opcion>
+   <opcion correct="1">con</opcion>
+   <opcion correct="0">para</opcion>
+ </frase>
+ <frase id="80" enun1="Podemos entrar al cine" enun2="pagamos el boleto.">
+   <opcion correct="0">por si</opcion>
+   <opcion correct="1">sólo si</opcion>
+   <opcion correct="0">para que</opcion>
+ </frase>
+ <frase id="81" enun1="Las flores son bonitas" enun2="no a todos les gustan.">
+   <opcion correct="1">pero</opcion>
+   <opcion correct="0">entonces</opcion>
+   <opcion correct="0">porque</opcion>
+ </frase>
+ <frase id="82" enun1="Es divertido el básquetbol" enun2="un poco cansado.">
+   <opcion correct="1">aunque</opcion>
+   <opcion correct="0">desde</opcion>
+   <opcion correct="0">hasta</opcion>
+ </frase>
+ <frase id="83" enun1="José Luis es simpático" enun2="muy feo.">
+   <opcion correct="0">hasta</opcion>
+   <opcion correct="0">hacia</opcion>
+   <opcion correct="1">aunque</opcion>
+ </frase>
+ <frase id="84" enun1="El elefante es grande" enun2="pesado.">
+   <opcion correct="0">o</opcion>
+   <opcion correct="0">no</opcion>
+   <opcion correct="1">y</opcion>
+ </frase>
+ <frase id="85" enun1="Mi papá se enoja" enun2="echamos relajo.">
+   <opcion correct="1">si</opcion>
+   <opcion correct="0">pero</opcion>
+   <opcion correct="0">por</opcion>
+ </frase>
+ <frase id="86" enun1="Podemos engordar" enun2="comemos mucho.">
+   <opcion correct="1">si</opcion>
+   <opcion correct="0">pero</opcion>
+   <opcion correct="0">hasta</opcion>
+ </frase>
+ <frase id="87" enun1="Si pongo atención" enun2="no me equivoco.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="1">entonces</opcion>
+   <opcion correct="0">pero</opcion>
+ </frase>
+ <frase id="88" enun1="Me puedo caer" enun2="me empujan.">
+   <opcion correct="0">o</opcion>
+   <opcion correct="1">sí</opcion>
+   <opcion correct="0">no</opcion>
+ </frase>
+ <frase id="89" enun1="Comer bien" enun2="significa comer mucho.">
+   <opcion correct="0">si</opcion>
+   <opcion correct="0">ní</opcion>
+   <opcion correct="1">no</opcion>
+ </frase>
+ <frase id="90" enun1="Se estrelló el camión" enun2="iba muy rápido.">
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="0">hasta</opcion>
+   <opcion correct="1">porque</opcion>
+ </frase>
+ <frase id="91" enun1="Hay que callarse" enun2="escuchar a la maestra.">
+   <opcion correct="1">para</opcion>
+   <opcion correct="0">pero</opcion>
+   <opcion correct="0">entonces</opcion>
+ </frase>
+ <frase id="92" enun1="Laura puede leer" enun2="estar comiendo.">
+   <opcion correct="1">y</opcion>
+   <opcion correct="0">sí</opcion>
+   <opcion correct="0">no</opcion>
+ </frase>
+ <frase id="93" enun1="Nadie puede cantar" enun2="chiflar al mismo tiempo.">
+   <opcion correct="0">a</opcion>
+   <opcion correct="1">y</opcion>
+   <opcion correct="0">de</opcion>
+ </frase>
+ <frase id="94" enun1="Seremos felices" enun2="no hay problemas.">
+   <opcion correct="0">y</opcion>
+   <opcion correct="1">sí</opcion>
+   <opcion correct="0">con</opcion>
+ </frase>
+ <frase id="95" enun1="Te van a regañar" enun2="dices groserías.">
+   <opcion correct="0">antes</opcion>
+   <opcion correct="1">sí</opcion>
+   <opcion correct="0">para</opcion>
+ </frase>
+ <frase id="96" enun1="Si un perro gruñe" enun2="hay que retirarse.">
+   <opcion correct="0">hasta</opcion>
+   <opcion correct="0">cuando</opcion>
+   <opcion correct="1">entonces</opcion>
+ </frase>
+ <frase id="97" enun1="Los ratones son buenos" enun2="en las caricaturas.">
+   <opcion correct="0">cuando</opcion>
+   <opcion correct="0">mientras</opcion>
+   <opcion correct="1">sólo</opcion>
+ </frase>
+ <frase id="98" enun1="La aspirina es buena" enun2="alivia el dolor.">
+   <opcion correct="1">porque</opcion>
+   <opcion correct="0">aunque</opcion>
+   <opcion correct="0">hasta</opcion>
+ </frase>
+ <frase id="99" enun1="Los dientes se pican" enun2="no te lavas los dientes.">
+   <opcion correct="1">cuando</opcion>
+   <opcion correct="0">entonces</opcion>
+   <opcion correct="0">siempre</opcion>
+ </frase>
+</frases>
+

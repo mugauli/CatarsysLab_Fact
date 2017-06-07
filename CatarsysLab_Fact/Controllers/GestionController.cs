@@ -7,6 +7,7 @@ using ModeloDatos.Gestion;
 using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -15,6 +16,8 @@ namespace CatarsysLab_Fact.Controllers
 {
     public class GestionController : Controller
     {
+        Helpers _helpers = new Helpers();
+
         #region Asignaciones
         // GET: Gestion
         public ActionResult Asignaciones()
@@ -377,7 +380,7 @@ namespace CatarsysLab_Fact.Controllers
         public JsonResult ObtenerProyecto(int IdProyecto)
         {
 
-            var gdAsignacion = new ProyectosData().ObtenerProyecto(IdProyecto, 2);
+            var gdAsignacion = new ProyectosData().ObtenerProyecto(IdProyecto,0, 2);
 
             if (gdAsignacion.Code != 0)
                 return Json(new { success = false, message = gdAsignacion.Message }, JsonRequestBehavior.AllowGet);
@@ -389,7 +392,106 @@ namespace CatarsysLab_Fact.Controllers
         #region Facturas
         public ActionResult Facturacion()
         {
-            return View();
+            Session[Constantes.Session.Empresa] = 1;
+            var _CatalogosData = new CatalogosData();
+            if (Session[Constantes.Session.Empresa] == null)
+            {
+                ViewBag.Titulo = "Info";
+                ViewBag.Mensaje = "Ocurrio un error al obtener la empresa seleccionada.";
+                return View("_InfoMensaje");
+            }
+
+            int IdEmpresa = Convert.ToInt32(Session[Constantes.Session.Empresa]);
+
+            ViewBag.Empresa = Convert.ToInt32(Session[Constantes.Session.Empresa]);
+
+            var response = new FacturacionModel();
+
+            #region Clientes
+            var clientes = new ClienteData().ObtenerClientes(0, IdEmpresa, 1);
+
+            if (clientes.Code != 0)
+            {
+                ViewBag.Titulo = "Info";
+                ViewBag.Mensaje = "Ocurrio un error al obtener los clientes activos. Error: " + clientes.Message;
+                return View("_InfoMensaje");
+            }
+            response.ctClientes = clientes.Result;
+            #endregion
+
+            #region ctMoneda
+            var Moneda = _CatalogosData.ObtenerMoneda();
+
+            if (Moneda.Code != 0)
+            {
+                ViewBag.Titulo = "Info";
+                ViewBag.Mensaje = "Ocurrio un error al obtener Moneda. Error: " + Moneda.Message;
+                return View("_InfoMensaje");
+            }
+            response.ctMoneda = Moneda.Result;
+            #endregion
+
+            #region ctIva
+            var Iva = _CatalogosData.ObtenerIVA();
+
+            if (Iva.Code != 0)
+            {
+                ViewBag.Titulo = "Info";
+                ViewBag.Mensaje = "Ocurrio un error al obtener IVA. Error: " + Iva.Message;
+                return View("_InfoMensaje");
+            }
+            response.ctIva = Iva.Result;
+            #endregion
+
+            #region ctMetodoPago
+            var ctMetodoPago = _CatalogosData.ObtenerMetodoPago();
+
+            if (ctMetodoPago.Code != 0)
+            {
+                ViewBag.Titulo = "Info";
+                ViewBag.Mensaje = "Ocurrio un error al obtener ctMetodoPago. Error: " + ctMetodoPago.Message;
+                return View("_InfoMensaje");
+            }
+            response.ctMetodoPago = ctMetodoPago.Result;
+            #endregion
+
+            #region tipoCambio
+            var tipoCambio = _CatalogosData.ObtenerTipoCambio();
+
+            if (tipoCambio.Code != 0)
+            {
+                ViewBag.Titulo = "Info";
+                ViewBag.Mensaje = "Ocurrio un error al obtener Tipo de Cambio. Error: " + tipoCambio.Message;
+                return View("_InfoMensaje");
+            }
+            response.ctTipoCambio = tipoCambio.Result;
+            #endregion
+            
+            #region Empleados
+            var Empleados = new EmpreadosData().ObtenerEmpleados(0,IdEmpresa,1);
+
+            if (Empleados.Code != 0)
+            {
+                ViewBag.Titulo = "Info";
+                ViewBag.Mensaje = "Ocurrio un error al obtener  los Empleados. Error: " + tipoCambio.Message;
+                return View("_InfoMensaje");
+            }
+            response.ctEmpleado = Empleados.Result;
+            #endregion
+
+            #region Proyectos
+            var Proyectos = new ProyectosData().ObtenerProyecto(0, IdEmpresa, 1);
+
+            if (Proyectos.Code != 0)
+            {
+                ViewBag.Titulo = "Info";
+                ViewBag.Mensaje = "Ocurrio un error al obtener  los Empleados. Error: " + tipoCambio.Message;
+                return View("_InfoMensaje");
+            }
+            response.ctProyectos = Proyectos.Result;
+            #endregion
+
+            return View(response);
         }
 
         [HttpPost]
@@ -466,6 +568,58 @@ namespace CatarsysLab_Fact.Controllers
 
             return Json(new { success = true, info = gdAsignacion.Result }, JsonRequestBehavior.AllowGet);
         }
+
+        [HttpPost]
+        public ActionResult UploadFiles()
+        {
+            // Checking no of files injected in Request object  
+            if (Request.Files.Count > 0)
+            {
+                try
+                {
+                    //  Get all files from Request object  
+                    HttpFileCollectionBase files = Request.Files;
+                    int IdFactura = Convert.ToInt32(Request.Form["IdFactura"]);
+                    var Descripcion = Request.Form["Descripcion"];
+
+                    for (int i = 0; i < files.Count; i++)
+                    {
+                        //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
+                        //string filename = Path.GetFileName(Request.Files[i].FileName);  
+
+                        HttpPostedFileBase file = files[i];
+                        string fname;
+
+                        // Checking for Internet Explorer  
+                        if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
+                        {
+                            string[] testfiles = file.FileName.Split(new char[] { '\\' });
+                            fname = testfiles[testfiles.Length - 1];
+                        }
+                        else
+                        {
+                            fname = file.FileName;
+                        }
+
+                        // Get the complete folder path and store the file inside it.  
+                        fname = Path.Combine(Server.MapPath("~/Facturas/"), fname);
+                        file.SaveAs(fname);
+                    }
+                    // Returns message that successfully uploaded  
+                    return Json("File Uploaded Successfully!");
+                }
+                catch (Exception ex)
+                {
+                    return Json("Error occurred. Error details: " + ex.Message);
+                }
+            }
+            else
+            {
+                return Json("No files selected.");
+            }
+        }
+
+
         #endregion
 
     }

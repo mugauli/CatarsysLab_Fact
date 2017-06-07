@@ -116,6 +116,9 @@
     <Compile Include="C_Tipo_Cambio.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="DocumentosFacturas.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="EmpleadoPermiso.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
@@ -130,6 +133,7 @@
     </Compile>
     <Compile Include="Gestion\AsignacionData.cs" />
     <Compile Include="Gestion\ClienteData.cs" />
+    <Compile Include="Gestion\DocumentosFacturasDTO.cs" />
     <Compile Include="Gestion\EmpreadosData.cs" />
     <Compile Include="Gestion\EmpresaData.cs" />
     <Compile Include="Gestion\FacturasData.cs" />

@@ -94,13 +94,15 @@ namespace ModeloDatos.Gestion
 
         /// <summary>
         /// Obtener Proyectos
-        /// Con idAsignacion = 0 regresara todas las asignaciones
-        /// Con estatusAsignacion =  0 regresara las asignaciones de cualquier estado
+        /// Con IdProyecto = 0 regresara todos los proyectos
+        /// Con IdEmpresa = 0 regresara todos los proyectos de todas las empresas
+        /// Con estado =  0 regresara los proyectos de cualquier estado
         /// </summary>
         /// <param name="idProyecto"></param>
+        /// <param name="idEmpresa"></param>
         /// <param name="estado"></param>
-        /// <returns></returns>
-        public MethodResponseDTO<List<ProyectosDTO>> ObtenerProyecto(int idProyecto, int estado)
+        /// <returns>Lista de proyectos</returns>
+        public MethodResponseDTO<List<ProyectosDTO>> ObtenerProyecto(int idProyecto,int idEmpresa, int estado)
         {
             using (var context = new DB_9F97CF_CatarsysSGCEntities())
             {
@@ -109,9 +111,11 @@ namespace ModeloDatos.Gestion
                     var response = new MethodResponseDTO<List<ProyectosDTO>>() { Code = 0 };
 
 
-                    var asignaciones = context.Proyectos.Where(x => (x.Id_Proyectos == idProyecto || idProyecto == 0) && (x.Estado == (estado == 1) || estado == 2)).ToList();
+                    var asignaciones = context.Proyectos.Where(x => (x.Id_Proyectos == idProyecto || idProyecto == 0) 
+                                                                     && (x.Estado == (estado == 1) || estado == 2)
+                                                                     && (x.Id_Empresa == idEmpresa|| idEmpresa == 0)).ToList();
                     response.Result = Mapper.Map<List<ProyectosDTO>>(asignaciones);
-
+                    
                     return response;
                 }
                 catch (Exception ex)
@@ -120,7 +124,17 @@ namespace ModeloDatos.Gestion
                 }
             }
         }
-
+        /// <summary>
+        /// Obtener proyectos de la base con paginacion
+        /// </summary>
+        /// <param name="page"></param>
+        /// <param name="size"></param>
+        /// <param name="sort"></param>
+        /// <param name="sortDireccion"></param>
+        /// <param name="filter"></param>
+        /// <param name="filter2"></param>
+        /// <param name="Id_Empresa"></param>
+        /// <returns></returns>
         public MethodResponseDTO<PaginacionDTO<List<ProyectosPaginadorDTO>>> ObtenerProyectosPaginacion(int page, int size, int sort, string sortDireccion, string filter, int filter2, int Id_Empresa)
         {
             using (var context = new DB_9F97CF_CatarsysSGCEntities())

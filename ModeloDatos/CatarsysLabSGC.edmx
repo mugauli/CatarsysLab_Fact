@@ -130,6 +130,20 @@
           <Property Name="Nombre_Permiso" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Estado_Permiso" Type="bit" Nullable="false" />
         </EntityType>
+        <!--Errores durante la generación:
+advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' no tiene definida ninguna clave principal. Se ha inferido la clave y la definición se creado como una vista o tabla de solo lectura.-->
+        <EntityType Name="DocumentosFacturas">
+          <Key>
+            <PropertyRef Name="IdDocumento" />
+            <PropertyRef Name="IdFactura" />
+            <PropertyRef Name="Url" />
+          </Key>
+          <Property Name="IdDocumento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdFactura" Type="int" Nullable="false" />
+          <Property Name="Url" Type="varchar" MaxLength="150" Nullable="false" />
+          <Property Name="Descripción" Type="varchar" MaxLength="250" />
+          <Property Name="Activo" Type="bit" />
+        </EntityType>
         <EntityType Name="EmpleadoPermiso">
           <Key>
             <PropertyRef Name="Id_Empleado" />
@@ -349,6 +363,18 @@
             </Principal>
             <Dependent Role="Contactos">
               <PropertyRef Name="Id_Cliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentosFacturas_Facturas">
+          <End Role="Facturas" Type="Self.Facturas" Multiplicity="1" />
+          <End Role="DocumentosFacturas" Type="Self.DocumentosFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="IdFactura" />
+            </Principal>
+            <Dependent Role="DocumentosFacturas">
+              <PropertyRef Name="IdFactura" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -645,6 +671,15 @@
           <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Facturas" EntityType="Self.Facturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyectos" EntityType="Self.Proyectos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentosFacturas" EntityType="Self.DocumentosFacturas" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [DocumentosFacturas].[IdDocumento] AS [IdDocumento], 
+    [DocumentosFacturas].[IdFactura] AS [IdFactura], 
+    [DocumentosFacturas].[Url] AS [Url], 
+    [DocumentosFacturas].[Descripción] AS [Descripción], 
+    [DocumentosFacturas].[Activo] AS [Activo]
+    FROM [dbo].[DocumentosFacturas] AS [DocumentosFacturas]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_Asignacion_Clientes" Association="Self.FK_Asignacion_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Asignacion" EntitySet="Asignacion" />
@@ -688,6 +723,10 @@
           <AssociationSet Name="FK_Contactos_Clientes" Association="Self.FK_Contactos_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Contactos" EntitySet="Contactos" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentosFacturas_Facturas" Association="Self.FK_DocumentosFacturas_Facturas">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="DocumentosFacturas" EntitySet="DocumentosFacturas" />
           </AssociationSet>
           <AssociationSet Name="FK_EmpleadoPermiso_ctPermisos" Association="Self.FK_EmpleadoPermiso_ctPermisos">
             <End Role="ctPermisos" EntitySet="ctPermisos" />
@@ -958,6 +997,11 @@
           <AssociationSet Name="FK_Facturas_Proyectos" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Proyectos">
             <End Role="Proyectos" EntitySet="Proyectos" />
             <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <EntitySet Name="DocumentosFacturas" EntityType="DB_9F97CF_CatarsysSGCModel.DocumentosFacturas" />
+          <AssociationSet Name="FK_DocumentosFacturas_Facturas" Association="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_Facturas">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="DocumentosFacturas" EntitySet="DocumentosFacturas" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_GetAsigPaginacion_Result">
@@ -1261,6 +1305,7 @@
           <NavigationProperty Name="Clientes" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Clientes" FromRole="Facturas" ToRole="Clientes" />
           <NavigationProperty Name="Empresa" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa" FromRole="Facturas" ToRole="Empresa" />
           <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Proyectos" FromRole="Facturas" ToRole="Proyectos" />
+          <NavigationProperty Name="DocumentosFacturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_Facturas" FromRole="Facturas" ToRole="DocumentosFacturas" />
         </EntityType>
         <EntityType Name="Proyectos">
           <Key>
@@ -1634,6 +1679,31 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="DocumentosFacturas">
+          <Key>
+            <PropertyRef Name="IdDocumento" />
+            <PropertyRef Name="IdFactura" />
+            <PropertyRef Name="Url" />
+          </Key>
+          <Property Name="IdDocumento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdFactura" Type="Int32" Nullable="false" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <Property Name="Descripción" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Boolean" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_Facturas" FromRole="DocumentosFacturas" ToRole="Facturas" />
+        </EntityType>
+        <Association Name="FK_DocumentosFacturas_Facturas">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.DocumentosFacturas" Role="DocumentosFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="IdFactura" />
+            </Principal>
+            <Dependent Role="DocumentosFacturas">
+              <PropertyRef Name="IdFactura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1946,6 +2016,17 @@
                 <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
                 <ScalarProperty Name="Id_Clientes_Proyectos" ColumnName="Id_Clientes_Proyectos" />
                 <ScalarProperty Name="Id_Proyectos" ColumnName="Id_Proyectos" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentosFacturas">
+            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.DocumentosFacturas">
+              <MappingFragment StoreEntitySet="DocumentosFacturas">
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Descripción" ColumnName="Descripción" />
+                <ScalarProperty Name="Url" ColumnName="Url" />
+                <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
+                <ScalarProperty Name="IdDocumento" ColumnName="IdDocumento" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -3,6 +3,7 @@ using DTO.Catalogos;
 using DTO.Gestion;
 using DTO.Paginador;
 using DTO.Seguridad;
+using ModeloDatos.Gestion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -184,6 +185,18 @@ namespace ModeloDatos
             Mapper.AssertConfigurationIsValid();
             #endregion
 
+            #region C_Metodo_Pago
+            //DB --> DTO
+            Mapper.CreateMap<C_Metodo_Pago, C_Metodo_PagoDTO>();
+            Mapper.AssertConfigurationIsValid();
+
+            //DTO --> DB
+
+            Mapper.CreateMap<C_Metodo_PagoDTO, C_Metodo_Pago>()
+               .ForMember(dest => dest.Facturas, opt => opt.Ignore());
+            Mapper.AssertConfigurationIsValid();
+            #endregion
+
             #region Clientes
             //DB --> DTO
             Mapper.CreateMap<Clientes, ClientesDTO>()
@@ -239,7 +252,20 @@ namespace ModeloDatos
                     .ForMember(dest => dest.C_Tipo_Cambio, opt => opt.Ignore())
                     .ForMember(dest => dest.Clientes, opt => opt.Ignore())
                     .ForMember(dest => dest.Empresa, opt => opt.Ignore())
-                    .ForMember(dest => dest.Proyectos, opt => opt.Ignore());
+                    .ForMember(dest => dest.Proyectos, opt => opt.Ignore())
+                    .ForMember(dest => dest.DocumentosFacturas, opt => opt.Ignore());
+            Mapper.AssertConfigurationIsValid();
+            #endregion
+
+            #region DocumentosFacturas
+            //DB --> DTO
+            Mapper.CreateMap<DocumentosFacturas, DocumentosFacturasDTO>();
+            Mapper.AssertConfigurationIsValid();
+
+            //DTO --> DB
+
+            Mapper.CreateMap<DocumentosFacturasDTO, DocumentosFacturas>()
+               .ForMember(dest => dest.Facturas, opt => opt.Ignore());
             Mapper.AssertConfigurationIsValid();
             #endregion
 

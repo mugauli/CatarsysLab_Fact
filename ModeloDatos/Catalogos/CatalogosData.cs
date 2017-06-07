@@ -194,5 +194,31 @@ namespace ModeloDatos.Catalogos
                 }
             }
         }
+
+        /// <summary>
+        /// Obtener Metodo de Pago
+        /// </summary>
+        /// <returns>Lista de tipo asignacion</returns>
+        public MethodResponseDTO<List<C_Metodo_PagoDTO>> ObtenerMetodoPago()
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<List<C_Metodo_PagoDTO>>() { Code = 0 };
+
+
+                    var metodoPago = context.C_Metodo_Pago.ToList();
+
+                    response.Result = Mapper.Map<List<C_Metodo_PagoDTO>>(metodoPago);
+
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<List<C_Metodo_PagoDTO>> { Code = -100, Message = "Obtener Metodo Pago DTO: " + ex.Message };
+                }
+            }
+        }
     }
 }

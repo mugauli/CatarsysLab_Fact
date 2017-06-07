@@ -181,7 +181,7 @@ $(document).ready(function () {
                     $("#btnFacturar").fadeIn();
                     $("#datatableFacturasProyecto").fadeIn();
 
-                    $("#addProyecto").modal("show");
+                    $("#addFactura").modal("show");
                 }
                 else
                     alert(response.message);
@@ -439,7 +439,8 @@ $(document).ready(function () {
             { "data": "Monto" },
             { "data": "Facturado" },
             { "data": "DiaFacturacion" },
-            { "data": "estado" }],
+            { "data": "estado" },
+            { "defaultContent": "<button type='button' class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button>" }],
         columnDefs: [
             {
                 "targets": [0],
@@ -448,14 +449,20 @@ $(document).ready(function () {
             }]
     });
 
+    $("datatable tbody").on("click", "button.editar", function () {
+        var data = table.row($(this).parents("tr")).data();
+
+        console.log(data);
+    });
+
     $('#datatable tbody').on('click', 'tr', function () {
         var data = table.row(this).data();
         cargarInfoModal(data["IdProyecto"]);
     });
 
-    $(".conBtnAgregar").html('<button type="button" id="agregarProy" class="btn btn-custom dropdown-toggle waves-effect waves-light" data-toggle="modal" data-target="#addProyecto">Agregar <span class="m-l-5"><i class="fa fa-plus-circle"></i></span></button>');
+    $(".conBtnAgregar").html('<button type="button" id="btnAddFactura" class="btn btn-custom dropdown-toggle waves-effect waves-light" data-toggle="modal" data-target="#addFactura">Agregar <span class="m-l-5"><i class="fa fa-plus-circle"></i></span></button>');
 
-    $("#agregarProy").click(function () {
+    $("#btnAddFactura").click(function () {
         $("#TitleModalAsignacion").html("Alta - Proyecto");
         $("#btnVerFacturas").fadeOut();
         $("#btnFacturar").fadeOut();
@@ -572,4 +579,44 @@ $(document).ready(function () {
     //    generarTabla();
     //});
 
+    $('#btnUpload').click(function () {
+
+        // Checking whether FormData is available in browser  
+        if (window.FormData !== undefined) {
+
+            var fileUpload = $("#FileUpload1").get(0);
+            var files = fileUpload.files;
+
+            // Create FormData object  
+            var fileData = new FormData();
+
+            // Looping over all files and add it to FormData object  
+            for (var i = 0; i < files.length; i++) {
+                fileData.append(files[i].name, files[i]);
+            }
+
+            // Adding one more key to FormData object  
+            fileData.append('IdFactura', "1");
+            fileData.append('Descripcion', "desc");
+
+            $.ajax({
+                url: '/Gestion/UploadFiles',
+                type: "POST",
+                contentType: false, // Not to set any content header  
+                processData: false, // Not to process data  
+                data: fileData,
+                success: function (result) {
+                    alert(result);
+                },
+                error: function (err) {
+                    alert(err.statusText);
+                }
+            });
+        } else {
+            alert("FormData is not supported.");
+        }
+    });  
+
 });
+
+
