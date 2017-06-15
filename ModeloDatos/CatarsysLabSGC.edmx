@@ -172,8 +172,9 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
           <Property Name="IsLogIn" Type="int" />
           <Property Name="Id_Perfil" Type="int" />
           <Property Name="Usuario_Empleado" Type="varchar" MaxLength="50" />
-          <Property Name="Password_Empleado" Type="varchar" MaxLength="50" />
+          <Property Name="Password_Empleado" Type="varchar" MaxLength="250" />
           <Property Name="Estado" Type="bit" />
+          <Property Name="Salt" Type="nvarchar" MaxLength="250" />
         </EntityType>
         <EntityType Name="Empresa">
           <Key>
@@ -878,7 +879,6 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
           <EntitySet Name="Contactos" EntityType="DB_9F97CF_CatarsysSGCModel.Contactos" />
           <EntitySet Name="ctPermisos" EntityType="DB_9F97CF_CatarsysSGCModel.ctPermisos" />
           <EntitySet Name="EmpleadoPermiso" EntityType="DB_9F97CF_CatarsysSGCModel.EmpleadoPermiso" />
-          <EntitySet Name="Empleados" EntityType="DB_9F97CF_CatarsysSGCModel.Empleados" />
           <EntitySet Name="Empresa" EntityType="DB_9F97CF_CatarsysSGCModel.Empresa" />
           <EntitySet Name="Facturas" EntityType="DB_9F97CF_CatarsysSGCModel.Facturas" />
           <EntitySet Name="Proyectos" EntityType="DB_9F97CF_CatarsysSGCModel.Proyectos" />
@@ -912,10 +912,6 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
           </AssociationSet>
           <AssociationSet Name="FK_Asignacion_Tipo" Association="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Tipo">
             <End Role="C_Tipo_Asignacion" EntitySet="C_Tipo_Asignacion" />
-            <End Role="Asignacion" EntitySet="Asignacion" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Asignacion_Usuario" Association="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Usuario">
-            <End Role="Empleados" EntitySet="Empleados" />
             <End Role="Asignacion" EntitySet="Asignacion" />
           </AssociationSet>
           <AssociationSet Name="FK_Facturas_Asignacion" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Asignacion">
@@ -974,18 +970,6 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
             <End Role="ctPermisos" EntitySet="ctPermisos" />
             <End Role="EmpleadoPermiso" EntitySet="EmpleadoPermiso" />
           </AssociationSet>
-          <AssociationSet Name="FK_EmpleadoPermiso_Empleados" Association="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_Empleados">
-            <End Role="Empleados" EntitySet="Empleados" />
-            <End Role="EmpleadoPermiso" EntitySet="EmpleadoPermiso" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Usuarios_Empresa" Association="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa">
-            <End Role="Empresa" EntitySet="Empresa" />
-            <End Role="Empleados" EntitySet="Empleados" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Usuarios_JefeInmediato" Association="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_JefeInmediato">
-            <End Role="Empleados" EntitySet="Empleados" />
-            <End Role="Empleados1" EntitySet="Empleados" />
-          </AssociationSet>
           <AssociationSet Name="FK_Facturas_Empresa" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Facturas" EntitySet="Facturas" />
@@ -1002,6 +986,23 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
           <AssociationSet Name="FK_DocumentosFacturas_Facturas" Association="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_Facturas">
             <End Role="Facturas" EntitySet="Facturas" />
             <End Role="DocumentosFacturas" EntitySet="DocumentosFacturas" />
+          </AssociationSet>
+          <EntitySet Name="Empleados" EntityType="DB_9F97CF_CatarsysSGCModel.Empleados" />
+          <AssociationSet Name="FK_Asignacion_Usuario" Association="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Usuario">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="Asignacion" EntitySet="Asignacion" />
+          </AssociationSet>
+          <AssociationSet Name="FK_EmpleadoPermiso_Empleados" Association="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_Empleados">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="EmpleadoPermiso" EntitySet="EmpleadoPermiso" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuarios_Empresa" Association="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Empleados" EntitySet="Empleados" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Usuarios_JefeInmediato" Association="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_JefeInmediato">
+            <End Role="Empleados" EntitySet="Empleados" />
+            <End Role="Empleados1" EntitySet="Empleados" />
           </AssociationSet>
           </EntityContainer>
         <ComplexType Name="sp_GetAsigPaginacion_Result">
@@ -1082,8 +1083,8 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
           <NavigationProperty Name="C_Moneda" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Moneda" FromRole="Asignacion" ToRole="C_Moneda" />
           <NavigationProperty Name="C_Periodos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Periodo" FromRole="Asignacion" ToRole="C_Periodos" />
           <NavigationProperty Name="C_Tipo_Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Tipo" FromRole="Asignacion" ToRole="C_Tipo_Asignacion" />
-          <NavigationProperty Name="Empleados" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Usuario" FromRole="Asignacion" ToRole="Empleados" />
           <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Asignacion" FromRole="Asignacion" ToRole="Facturas" />
+          <NavigationProperty Name="Empleados" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Usuario" FromRole="Asignacion" ToRole="Empleados" />
         </EntityType>
         <EntityType Name="C_Corte">
           <Key>
@@ -1224,33 +1225,6 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
           <NavigationProperty Name="ctPermisos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_ctPermisos" FromRole="EmpleadoPermiso" ToRole="ctPermisos" />
           <NavigationProperty Name="Empleados" Relationship="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_Empleados" FromRole="EmpleadoPermiso" ToRole="Empleados" />
         </EntityType>
-        <EntityType Name="Empleados">
-          <Key>
-            <PropertyRef Name="Id_Empleado" />
-          </Key>
-          <Property Name="Id_Empleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Id_Empresa" Type="Int32" />
-          <Property Name="Nombre_Empleado" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
-          <Property Name="Email_Empleado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Puesto_Empleado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Fecha_Nacimiento_Empleado" Type="DateTime" Precision="3" />
-          <Property Name="Antiguedad_Empleado" Type="DateTime" Precision="3" />
-          <Property Name="Skype_Empleado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Domicilio_Empleado" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
-          <Property Name="Telefono_L_Empleado" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Telefono_M_Empleado" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <Property Name="Id_JefeInmediato_Empleado" Type="Int32" />
-          <Property Name="IsLogIn" Type="Int32" />
-          <Property Name="Id_Perfil" Type="Int32" />
-          <Property Name="Usuario_Empleado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Password_Empleado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Estado" Type="Boolean" />
-          <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Usuario" FromRole="Empleados" ToRole="Asignacion" />
-          <NavigationProperty Name="EmpleadoPermiso" Relationship="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_Empleados" FromRole="Empleados" ToRole="EmpleadoPermiso" />
-          <NavigationProperty Name="Empresa" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa" FromRole="Empleados" ToRole="Empresa" />
-          <NavigationProperty Name="Empleados1" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_JefeInmediato" FromRole="Empleados" ToRole="Empleados1" />
-          <NavigationProperty Name="Empleados2" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_JefeInmediato" FromRole="Empleados1" ToRole="Empleados" />
-        </EntityType>
         <EntityType Name="Empresa">
           <Key>
             <PropertyRef Name="Id_Empresa" />
@@ -1271,9 +1245,9 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
           <Property Name="Estado_Empresa" Type="Boolean" />
           <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Empresa" FromRole="Empresa" ToRole="Asignacion" />
           <NavigationProperty Name="Clientes" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Clientes_Empresa" FromRole="Empresa" ToRole="Clientes" />
-          <NavigationProperty Name="Empleados" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa" FromRole="Empresa" ToRole="Empleados" />
           <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa" FromRole="Empresa" ToRole="Facturas" />
           <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Empresa" FromRole="Empresa" ToRole="Proyectos" />
+          <NavigationProperty Name="Empleados" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa" FromRole="Empresa" ToRole="Empleados" />
         </EntityType>
         <EntityType Name="Facturas">
           <Key>
@@ -1424,18 +1398,6 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
             </Principal>
             <Dependent Role="Asignacion">
               <PropertyRef Name="Id_Tipo_Asignacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Asignacion_Usuario">
-          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados" Multiplicity="0..1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Asignacion" Role="Asignacion" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empleados">
-              <PropertyRef Name="Id_Empleado" />
-            </Principal>
-            <Dependent Role="Asignacion">
-              <PropertyRef Name="Id_Empleado_Asignacion" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1607,42 +1569,6 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_EmpleadoPermiso_Empleados">
-          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados" Multiplicity="1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.EmpleadoPermiso" Role="EmpleadoPermiso" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empleados">
-              <PropertyRef Name="Id_Empleado" />
-            </Principal>
-            <Dependent Role="EmpleadoPermiso">
-              <PropertyRef Name="Id_Empleado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Usuarios_Empresa">
-          <End Type="DB_9F97CF_CatarsysSGCModel.Empresa" Role="Empresa" Multiplicity="0..1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empresa">
-              <PropertyRef Name="Id_Empresa" />
-            </Principal>
-            <Dependent Role="Empleados">
-              <PropertyRef Name="Id_Empresa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Usuarios_JefeInmediato">
-          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados" Multiplicity="0..1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados1" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empleados">
-              <PropertyRef Name="Id_Empleado" />
-            </Principal>
-            <Dependent Role="Empleados1">
-              <PropertyRef Name="Id_JefeInmediato_Empleado" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Facturas_Empresa">
           <End Type="DB_9F97CF_CatarsysSGCModel.Empresa" Role="Empresa" Multiplicity="1" />
           <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
@@ -1701,6 +1627,82 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
             </Principal>
             <Dependent Role="DocumentosFacturas">
               <PropertyRef Name="IdFactura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Empleados">
+          <Key>
+            <PropertyRef Name="Id_Empleado" />
+          </Key>
+          <Property Name="Id_Empleado" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Id_Empresa" Type="Int32" />
+          <Property Name="Nombre_Empleado" Type="String" Nullable="false" MaxLength="300" FixedLength="false" Unicode="true" />
+          <Property Name="Email_Empleado" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Puesto_Empleado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Fecha_Nacimiento_Empleado" Type="DateTime" Precision="3" />
+          <Property Name="Antiguedad_Empleado" Type="DateTime" Precision="3" />
+          <Property Name="Skype_Empleado" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="Domicilio_Empleado" Type="String" MaxLength="350" FixedLength="false" Unicode="true" />
+          <Property Name="Telefono_L_Empleado" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Telefono_M_Empleado" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="Id_JefeInmediato_Empleado" Type="Int32" />
+          <Property Name="IsLogIn" Type="Int32" />
+          <Property Name="Id_Perfil" Type="Int32" />
+          <Property Name="Usuario_Empleado" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password_Empleado" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Estado" Type="Boolean" />
+          <Property Name="Salt" Type="String" MaxLength="250" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Usuario" FromRole="Empleados" ToRole="Asignacion" />
+          <NavigationProperty Name="EmpleadoPermiso" Relationship="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_Empleados" FromRole="Empleados" ToRole="EmpleadoPermiso" />
+          <NavigationProperty Name="Empresa" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa" FromRole="Empleados" ToRole="Empresa" />
+          <NavigationProperty Name="Empleados1" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_JefeInmediato" FromRole="Empleados" ToRole="Empleados1" />
+          <NavigationProperty Name="Empleados2" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_JefeInmediato" FromRole="Empleados1" ToRole="Empleados" />
+        </EntityType>
+        <Association Name="FK_Asignacion_Usuario">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Asignacion" Role="Asignacion" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="Id_Empleado" />
+            </Principal>
+            <Dependent Role="Asignacion">
+              <PropertyRef Name="Id_Empleado_Asignacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_EmpleadoPermiso_Empleados">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.EmpleadoPermiso" Role="EmpleadoPermiso" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="Id_Empleado" />
+            </Principal>
+            <Dependent Role="EmpleadoPermiso">
+              <PropertyRef Name="Id_Empleado" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuarios_Empresa">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Empresa" Role="Empresa" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Principal>
+            <Dependent Role="Empleados">
+              <PropertyRef Name="Id_Empresa" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Usuarios_JefeInmediato">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Empleados" Role="Empleados1" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empleados">
+              <PropertyRef Name="Id_Empleado" />
+            </Principal>
+            <Dependent Role="Empleados1">
+              <PropertyRef Name="Id_JefeInmediato_Empleado" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1934,29 +1936,6 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Empleados">
-            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Empleados">
-              <MappingFragment StoreEntitySet="Empleados">
-                <ScalarProperty Name="Estado" ColumnName="Estado" />
-                <ScalarProperty Name="Password_Empleado" ColumnName="Password_Empleado" />
-                <ScalarProperty Name="Usuario_Empleado" ColumnName="Usuario_Empleado" />
-                <ScalarProperty Name="Id_Perfil" ColumnName="Id_Perfil" />
-                <ScalarProperty Name="IsLogIn" ColumnName="IsLogIn" />
-                <ScalarProperty Name="Id_JefeInmediato_Empleado" ColumnName="Id_JefeInmediato_Empleado" />
-                <ScalarProperty Name="Telefono_M_Empleado" ColumnName="Telefono_M_Empleado" />
-                <ScalarProperty Name="Telefono_L_Empleado" ColumnName="Telefono_L_Empleado" />
-                <ScalarProperty Name="Domicilio_Empleado" ColumnName="Domicilio_Empleado" />
-                <ScalarProperty Name="Skype_Empleado" ColumnName="Skype_Empleado" />
-                <ScalarProperty Name="Antiguedad_Empleado" ColumnName="Antiguedad_Empleado" />
-                <ScalarProperty Name="Fecha_Nacimiento_Empleado" ColumnName="Fecha_Nacimiento_Empleado" />
-                <ScalarProperty Name="Puesto_Empleado" ColumnName="Puesto_Empleado" />
-                <ScalarProperty Name="Email_Empleado" ColumnName="Email_Empleado" />
-                <ScalarProperty Name="Nombre_Empleado" ColumnName="Nombre_Empleado" />
-                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
-                <ScalarProperty Name="Id_Empleado" ColumnName="Id_Empleado" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Empresa">
             <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Empresa">
               <MappingFragment StoreEntitySet="Empresa">
@@ -2027,6 +2006,30 @@ advertencia 6002: La tabla o vista 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas
                 <ScalarProperty Name="Url" ColumnName="Url" />
                 <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
                 <ScalarProperty Name="IdDocumento" ColumnName="IdDocumento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Empleados">
+            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Empleados">
+              <MappingFragment StoreEntitySet="Empleados">
+                <ScalarProperty Name="Salt" ColumnName="Salt" />
+                <ScalarProperty Name="Estado" ColumnName="Estado" />
+                <ScalarProperty Name="Password_Empleado" ColumnName="Password_Empleado" />
+                <ScalarProperty Name="Usuario_Empleado" ColumnName="Usuario_Empleado" />
+                <ScalarProperty Name="Id_Perfil" ColumnName="Id_Perfil" />
+                <ScalarProperty Name="IsLogIn" ColumnName="IsLogIn" />
+                <ScalarProperty Name="Id_JefeInmediato_Empleado" ColumnName="Id_JefeInmediato_Empleado" />
+                <ScalarProperty Name="Telefono_M_Empleado" ColumnName="Telefono_M_Empleado" />
+                <ScalarProperty Name="Telefono_L_Empleado" ColumnName="Telefono_L_Empleado" />
+                <ScalarProperty Name="Domicilio_Empleado" ColumnName="Domicilio_Empleado" />
+                <ScalarProperty Name="Skype_Empleado" ColumnName="Skype_Empleado" />
+                <ScalarProperty Name="Antiguedad_Empleado" ColumnName="Antiguedad_Empleado" />
+                <ScalarProperty Name="Fecha_Nacimiento_Empleado" ColumnName="Fecha_Nacimiento_Empleado" />
+                <ScalarProperty Name="Puesto_Empleado" ColumnName="Puesto_Empleado" />
+                <ScalarProperty Name="Email_Empleado" ColumnName="Email_Empleado" />
+                <ScalarProperty Name="Nombre_Empleado" ColumnName="Nombre_Empleado" />
+                <ScalarProperty Name="Id_Empresa" ColumnName="Id_Empresa" />
+                <ScalarProperty Name="Id_Empleado" ColumnName="Id_Empleado" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

@@ -19,7 +19,6 @@
         <EntityTypeShape EntityType="DB_9F97CF_CatarsysSGCModel.Contactos" Width="1.5" PointX="5.25" PointY="13.375" />
         <EntityTypeShape EntityType="DB_9F97CF_CatarsysSGCModel.ctPermisos" Width="1.5" PointX="3" PointY="25.625" />
         <EntityTypeShape EntityType="DB_9F97CF_CatarsysSGCModel.EmpleadoPermiso" Width="1.5" PointX="5.25" PointY="20.625" />
-        <EntityTypeShape EntityType="DB_9F97CF_CatarsysSGCModel.Empleados" Width="1.5" PointX="3" PointY="19" />
         <EntityTypeShape EntityType="DB_9F97CF_CatarsysSGCModel.Empresa" Width="1.5" PointX="0.75" PointY="10.375" />
         <EntityTypeShape EntityType="DB_9F97CF_CatarsysSGCModel.Facturas" Width="1.5" PointX="10.5" PointY="9.375" />
         <EntityTypeShape EntityType="DB_9F97CF_CatarsysSGCModel.Proyectos" Width="1.5" PointX="5.25" PointY="7.875" />
@@ -31,7 +30,6 @@
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Moneda" />
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Periodo" />
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Tipo" />
-        <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Usuario" />
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Asignacion" />
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Estado_Factura" />
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_IVA" />
@@ -46,14 +44,16 @@
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Clientes" />
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Clientes" />
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_ctPermisos" />
-        <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_Empleados" />
-        <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa" />
-        <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_JefeInmediato" />
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa" />
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Empresa" />
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Proyectos" />
         <EntityTypeShape EntityType="DB_9F97CF_CatarsysSGCModel.DocumentosFacturas" Width="1.5" PointX="12.75" PointY="11.375" />
         <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_Facturas" />
+        <EntityTypeShape EntityType="DB_9F97CF_CatarsysSGCModel.Empleados" Width="1.5" PointX="3" PointY="19" />
+        <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Usuario" />
+        <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_EmpleadoPermiso_Empleados" />
+        <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa" />
+        <AssociationConnector Association="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_JefeInmediato" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

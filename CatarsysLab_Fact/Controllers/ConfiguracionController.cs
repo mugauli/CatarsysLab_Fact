@@ -195,7 +195,7 @@ namespace CatarsysLab_Fact.Controllers
             if (objContactos.Code != 0)
                 return Json(new { success = false, message = objContactos.Message }, JsonRequestBehavior.AllowGet);
 
-            return Json(new { success = true , contactos = objContactos.Result }, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, contactos = objContactos.Result }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -293,6 +293,10 @@ namespace CatarsysLab_Fact.Controllers
             string Domicilio, int IsLogin, string Usuario, string Password, string Password2, int estado, string hdPermisos)
         {
 
+            if (!Password.Equals(Password2))
+                return Json(new { success = false, message = "Contraseña y repetir contraseña deben ser iguales."}, JsonRequestBehavior.AllowGet);
+
+            EncriptPasswordSha3 encript = new EncriptPasswordSha3();
             var empleados = new EmpleadosDTO();
 
             empleados.Id_Empleado = idEmpleado;
@@ -310,10 +314,22 @@ namespace CatarsysLab_Fact.Controllers
             else empleados.Id_JefeInmediato_Empleado = null;
             empleados.IsLogIn = IsLogin;
             empleados.Usuario_Empleado = Usuario;
-            empleados.Password_Empleado = Password;
             empleados.Estado = estado == 1;
 
-            
+            if (Password != String.Empty)
+
+            {
+                //string salt = "E524F5DDD49564AB7C10A42C2A187A1340ECB854877DB019A370809E1C6840E3C35299A7CBEF656E0C656B5F0C1DD46E1051BC61F165266993908633FEFAE5FF";
+                var salt = encript.CreateSalt512();
+                var passHashed = encript.GenerateHMAC(Password, salt.Result);
+
+                empleados.Password_Empleado = passHashed.Result;
+                empleados.Salt = salt.Result;
+            }
+
+
+
+
             var jArray = JArray.Parse(hdPermisos);
             JObject a = JObject.Parse(jArray.First().ToString());
 
@@ -330,14 +346,14 @@ namespace CatarsysLab_Fact.Controllers
             #endregion
 
             empleados.EmpleadoPermiso = permisos;
-                        
+
 
             var gdAsignacion = new EmpreadosData().GuardarEmpleado(empleados);
 
             if (gdAsignacion.Code != 0)
                 return Json(new { success = false, message = gdAsignacion.Message }, JsonRequestBehavior.AllowGet);
 
-            
+
 
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }

@@ -11,43 +11,30 @@ using System.Web.Mvc;
 
 namespace CatarsysLab_Fact.Controllers
 {
+    
     public class HomeController : Controller
     {
+        [AuthorizeCustom(IdObjetos = "1")]
         public ActionResult Index()
         {
             Session[Constantes.Session.Empresa] = 1;
             return View();
         }
-
-        [AllowAnonymous]
-        public ActionResult Login(string Usuario, string Password)
-        {
-            return View();
-        }
-
-        [HttpPost]
-        [AllowAnonymous]
-        //[ValidateAntiForgeryToken]
-        public ActionResult LoginIn(string Usuario, string Password)
-        {
-            
-            return RedirectToAction("Index", "Home");
-        }
-
+        [AuthorizeCustom]
         public ActionResult About()
         {
             ViewBag.Message = "Your application description page.";
 
             return View();
         }
-
+        [AuthorizeCustom]
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
 
             return View();
         }
-
+        [AuthorizeCustom]
         public ActionResult BannerEmpresa()
         {
 
@@ -69,7 +56,7 @@ namespace CatarsysLab_Fact.Controllers
 
             return View(response);
         }
-
+        [AuthorizeCustom]
         [HttpPost]
         public JsonResult ActualizaEmpresa(int Empresa)
         {

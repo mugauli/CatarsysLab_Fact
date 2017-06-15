@@ -19,9 +19,9 @@ namespace ModeloDatos
         {
             this.Asignacion = new HashSet<Asignacion>();
             this.Clientes = new HashSet<Clientes>();
-            this.Empleados = new HashSet<Empleados>();
             this.Facturas = new HashSet<Facturas>();
             this.Proyectos = new HashSet<Proyectos>();
+            this.Empleados = new HashSet<Empleados>();
         }
     
         public int Id_Empresa { get; set; }
@@ -44,10 +44,10 @@ namespace ModeloDatos
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Clientes> Clientes { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Empleados> Empleados { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Facturas> Facturas { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Proyectos> Proyectos { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Empleados> Empleados { get; set; }
     }
 }

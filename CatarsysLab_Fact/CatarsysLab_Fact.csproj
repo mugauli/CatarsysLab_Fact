@@ -144,12 +144,14 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\ConfiguracionController.cs" />
     <Compile Include="Controllers\GestionController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\AccountLoginViewModel.cs" />
     <Compile Include="Models\AsignacionModel.cs" />
     <Compile Include="Models\BannerModel.cs" />
     <Compile Include="Models\ClientesModel.cs" />
@@ -159,7 +161,11 @@
     <Compile Include="Models\FacturacionModel.cs" />
     <Compile Include="Models\ProyectoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilerias\AuthorizeCustomAttribute.cs" />
     <Compile Include="Utilerias\Constantes.cs" />
+    <Compile Include="Utilerias\CustomMembershipProvider.cs" />
+    <Compile Include="Utilerias\CustomRoleProvider.cs" />
+    <Compile Include="Utilerias\EncriptPasswordSha3.cs" />
     <Compile Include="Utilerias\Helpers.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -381,7 +387,8 @@
     <Content Include="Views\Configuracion\Clientes.cshtml" />
     <Content Include="Views\Configuracion\Empleados.cshtml" />
     <Content Include="Views\Gestion\Facturacion.cshtml" />
-    <Content Include="Views\Home\Login.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
+    <Content Include="Views\Account\LoginAuth.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

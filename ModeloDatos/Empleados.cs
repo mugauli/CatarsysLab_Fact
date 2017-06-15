@@ -39,6 +39,7 @@ namespace ModeloDatos
         public string Usuario_Empleado { get; set; }
         public string Password_Empleado { get; set; }
         public Nullable<bool> Estado { get; set; }
+        public string Salt { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Asignacion> Asignacion { get; set; }

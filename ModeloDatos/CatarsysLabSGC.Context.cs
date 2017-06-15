@@ -41,11 +41,11 @@ namespace ModeloDatos
         public virtual DbSet<Contactos> Contactos { get; set; }
         public virtual DbSet<ctPermisos> ctPermisos { get; set; }
         public virtual DbSet<EmpleadoPermiso> EmpleadoPermiso { get; set; }
-        public virtual DbSet<Empleados> Empleados { get; set; }
         public virtual DbSet<Empresa> Empresa { get; set; }
         public virtual DbSet<Facturas> Facturas { get; set; }
         public virtual DbSet<Proyectos> Proyectos { get; set; }
         public virtual DbSet<DocumentosFacturas> DocumentosFacturas { get; set; }
+        public virtual DbSet<Empleados> Empleados { get; set; }
     
         public virtual ObjectResult<sp_GetAsigPaginacion_Result> sp_GetAsigPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, ObjectParameter totalrow)
         {

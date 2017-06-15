@@ -20,6 +20,7 @@ namespace CatarsysLab_Fact.Controllers
 
         #region Asignaciones
         // GET: Gestion
+        [AuthorizeCustom]
         public ActionResult Asignaciones()
         {
             Session[Constantes.Session.Empresa] = 1;
@@ -124,7 +125,7 @@ namespace CatarsysLab_Fact.Controllers
 
             return View(response);
         }
-
+        [AuthorizeCustom]
         [HttpPost]
         public JsonResult TablePaginacion(int draw, int start, int length, int company, string search,string order)
         {
@@ -162,7 +163,7 @@ namespace CatarsysLab_Fact.Controllers
 
             return Json(data.Result, JsonRequestBehavior.AllowGet);
         }
-
+        [AuthorizeCustom]
         [HttpPost]
         public JsonResult GuardarAsignacion(int idAsignacion, int frIdEmpresa, int Cliente, int Consultor, int Tipo, string fecha_inicio, string fecha_fin, int Corte, decimal Costo, int Periodo, int Moneda, int IVA, int estado)
         {
@@ -190,7 +191,7 @@ namespace CatarsysLab_Fact.Controllers
 
             return Json(new {success = true}, JsonRequestBehavior.AllowGet);
         }
-
+        [AuthorizeCustom]
         [HttpPost]
         public JsonResult ObtenerAsignacion(int IdAsignacion)
         {
@@ -205,6 +206,7 @@ namespace CatarsysLab_Fact.Controllers
         #endregion
 
         #region Proyectos
+        [AuthorizeCustom]
         public ActionResult Proyectos()
         {
             Session[Constantes.Session.Empresa] = 1;
@@ -281,6 +283,8 @@ namespace CatarsysLab_Fact.Controllers
             return View(response);
            
         }
+
+        [AuthorizeCustom]
         [HttpPost]
         public JsonResult TablePaginacionProy(int draw, int start, int length, int company,int filter2, string search, string order)
         {
@@ -317,6 +321,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(data.Result, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom]
         [HttpPost] 
         public JsonResult GuardarProyecto(int idProyecto, int frIdEmpresa, int Cliente, string NombreProyecto, string fecha_inicio, string fecha_fin, decimal Costo, int Moneda, int CantidadFacturas, int TipoCambio, int IVA, int estado, string Comentarios,string tablaJSON)
         {
@@ -376,6 +381,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom]
         [HttpPost]
         public JsonResult ObtenerProyecto(int IdProyecto)
         {
@@ -390,6 +396,8 @@ namespace CatarsysLab_Fact.Controllers
         #endregion
 
         #region Facturas
+
+        [AuthorizeCustom]
         public ActionResult Facturacion()
         {
             Session[Constantes.Session.Empresa] = 1;
@@ -494,6 +502,7 @@ namespace CatarsysLab_Fact.Controllers
             return View(response);
         }
 
+        [AuthorizeCustom]
         [HttpPost]
         public JsonResult TablePaginacionFacturas(int draw, int start, int length, int company, int filter2, string search, string order)
         {
@@ -529,6 +538,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(data.Result, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom]
         [HttpPost]
         public JsonResult GuardarFacturas(int IdFacturas, int frIdEmpresa, int Cliente, string NombreProyecto, string fecha_inicio, string fecha_fin, decimal Costo, int Moneda, int CantidadFacturas, int TipoCambio, int IVA, int estado, string Comentarios)
         {
@@ -557,6 +567,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom]
         [HttpPost]
         public JsonResult ObtenerFacturas(int IdFacturas)
         {
@@ -569,6 +580,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true, info = gdAsignacion.Result }, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom]
         [HttpPost]
         public ActionResult UploadFiles()
         {
@@ -619,8 +631,19 @@ namespace CatarsysLab_Fact.Controllers
             }
         }
 
+        #endregion
+
+        #region Shared
+
+        [AuthorizeCustom]
+        [HttpPost]
+        public JsonResult AjustarFacturas(int tipo, int id, DateTime inicio, DateTime fin)
+        {
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
+        }
 
         #endregion
+
 
     }
 }

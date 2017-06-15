@@ -1,6 +1,7 @@
-﻿@{
+﻿@model CatarsysLab_Fact.Models.AccountLoginViewModel
+@{
     Layout = null;
- }
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -37,29 +38,32 @@
                 <h4 class="text-uppercase font-bold m-b-0">Log in</h4>
             </div>
             <div class="panel-body">
-                <form class="form-horizontal m-t-10" action="/Home/LoginIn" method="post">
+
+                <form class="form-horizontal m-t-10" action="/Account/LoginAuth " method="post">
 
                     <div class="form-group ">
                         <div class="col-xs-12">
-                            <input class="form-control" type="text" required="" placeholder="Usuario" name="Usuario">
+                            @*<input class="form-control" type="text" required="" placeholder="Usuario" name="Usuario">*@
+                            @Html.TextBoxFor(Model => Model.Username, new { @class = "form-control top", placeholder = "Usuario", autocomplete = "off", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.Username)
                         </div>
                     </div>
 
                     <div class="form-group">
                         <div class="col-xs-12">
-                            <input class="form-control" type="password" required="" placeholder="Contraseña" name="Password">
+                            @*<input class="form-control" type="password" required="" placeholder="Contraseña" name="Password">*@
+                            @Html.PasswordFor(Model => Model.Password, new { @class = "form-control bottom", placeholder = "Contraseña", autocomplete = "off", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.Password)
                         </div>
                     </div>
 
-
+                    @Html.HiddenFor(Model => Model.returnUrl)
                     <div class="form-group text-center m-t-30">
                         <div class="col-xs-12">
                             <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light text-uppercase" type="submit">Login</button>
+                            <label id="ErrorMessage">@ViewBag.MensajeError</label>
                         </div>
                     </div>
-
-
-
 
                 </form>
 
@@ -69,6 +73,7 @@
 
     </div>
     <!-- end wrapper page -->
+
 
 
 

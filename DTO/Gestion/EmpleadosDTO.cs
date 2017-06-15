@@ -27,6 +27,7 @@ namespace DTO.Gestion
         public string Password_Empleado { get; set; }
         public Nullable<bool> Estado { get; set; }
         public Nullable<int> Id_Perfil { get; set; }
+        public string Salt { get; set; }
 
         public virtual List<EmpleadoPermisoDTO> EmpleadoPermiso { get; set; }
 

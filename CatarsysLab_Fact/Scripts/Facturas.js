@@ -439,8 +439,8 @@ $(document).ready(function () {
             { "data": "Monto" },
             { "data": "Facturado" },
             { "data": "DiaFacturacion" },
-            { "data": "estado" },
-            { "defaultContent": "<button type='button' class='editar btn btn-primary'><i class='fa fa-pencil-square-o'></i></button>" }],
+            //{ "data": "estado" },
+            { "defaultContent": "<button type='button' class='editar btn btn-custom'>Facturar</button><button type='button' class='editar btn btn-danger'>Cancelar</button>" }],
         columnDefs: [
             {
                 "targets": [0],
@@ -455,10 +455,10 @@ $(document).ready(function () {
         console.log(data);
     });
 
-    $('#datatable tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        cargarInfoModal(data["IdProyecto"]);
-    });
+    //$('#datatable tbody').on('click', 'tr', function () {
+    //    var data = table.row(this).data();
+    //    cargarInfoModal(data["IdProyecto"]);
+    //});
 
     $(".conBtnAgregar").html('<button type="button" id="btnAddFactura" class="btn btn-custom dropdown-toggle waves-effect waves-light" data-toggle="modal" data-target="#addFactura">Agregar <span class="m-l-5"><i class="fa fa-plus-circle"></i></span></button>');
 
@@ -617,6 +617,13 @@ $(document).ready(function () {
         }
     });  
 
+    $(".btnDoctoView").click(function () {
+        //alert($(this).attr("data-URL"));
+        var xmlDoc = loadXMLDoc($(this).attr("data-URL"));
+        console.log(xmlDoc);
+        $("#objVistaPrevia").attr("data", $(this).attr("data-URL"));
+       // $("#objVistaPrevia").attr("type", "text/xml-external-parsed-entity");
+    });
 });
 
 

@@ -3,6 +3,11 @@ $(document).ready(function () {
 
     var order = '';
 
+    var limpiarError = function () {
+        $(".errorMsg,.errorMsg2").html('');
+        $(".inputError").removeClass("inputError");
+    }
+
     var validarGuardar = function () {
 
         var correcto = true;
@@ -296,17 +301,19 @@ $(document).ready(function () {
     }
 
     $('#datatable tbody').on('click', 'tr', function () {
+        limpiarError();
         var data = table.row(this).data();
         cargarInfoModal(data["IdEmpleado"]);
+
     });
 
     $(".conBtnAgregar").html('<button type="button" id="agregarAsg" class="btn btn-custom dropdown-toggle waves-effect waves-light" data-toggle="modal" data-target="#addModal">Agregar <span class="m-l-5"><i class="fa fa-plus-circle"></i></span></button>');
 
     $("#agregarAsg").click(function () {
         $("#TitleModalAsignacion").html("Alta - Empleados");
-
         $("#idEmpleado").val('0');
         limpiarModal();
+        limpiarError();
     });
 
     $("#sltEmpresa").change(function () {

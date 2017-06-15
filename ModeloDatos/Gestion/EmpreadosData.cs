@@ -49,7 +49,34 @@ namespace ModeloDatos.Gestion
         }
 
         /// <summary>
-        /// Guardar Permisos
+        /// Obtener Empleados por username
+        /// </summary>
+        /// <param name="Username"></param>
+        /// <returns>EmpleadosDTO</returns>
+        public MethodResponseDTO<EmpleadosDTO> ObtenerEmpleados(string Username)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<EmpleadosDTO>() { Code = 0 };
+
+
+                    var clientes = context.Empleados.Where(x => x.Usuario_Empleado == Username).FirstOrDefault();
+
+                    response.Result = Mapper.Map<EmpleadosDTO>(clientes);
+
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<EmpleadosDTO> { Code = -100, Message = "ObtenerEmpleados: " + ex.Message };
+                }
+            }
+        }
+
+        /// <summary>
+        /// Guardar Empleado
         /// </summary>
         /// <returns>Lista de tipo asignacion</returns>
         public MethodResponseDTO<int> GuardarEmpleado(EmpleadosDTO empleado)
@@ -84,9 +111,14 @@ namespace ModeloDatos.Gestion
                         objDB.Id_JefeInmediato_Empleado = empleado.Id_JefeInmediato_Empleado;
                         objDB.IsLogIn = empleado.IsLogIn;
                         objDB.Usuario_Empleado = empleado.Usuario_Empleado;
-                        if(objDB.Password_Empleado != string.Empty) objDB.Password_Empleado = empleado.Password_Empleado;
+                        if (empleado.Password_Empleado != string.Empty)
+                        {
+                            objDB.Password_Empleado = empleado.Password_Empleado;
+                            objDB.Salt = empleado.Salt;
+                        }
                         objDB.Estado = empleado.Estado;
-                        objDB.Id_Perfil = empleado.Id_Perfil;
+
+                        //objDB.Id_Perfil = empleado.Id_Perfil;
 
                     }
 
@@ -95,11 +127,11 @@ namespace ModeloDatos.Gestion
                     var permisos = GuardarPermisos(empleado.EmpleadoPermiso);
                     if (permisos.Code != 0)
                     {
-                        return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = permisos.Message};
+                        return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = permisos.Message };
                     }
 
 
-                 
+
 
                     return response;
                 }
@@ -115,7 +147,7 @@ namespace ModeloDatos.Gestion
                         }
                     }
                     Result += ("Code: -100, Mensaje: " + e.Message + ", InnerException: " + (e.InnerException != null ? e.InnerException.Message : ""));
-                    return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = e.Message };
+                    return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = Result };
                 }
                 catch (Exception ex)
                 {
@@ -145,10 +177,10 @@ namespace ModeloDatos.Gestion
                             context.EmpleadoPermiso.Add(objDB);
                         }
                         else
-                        {                            
+                        {
                             objDB.Id_Empleado = perm.Id_Empleado;
                             objDB.Id_Permiso = perm.Id_Permiso;
-                            objDB.Tipo_Permiso = perm.Tipo_Permiso;                          
+                            objDB.Tipo_Permiso = perm.Tipo_Permiso;
                         }
                         context.SaveChanges();
                     }
@@ -172,6 +204,82 @@ namespace ModeloDatos.Gestion
                 catch (Exception ex)
                 {
                     return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = "GuardarAsignacion: " + ex.Message };
+                }
+            }
+        }
+
+
+        public MethodResponseDTO<List<EmpleadoPermisoDTO>> ObtenerPermisos(int IdEmpleado)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<List<EmpleadoPermisoDTO>> { Code = 0 };
+
+
+                    var objDB = context.EmpleadoPermiso
+                            .Join(context.ctPermisos, c => c.Id_Permiso,cm => cm.Id_Permisos, (c, cm) => new { EmpPer = c, Per = cm })
+                            .Where(a => a.EmpPer.Id_Empleado == IdEmpleado && a.Per.Estado_Permiso == true).Select(x => x.EmpPer);
+
+                    response.Result = Mapper.Map<List<EmpleadoPermisoDTO>>(objDB);
+
+                    return response;
+                }
+                catch (DbEntityValidationException e)
+                {
+                    string Result = string.Empty;
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Result += string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Result += string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    Result += ("Code: -100, Mensaje: " + e.Message + ", InnerException: " + (e.InnerException != null ? e.InnerException.Message : ""));
+                    return new MethodResponseDTO<List<EmpleadoPermisoDTO>> { Code = -100, Message = Result };
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<List<EmpleadoPermisoDTO>> { Code = -100, Message = "GuardarAsignacion: " + ex.Message };
+                }
+            }
+        }
+
+        public MethodResponseDTO<EmpleadoPermisoDTO> ObtenRolActivo(int IdPermiso)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<EmpleadoPermisoDTO> { Code = 0 };
+
+
+                    var objDB = context.ctPermisos.SingleOrDefault(r => r.Id_Permisos == IdPermiso && r.Estado_Permiso == true);
+
+                    if (objDB != null)
+                        response.Result = Mapper.Map<EmpleadoPermisoDTO>(objDB);
+
+                    return response;
+                }
+                catch (DbEntityValidationException e)
+                {
+                    string Result = string.Empty;
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Result += string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Result += string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    Result += ("Code: -100, Mensaje: " + e.Message + ", InnerException: " + (e.InnerException != null ? e.InnerException.Message : ""));
+                    return new MethodResponseDTO<EmpleadoPermisoDTO> { Code = -100, Message = Result };
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<EmpleadoPermisoDTO> { Code = -100, Message = "GuardarAsignacion: " + ex.Message };
                 }
             }
         }

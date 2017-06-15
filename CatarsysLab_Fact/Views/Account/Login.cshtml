@@ -1,0 +1,86 @@
+﻿@model CatarsysLab_Fact.Models.AccountLoginViewModel
+@{
+    Layout = null;
+ }
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
+    <meta name="author" content="Coderthemes">
+
+    <!-- App Favicon -->
+    <link rel="shortcut icon" href="assets/images/favicon.ico">
+
+    <!-- App title -->
+    <title>Catarsys Lab</title>
+
+    <!-- App CSS -->
+    <link href="/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/core.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/components.css" rel="stylesheet" type="text/css" />
+    <link href="/Content/pages.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+
+    <div class="text-center logo-alt-box">
+        <a href="#" class="logo">
+            <img src="~/Images/logo_firma_small.jpg" />
+        </a>
+    </div>
+
+    <div class="wrapper-page">
+
+        <div class="m-t-30 card-box">
+            <div class="text-center">
+                <h4 class="text-uppercase font-bold m-b-0">Log in</h4>
+            </div>
+            <div class="panel-body">
+
+                <form class="form-horizontal m-t-10" action="/Account/LoginAuth" method="post">
+
+                    <div class="form-group ">
+                        <div class="col-xs-12">
+                            @*<input class="form-control" type="text" required="" placeholder="Usuario" name="Usuario">*@
+                            @Html.TextBoxFor(Model => Model.Username, new { @class = "form-control top", placeholder = "Usuario", autocomplete = "off", @required = true  })
+                            @Html.ValidationMessageFor(Model => Model.Username)
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-xs-12">
+                            @*<input class="form-control" type="password" required="" placeholder="Contraseña" name="Password">*@
+                            @Html.PasswordFor(Model => Model.Password, new { @class = "form-control bottom", placeholder = "Contraseña", autocomplete = "off", @required = true })
+                            @Html.ValidationMessageFor(Model => Model.Password)
+                        </div>
+                    </div>
+
+                    @Html.HiddenFor(Model => Model.returnUrl)
+                    <div class="form-group text-center m-t-30">
+                        <div class="col-xs-12">
+                            <button class="btn btn-custom btn-bordred btn-block waves-effect waves-light text-uppercase" type="submit">Login</button>
+                        </div>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+        <!-- end card-box -->
+
+    </div>
+    <!-- end wrapper page -->
+
+   
+    
+
+
+    <script>
+        var resizefunc = [];
+    </script>
+
+
+</body>
+</html>
