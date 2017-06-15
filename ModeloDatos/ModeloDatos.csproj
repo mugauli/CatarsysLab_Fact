@@ -142,7 +142,13 @@
     <Compile Include="Proyectos.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
+    <Compile Include="sp_GetAsignacionesActualesPaginacion_Result.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="sp_GetAsigPaginacion_Result.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetCarteraVencidaPaginacion_Result.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_GetClientesPaginacion_Result.cs">
@@ -155,6 +161,12 @@
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_GetFacturasPaginacion_Result.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetFacturasPendientesPaginacion_Result.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
+    <Compile Include="sp_GetProyectosActualesPaginacion_Result.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
     </Compile>
     <Compile Include="sp_GetProyectosPaginacion_Result.cs">

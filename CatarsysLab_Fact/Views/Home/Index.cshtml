@@ -3,221 +3,153 @@
     ViewBag.Title = "Home Page";
 }
 
-<div class="container">
+@Scripts.Render("~/Plugins/datatTables")
 
-    <div class="row" id="fnTablaPendienteFacturas">
-        @*<div class="col-md-6">
-                <div>Pendiente por facturar</div>
-                <div class="card-box table-responsive">
-                    <table id="datatablePendiente" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
+<div class="container">
+    @*Pendientes por Facturar*@
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="card-box table-responsive"> 
+
+                <h4 class="header-title m-t-0 m-b-30">Pendientes por Facturar</h4>
+                    <div class="form-group col-md-6">
+                        <div class="col-md-9">
+                            <div class="input-group">
+                                <input type="text" class="form-control dateFilter" placeholder="dd/mm/yyyy" id="datepickerPendientes" tabindex="5">
+                                <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
+                            </div><!-- input-group -->
+                        </div>
+                    </div>
+                    <table id="datatable" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
                         <thead>
                             <tr>
+                                <th>IdAsignacion</th>
                                 <th>Cuando</th>
                                 <th>Cliente</th>
                                 <th>Concepto</th>
                                 <th>Monto</th>
-                                <th>Semáforo</th>
+                                <th class="semaphoreValue">Estado</th>
+
                             </tr>
                         </thead>
-                        <tbody>
-
+                        <tfoot>
                             <tr>
-                                <th>Ayer</th>
-                                <th>Temenos</th>
-                                <th>Asignación - Carlos Berrios</th>
-                                <th>$12000.00</th>
-                                <th><div class="semRojo"></div></th>
+                                <th colspan="4" style="text-align:right">Total:</th>
+                                <th class="tFacVencidas"></th>
                             </tr>
-                            <tr>
-                                <th>hot</th>
-                                <th>Kidzania</th>
-                                <th>Asignación - Carlos Berrios</th>
-                                <th>$18000.00</th>
-                                <th><div class="semVerde"></div></th>
-                            </tr>
-                            <tr>
-                                <th>Ayer</th>
-                                <th>Temenos</th>
-                                <th>Asignación - Carlos Berrios</th>
-                                <th>$12000.00</th>
-                                <th><div class="semVerde"></div></th>
-                            </tr>
-                            <tr>
-                                <th>Ayer</th>
-                                <th>Temenos</th>
-                                <th>Asignación - Carlos Berrios</th>
-                                <th>$12000.00</th>
-                                <th><div class="semVerde"></div></th>
-                            </tr>
-                            <tr>
-                                <th>Ayer</th>
-                                <th>Temenos</th>
-                                <th>Asignación - Carlos Berrios</th>
-                                <th>$12000.00</th>
-                                <th><div class="semVerde"></div></th>
-                            </tr>
-                            <tr>
-                                <th>Ayer</th>
-                                <th>Temenos</th>
-                                <th>Asignación - Carlos Berrios</th>
-                                <th>$12000.00</th>
-                                <th><div class="semVerde"></div></th>
-                            </tr>
-
-                        </tbody>
+                        </tfoot>
+                        <tbody></tbody>
                     </table>
                 </div>
-            </div>*@
-        <div class="col-md-6">
-            <div>Servicios Actuales</div>
-            <div class="form-group col-md-12">
-                <div class="contEstado col-md-6  col-centered">
-                    <label class="radio-inline">
-                        <input type="radio" name="estado" tabindex="16" value="1" id="rdSI">SI
-                    </label>
-                    <label class="radio-inline">
-                        <input type="radio" checked name="estado" tabindex="17" value="0" id="rdNO">NO
-                    </label>
+        </div>
+    <!--/div>-->
+
+    @*Servicios Actuales*@
+    <!--<div class="row">-->
+    <div class="col-sm-6">
+        <div class="card-box table-responsive">
+
+            <h4 class="header-title m-t-0 m-b-30">Servicios Actuales</h4>
+            <div class="form-group col-md-6">
+                <div class="col-md-9">
+                    <div class="input-group">
+                        <label class="radio-inline">
+                            <input type="radio" name="servTyperadio" value="A" checked="checked">Asignaciones
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="servTyperadio" value="P">Proyectos
+                        </label>
+                    </div><!-- input-group -->
                 </div>
             </div>
-            <div class="card-box table-responsive">
-                <table id="datatableServiciosActuales" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
-                    <thead>
-                        <tr>
-                            <th>Quien</th>
-                            <th>Cliente</th>
-                            <th>Ultima Factura</th>
-                            <th>Termino</th>
-                            <th>Semáforo</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th>Yoli Jiménez</th>
-                            <th>Temenos</th>
-                            <th>12/12/2016</th>
-                            <th>12/12/2018</th>
-                            <th><div class="semVerde"></div></th>
-                        </tr>
-                        <tr>
-                            <th>Carlos Berrios</th>
-                            <th>Multiva</th>
-                            <th>12/12/2016</th>
-                            <th>12/12/2018</th>
-                            <th><div class="semVerde"></div></th>
-                        </tr>
-                        <tr>
-                            <th>Carmen Gonzalez</th>
-                            <th>Temenos</th>
-                            <th>12/12/2016</th>
-                            <th>12/12/2018</th>
-                            <th><div class="semVerde"></div></th>
-                        </tr>
-                        <tr>
-                            <th>Carlos Berrios</th>
-                            <th>Temenos</th>
-                            <th>12/12/2016</th>
-                            <th>12/12/2018</th>
-                            <th><div class="semVerde"></div></th>
-                        </tr>
 
-                    </tbody>
-                </table>
-            </div>
+            <table id="datatableServActuales" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
+                <thead>
+                    <tr>
+                        <th>IdAsignacion_Proyecto</th>
+                        <th id="typeServicio">Quien</th>
+                        <th>Cliente </th>
+                        <th>Última Factura </th>
+                        <th>Termino</th>
+                        <th class="semaphoreServicio">Estado</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
         </div>
-        <div class="col-md-6">
-            <div>Proximos Ingresos</div>
+    </div><!-- end col -->
+    </div>
+
+    @*Próximos Ingresos*@
+    <div class="row">
+        <div class="col-sm-6">
             <div class="card-box table-responsive">
-                <table id="datatableProximosIngresos" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
+
+                <h4 class="header-title m-t-0 m-b-30">Próximos Ingresos</h4>
+                <div class="form-group col-md-6">
+                    <div class="col-md-9">
+                        <div class="input-group">
+                            <input type="text" class="form-control dateFilter" placeholder="dd/mm/yyyy" id="datepickerIngresos" tabindex="5">
+                            <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
+                        </div><!-- input-group -->
+                    </div>
+                </div>
+                <table id="datatableProxIngresos" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
                     <thead>
                         <tr>
+                            <th>IdAsignacion</th>
                             <th>Fecha Pago</th>
                             <th>Cliente</th>
-                            <th>Factura/Concepto</th>
+                            <th>Factura / Concepto</th>
                             <th>Monto</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tfoot>
                         <tr>
-                            <th>Yoli Jiménez</th>
-                            <th>Temenos</th>
-                            <th>12/12/2016</th>
-                            <th>Asignación - Carlos Berrios</th>
-                            <th>$12000.00</th>
+                            <th colspan="4" style="text-align:right">Total:</th>
+                            <th class="tProxIngresos"></th>
                         </tr>
-                        <tr>
-                            <th>Carlos Berrios</th>
-                            <th>Multiva</th>
-                            <th>12/12/2016</th>
-                            <th>Asignación - Carlos Berrios</th>
-                            <th>$12000.00</th>
-                        </tr>
-                        <tr>
-                            <th>Carmen Gonzalez</th>
-                            <th>Temenos</th>
-                            <th>12/12/2016</th>
-                            <th>Asignación - Carlos Berrios</th>
-                            <th>$12000.00</th>
-                        </tr>
-                        <tr>
-                            <th>Carlos Berrios</th>
-                            <th>Temenos</th>
-                            <th>12/12/2016</th>
-                            <th>Asignación - Carlos Berrios</th>
-                            <th>$12000.00</th>
-                        </tr>
-                    </tbody>
+                    </tfoot>
+                    <tbody></tbody>
                 </table>
             </div>
-        </div>
-        @*<div class="col-md-6">
-                <div>Cartera Vencida</div>
-                <div class="card-box table-responsive">
-                    <table id="datatableCarteraVencida" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
-                        <thead>
-                            <tr>
-                                <th>Quien</th>
-                                <th>Factura</th>
-                                <th>Días</th>
-                                <th>Total</th>
-                                <th>Semáforo</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th>Temenos</th>
-                                <th>F223</th>
-                                <th>5</th>
-                                <th>$12000.00</th>
-                                <th><div class="semRojo"></div></th>
-                            </tr>
-                            <tr>
-                                <th>Multiva</th>
-                                <th>F236 F237</th>
-                                <th>5</th>
-                                <th>$12000.00</th>
-                                <th><div class="semRojo"></div></th>
-                            </tr>
-                            <tr>
-                                <th>Temenos</th>
-                                <th>F256 F268</th>
-                                <th>5</th>
-                                <th>$12000.00</th>
-                                <th><div class="semAmarillo"></div></th>
-                            </tr>
-                            <tr>
-                                <th>Temenos</th>
-                                <th>F245 F251</th>
-                                <th>5</th>
-                                <th>$12000.00</th>
-                                <th><div class="semRojo"></div></th>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>*@
+        </div><!-- end col -->
+    @*</div>*@
+
+   
+
+    @*Cartera Vencida*@
+    @*<div class="row">*@
+        <div class="col-sm-6">
+            <div class="card-box table-responsive">
+
+                <h4 class="header-title m-t-0 m-b-30">Cartera Vencida</h4>
+                <table id="datatableCarVencida" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
+                    <thead>
+                        <tr>
+                            <th>Quien</th>
+                            <th>Factura</th>
+                            <th>Días</th>
+                            <th>Monto</th>
+                            <th class="semaphoreCVencida">Estado</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th colspan="3" style="text-align:right">Total:</th>
+                            <th class="tCarteraVencidaResult"></th>
+                        </tr>
+                    </tfoot>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div><!-- end col -->
     </div>
 
-    <script src="~/Scripts/Dashboard.js"></script>
 
-</div> <!-- container -->
+
+        <script src="~/Scripts/Dashboard.js"></script>
+        <link href="~/Content/Dashboard.css" rel="stylesheet">
+
+
+    </div> <!-- container -->

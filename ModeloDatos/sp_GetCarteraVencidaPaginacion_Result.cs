@@ -10,15 +10,13 @@
 namespace ModeloDatos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class EmpleadoPermiso
+    public partial class sp_GetCarteraVencidaPaginacion_Result
     {
-        public int Id_Empleado { get; set; }
-        public int Id_Permiso { get; set; }
-        public int Tipo_Permiso { get; set; }
-    
-        public virtual ctPermisos ctPermisos { get; set; }
-        public virtual Empleados Empleados { get; set; }
+        public Nullable<int> IdFactura { get; set; }
+        public string Cliente { get; set; }
+        public Nullable<int> Dias { get; set; }
+        public string Monto { get; set; }
+        public string semaforo { get; set; }
     }
 }

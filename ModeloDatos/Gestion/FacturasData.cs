@@ -251,5 +251,154 @@ namespace ModeloDatos.Gestion
                 }
             }
         }
+
+        public MethodResponseDTO<PaginacionDTO<List<FacturasPaginadorDTO>>> ObtenerPendientesPorFacturarPaginacion(int page, int size, int sort, string sortDireccion, string filter, int filterCliente, int filterEstado, DateTime filterPeriodo, int Id_Empresa)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<PaginacionDTO<List<FacturasPaginadorDTO>>>() { Code = 0 };
+
+                    var responsePag = new PaginacionDTO<List<FacturasPaginadorDTO>>();
+
+
+                    ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
+                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filterCliente, filterEstado, filterPeriodo, totalrow).ToList();
+                    var asignacion = context.sp_GetFacturasPendientesPaginacion(0, 10, 1, 1, "asc", "", 1, 1, filterPeriodo, totalrow).ToList();
+
+
+                    responsePag.data = Mapper.Map<List<FacturasPaginadorDTO>>(asignacion);
+                    responsePag.recordsTotal = Convert.ToInt32(totalrow.Value);
+                    responsePag.draw = page;
+
+                    response.Result = responsePag;
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<PaginacionDTO<List<FacturasPaginadorDTO>>> { Code = -100, Message = "Obtner Facturas Paginador: " + ex.Message };
+                }
+            }
+        }
+
+        public MethodResponseDTO<PaginacionDTO<List<ProximosIngresosDTO>>> ObtenerProximosIngresosPaginacion(int page, int size, int sort, string sortDireccion, string filter, int filterCliente, int filterEstado, DateTime filterPeriodo, int Id_Empresa)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<PaginacionDTO<List<ProximosIngresosDTO>>>() { Code = 0 };
+
+                    var responsePag = new PaginacionDTO<List<ProximosIngresosDTO>>();
+
+
+                    ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
+                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filterCliente, filterEstado, filterPeriodo, totalrow).ToList();
+                    var asignacion = context.sp_GetFacturasPendientesPaginacion(0, 10, 1, 1, "asc", "", 1, 1, filterPeriodo, totalrow).ToList();
+
+
+                    responsePag.data = Mapper.Map<List<ProximosIngresosDTO>>(asignacion);
+                    responsePag.recordsTotal = Convert.ToInt32(totalrow.Value);
+                    responsePag.draw = page;
+
+                    response.Result = responsePag;
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<PaginacionDTO<List<ProximosIngresosDTO>>> { Code = -100, Message = "Obtner Facturas Paginador: " + ex.Message };
+                }
+            }
+        }
+
+        public MethodResponseDTO<PaginacionDTO<List<ServiciosActualesPaginadorDTO>>> ObtenerServiciosActualesPaginacion_Proyecto(int page, int size, int sort, string sortDireccion, string filter, int filterCliente, int filterEstado, DateTime filterPeriodo, int Id_Empresa)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<PaginacionDTO<List<ServiciosActualesPaginadorDTO>>>() { Code = 0 };
+
+                    var responsePag = new PaginacionDTO<List<ServiciosActualesPaginadorDTO>>();
+
+
+                    ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
+                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filterCliente, filterEstado, filterPeriodo, totalrow).ToList();
+                    var asignacion = context.sp_GetProyectosActualesPaginacion(0, 10, 1, 1, "asc", "", 1, totalrow).ToList();
+
+
+                    responsePag.data = Mapper.Map<List<ServiciosActualesPaginadorDTO>>(asignacion);
+                    responsePag.recordsTotal = Convert.ToInt32(totalrow.Value);
+                    responsePag.draw = page;
+
+                    response.Result = responsePag;
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<PaginacionDTO<List<ServiciosActualesPaginadorDTO>>> { Code = -100, Message = "Obtner Facturas Paginador: " + ex.Message };
+                }
+            }
+        }
+
+        public MethodResponseDTO<PaginacionDTO<List<ServiciosActualesPaginadorDTO>>> ObtenerServiciosActualesPaginacion_Asignacion(int page, int size, int sort, string sortDireccion, string filter, int filterCliente, int filterEstado, DateTime filterPeriodo, int Id_Empresa)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<PaginacionDTO<List<ServiciosActualesPaginadorDTO>>>() { Code = 0 };
+
+                    var responsePag = new PaginacionDTO<List<ServiciosActualesPaginadorDTO>>();
+
+
+                    ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
+                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filterPeriodo, totalrow).ToList();
+                    var asignacion = context.sp_GetAsignacionesActualesPaginacion(0, 10, 1, 1, "asc", "", totalrow).ToList();
+
+
+                    responsePag.data = Mapper.Map<List<ServiciosActualesPaginadorDTO>>(asignacion);
+                    responsePag.recordsTotal = Convert.ToInt32(totalrow.Value);
+                    responsePag.draw = page;
+
+                    response.Result = responsePag;
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<PaginacionDTO<List<ServiciosActualesPaginadorDTO>>> { Code = -100, Message = "Obtner Facturas Paginador: " + ex.Message };
+                }
+            }
+        }
+
+        public MethodResponseDTO<PaginacionDTO<List<CarteraVencidaPaginadorDTO>>> ObtenerCarteraVencidaPaginacion(int page, int size, int sort, string sortDireccion, string filter, int filterCliente, int filterEstado, DateTime filterPeriodo, int Id_Empresa)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<PaginacionDTO<List<CarteraVencidaPaginadorDTO>>>() { Code = 0 };
+
+                    var responsePag = new PaginacionDTO<List<CarteraVencidaPaginadorDTO>>();
+
+
+                    ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
+                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filterPeriodo, totalrow).ToList();
+                    var asignacion = context.sp_GetCarteraVencidaPaginacion(0, 10, 1, 1, "asc", "",1, filterPeriodo, totalrow).ToList();
+
+                    responsePag.data = Mapper.Map<List<CarteraVencidaPaginadorDTO>>(asignacion);
+                    responsePag.recordsTotal = Convert.ToInt32(totalrow.Value);
+                    responsePag.draw = page;
+
+                    response.Result = responsePag;
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<PaginacionDTO<List<CarteraVencidaPaginadorDTO>>> { Code = -100, Message = "Obtner Facturas Paginador: " + ex.Message };
+                }
+            }
+        }
     }
 }

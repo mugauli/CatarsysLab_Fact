@@ -10,15 +10,14 @@
 namespace ModeloDatos
 {
     using System;
-    using System.Collections.Generic;
     
-    public partial class EmpleadoPermiso
+    public partial class sp_GetProyectosActualesPaginacion_Result
     {
-        public int Id_Empleado { get; set; }
-        public int Id_Permiso { get; set; }
-        public int Tipo_Permiso { get; set; }
-    
-        public virtual ctPermisos ctPermisos { get; set; }
-        public virtual Empleados Empleados { get; set; }
+        public Nullable<int> IdProyecto { get; set; }
+        public string Nombre { get; set; }
+        public string Cliente { get; set; }
+        public Nullable<System.DateTime> Ultima_Factura { get; set; }
+        public Nullable<System.DateTime> Termino { get; set; }
+        public string semaforo { get; set; }
     }
 }

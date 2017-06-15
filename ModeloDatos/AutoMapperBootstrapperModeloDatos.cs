@@ -237,8 +237,8 @@ namespace ModeloDatos
             #region Facturas
             //DB --> DTO
             Mapper.CreateMap<Facturas, FacturasDTO>()
-                .ForMember(dest => dest.Fecha_Inicio_FacturaSTR, opt => opt.MapFrom(src => src.Fecha_Inicio_Factura == null ? string.Empty : src.Fecha_Inicio_Factura.Value.ToString("dd/MM/yyyy")))
-                .ForMember(dest => dest.Fecha_fin_FacturaSTR, opt => opt.MapFrom(src => src.Fecha_fin_Factura == null ? string.Empty : src.Fecha_fin_Factura.Value.ToString("dd/MM/yyyy")));
+                 .ForMember(dest => dest.Fecha_Inicio_FacturaSTR, opt => opt.MapFrom(src => src.Fecha_Inicio_Factura == null ? string.Empty : src.Fecha_Inicio_Factura.Value.ToString("dd/MM/yyyy")))
+                 .ForMember(dest => dest.Fecha_fin_FacturaSTR, opt => opt.MapFrom(src => src.Fecha_fin_Factura == null ? string.Empty : src.Fecha_fin_Factura.Value.ToString("dd/MM/yyyy")));
             Mapper.AssertConfigurationIsValid();
 
             //DTO --> DB
@@ -365,7 +365,67 @@ namespace ModeloDatos
             Mapper.AssertConfigurationIsValid();
             #endregion
 
+            #region PaginadorPendientesPorFacturar
+            //DB --> DTO
+            Mapper.CreateMap<sp_GetFacturasPendientesPaginacion_Result, FacturasPaginadorDTO>()
+                //.ForMember(dest => dest.DiaFacturacion, opt => opt.MapFrom(src => src.DiaFacturacion == null ? string.Empty : src.DiaFacturacion.Value.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.DiaFacturacion, opt => opt.MapFrom(src => src.DiaFacturacion == null ? string.Empty :  DateTranslate((DateTime)src.DiaFacturacion)))
+                .ForMember(dest => dest.estado, opt => opt.MapFrom(src => src.DiaFacturacion >= DateTime.Now  ? "0" : "1"));
+            Mapper.AssertConfigurationIsValid();
+            //DTO --> DB
 
+            Mapper.CreateMap<FacturasPaginadorDTO, sp_GetFacturasPaginacion_Result>();
+            Mapper.AssertConfigurationIsValid();
+            #endregion
+
+            #region PaginadorPróximosIngresos
+            //DB --> DTO
+            Mapper.CreateMap<sp_GetFacturasPendientesPaginacion_Result, ProximosIngresosDTO>()
+                //.ForMember(dest => dest.DiaFacturacion, opt => opt.MapFrom(src => src.DiaFacturacion == null ? string.Empty : src.DiaFacturacion.Value.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.Fecha, opt => opt.MapFrom(src => src.DiaFacturacion == null ? string.Empty : DateTranslate((DateTime)src.DiaFacturacion)))
+                .ForMember(dest => dest.Factura_Concepto, opt => opt.MapFrom(src => src.IdFactura + "/" + src.Concepto));
+            Mapper.AssertConfigurationIsValid();
+            //DTO --> DB
+            #endregion
+
+
+            #region PaginadorServiciosActuales
+            //DB --> DTO
+            Mapper.CreateMap<sp_GetProyectosActualesPaginacion_Result, ServiciosActualesPaginadorDTO>()
+                //.ForMember(dest => dest.DiaFacturacion, opt => opt.MapFrom(src => src.DiaFacturacion == null ? string.Empty : src.DiaFacturacion.Value.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.IdProyecto_Asignacion, opt => opt.MapFrom(src => src.IdProyecto))
+                .ForMember(dest => dest.Ultima_Factura, opt => opt.MapFrom(src => src.Ultima_Factura == null ? string.Empty : DateTranslate((DateTime)src.Ultima_Factura)))
+                .ForMember(dest => dest.Termino, opt => opt.MapFrom(src => src.Termino == null ? string.Empty : DateTranslate((DateTime)src.Termino)))
+                .ForMember(dest => dest.Semaforo, opt => opt.MapFrom(src => SemaforoTranslate(src.semaforo)));
+            Mapper.AssertConfigurationIsValid();
+            //DTO --> DB
+
+
+            //DB --> DTO
+            Mapper.CreateMap<sp_GetAsignacionesActualesPaginacion_Result, ServiciosActualesPaginadorDTO>()
+                //.ForMember(dest => dest.DiaFacturacion, opt => opt.MapFrom(src => src.DiaFacturacion == null ? string.Empty : src.DiaFacturacion.Value.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.IdProyecto_Asignacion, opt => opt.MapFrom(src => src.IdAsignacion))
+                .ForMember(dest => dest.Nombre, opt => opt.MapFrom(src => src.Consultor))
+                .ForMember(dest => dest.Ultima_Factura, opt => opt.MapFrom(src => src.Ultima_Factura == null ? string.Empty : DateTranslate((DateTime)src.Ultima_Factura)))
+                .ForMember(dest => dest.Termino, opt => opt.MapFrom(src => src.Termino == null ? string.Empty : DateTranslate((DateTime)src.Termino)))
+                .ForMember(dest => dest.Semaforo, opt => opt.MapFrom(src => SemaforoTranslate(src.semaforo)));
+            Mapper.AssertConfigurationIsValid();
+            //DTO --> DB
+
+
+
+            //Mapper.CreateMap<ProximosIngresosDTO, sp_GetFacturasPaginacion_Result>();
+            //Mapper.AssertConfigurationIsValid();
+            #endregion
+
+
+            #region PaginadorCarteraVencida
+            //DB --> DTO
+            Mapper.CreateMap<sp_GetCarteraVencidaPaginacion_Result, CarteraVencidaPaginadorDTO>()
+                  .ForMember(dest => dest.Semaforo, opt => opt.MapFrom(src => SemaforoTranslate(src.semaforo)));
+            Mapper.AssertConfigurationIsValid();
+
+            #endregion
 
 
             //EJEMPLO:
@@ -387,6 +447,42 @@ namespace ModeloDatos
             //    .ForMember(dest => dest.EsGrupoAsignado, opt => opt.Ignore());
             //Mapper.AssertConfigurationIsValid();
 
+        }
+
+
+        public static string DateTranslate(DateTime fecha)
+        {
+            DateTime hoy = DateTime.Today;
+            DateTime ayer = DateTime.Today.AddDays(-1);
+
+            int result = DateTime.Compare(fecha, DateTime.Now);
+            if (fecha == hoy)
+                return "HOY";
+            else if (fecha == ayer)
+                return "AYER";
+            else
+                return fecha.ToString("dd/MM/yyyy");
+        }
+
+        public static string SemaforoTranslate(string semaforo)
+        {
+            string colorSemaforo = string.Empty;
+            switch(semaforo)
+            {
+                case "0":
+                    colorSemaforo = "Red";
+                    break;
+                case "1":
+                    colorSemaforo = "Yellow";
+                    break;
+                case "2":
+                    colorSemaforo = "Green";
+                    break;
+                default:
+                    break;
+            }
+
+            return colorSemaforo;
         }
     }
 
@@ -476,5 +572,9 @@ namespace ModeloDatos
             return str;
         }
     }
+
+
+    
+
 }
 

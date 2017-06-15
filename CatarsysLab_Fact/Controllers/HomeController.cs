@@ -51,5 +51,200 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { succes = true }, JsonRequestBehavior.AllowGet);
 
         }
+
+        [HttpPost]
+        public JsonResult TablePendientesPorFacturarPaginacion(int draw, int start, int length, int company, string search, string order)
+        {
+            Session[Constantes.Session.Empresa] = company;
+
+            //string search = Request["search[value]"] == null ? string.Empty : Request["search[value]"];
+
+            int sortColumn = 1;
+            string sortDirection = "asc";
+
+            if (length == -1)
+            {
+                length = 100;
+            }
+
+            if (Request["order[0][]"] != null)
+            {
+                string datos = Request["order[0][]"];
+                string[] datos2 = datos.Split(',');
+
+                sortColumn = int.Parse(datos2[0]);
+                sortDirection = datos2[1];
+
+            }
+
+            sortColumn = sortColumn == 0 ? 1 : sortColumn;
+
+
+            var data = new FacturasData().ObtenerPendientesPorFacturarPaginacion(start, length, sortColumn, sortDirection, search, 0, 0, DateTime.Now.AddYears(-10), company);
+            
+
+            data.Result.draw = draw;
+            data.Result.recordsFiltered = data.Result.recordsTotal;
+
+
+
+            return Json(data.Result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult TableProximosIngresosPaginacion(int draw, int start, int length, int company, string search, string order)
+        {
+            Session[Constantes.Session.Empresa] = company;
+
+            //string search = Request["search[value]"] == null ? string.Empty : Request["search[value]"];
+
+            int sortColumn = 1;
+            string sortDirection = "asc";
+
+            if (length == -1)
+            {
+                length = 100;
+            }
+
+            if (Request["order[0][]"] != null)
+            {
+                string datos = Request["order[0][]"];
+                string[] datos2 = datos.Split(',');
+
+                sortColumn = int.Parse(datos2[0]);
+                sortDirection = datos2[1];
+
+            }
+
+            sortColumn = sortColumn == 0 ? 1 : sortColumn;
+
+
+            var data = new FacturasData().ObtenerProximosIngresosPaginacion(start, length, sortColumn, sortDirection, search, 0, 0, DateTime.Now.AddYears(-10), company);
+
+
+            data.Result.draw = draw;
+            data.Result.recordsFiltered = data.Result.recordsTotal;
+
+
+
+            return Json(data.Result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult TableServiciosActualesPaginacion_Proyectos(int draw, int start, int length, int company, string search, string order)
+        {
+            Session[Constantes.Session.Empresa] = company;
+
+            //string search = Request["search[value]"] == null ? string.Empty : Request["search[value]"];
+
+            int sortColumn = 1;
+            string sortDirection = "asc";
+
+            if (length == -1)
+            {
+                length = 100;
+            }
+
+            if (Request["order[0][]"] != null)
+            {
+                string datos = Request["order[0][]"];
+                string[] datos2 = datos.Split(',');
+
+                sortColumn = int.Parse(datos2[0]);
+                sortDirection = datos2[1];
+
+            }
+
+            sortColumn = sortColumn == 0 ? 1 : sortColumn;
+
+
+            var data = new FacturasData().ObtenerServiciosActualesPaginacion_Proyecto(start, length, sortColumn, sortDirection, search, 0, 0, DateTime.Now.AddYears(-10), company);
+
+
+            data.Result.draw = draw;
+            data.Result.recordsFiltered = data.Result.recordsTotal;
+
+
+
+            return Json(data.Result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult TableServiciosActualesPaginacion_Asignaciones(int draw, int start, int length, int company, string search, string order)
+        {
+            Session[Constantes.Session.Empresa] = company;
+
+            //string search = Request["search[value]"] == null ? string.Empty : Request["search[value]"];
+
+            int sortColumn = 1;
+            string sortDirection = "asc";
+
+            if (length == -1)
+            {
+                length = 100;
+            }
+
+            if (Request["order[0][]"] != null)
+            {
+                string datos = Request["order[0][]"];
+                string[] datos2 = datos.Split(',');
+
+                sortColumn = int.Parse(datos2[0]);
+                sortDirection = datos2[1];
+
+            }
+
+            sortColumn = sortColumn == 0 ? 1 : sortColumn;
+
+
+            var data = new FacturasData().ObtenerServiciosActualesPaginacion_Asignacion(start, length, sortColumn, sortDirection, search, 0, 0, DateTime.Now.AddYears(-10), company);
+
+
+            data.Result.draw = draw;
+            data.Result.recordsFiltered = data.Result.recordsTotal;
+
+
+
+            return Json(data.Result, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public JsonResult TableCarteraVencidaPaginacion(int draw, int start, int length, int company, string search, string order)
+        {
+            Session[Constantes.Session.Empresa] = company;
+
+            //string search = Request["search[value]"] == null ? string.Empty : Request["search[value]"];
+
+            int sortColumn = 1;
+            string sortDirection = "asc";
+
+            if (length == -1)
+            {
+                length = 100;
+            }
+
+            if (Request["order[0][]"] != null)
+            {
+                string datos = Request["order[0][]"];
+                string[] datos2 = datos.Split(',');
+
+                sortColumn = int.Parse(datos2[0]);
+                sortDirection = datos2[1];
+
+            }
+
+            sortColumn = sortColumn == 0 ? 1 : sortColumn;
+
+
+            var data = new FacturasData().ObtenerCarteraVencidaPaginacion(start, length, sortColumn, sortDirection, search, 0, 0, DateTime.Now.AddYears(-10), company);
+
+
+            data.Result.draw = draw;
+            data.Result.recordsFiltered = data.Result.recordsTotal;
+
+
+
+            return Json(data.Result, JsonRequestBehavior.AllowGet);
+        }
     }
 }

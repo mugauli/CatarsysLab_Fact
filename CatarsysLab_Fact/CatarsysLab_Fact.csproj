@@ -173,6 +173,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\components.css" />
     <Content Include="Content\core.css" />
+    <Content Include="Content\Dashboard.css" />
     <Content Include="Content\elements.css" />
     <Content Include="Content\icons.css" />
     <Content Include="Content\menu.css" />

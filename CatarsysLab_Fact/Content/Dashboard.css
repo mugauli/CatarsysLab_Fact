@@ -1,0 +1,13 @@
+﻿.semaphoreValue, .semaphoreServicio, .semaphoreCVencida {
+    display: none;
+}
+
+.facVencida
+{
+    color:red;
+}
+
+.facAtiempo
+{
+    color:green;
+}

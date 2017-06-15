@@ -71,11 +71,14 @@
     <Compile Include="Gestion\ProyectosDTO.cs" />
     <Compile Include="Gestion\EmpleadosDTO.cs" />
     <Compile Include="Paginador\AsignacionPaginadorDTO.cs" />
+    <Compile Include="Paginador\CarteraVencidaPaginadorDTO.cs" />
     <Compile Include="Paginador\ClientesPaginadorDTO.cs" />
     <Compile Include="Paginador\EmpleadosPaginadorDTO.cs" />
     <Compile Include="Paginador\EmpresasPaginadorDTO.cs" />
     <Compile Include="Paginador\FacturasPaginadorDTO.cs" />
+    <Compile Include="Paginador\ProximosIngresosDTO.cs" />
     <Compile Include="Paginador\ProyectosPaginadorDTO.cs" />
+    <Compile Include="Paginador\ServiciosActualesPaginadorDTO.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Seguridad\PerfilDTO.cs" />
   </ItemGroup>
