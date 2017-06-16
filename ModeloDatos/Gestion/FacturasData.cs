@@ -294,8 +294,8 @@ namespace ModeloDatos.Gestion
 
 
                     ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
-                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filterCliente, filterEstado, filterPeriodo, totalrow).ToList();
-                    var asignacion = context.sp_GetFacturasPendientesPaginacion(0, 10, 1, 1, "asc", "", 1, 1, filterPeriodo, totalrow).ToList();
+                    var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filterCliente, filterEstado, filterPeriodo, totalrow).ToList();
+                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(0, 10, 1, 1, "asc", "", 1, 1, filterPeriodo, totalrow).ToList();
 
 
                     responsePag.data = Mapper.Map<List<ProximosIngresosDTO>>(asignacion);
@@ -324,8 +324,8 @@ namespace ModeloDatos.Gestion
 
 
                     ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
-                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filterCliente, filterEstado, filterPeriodo, totalrow).ToList();
-                    var asignacion = context.sp_GetProyectosActualesPaginacion(0, 10, 1, 1, "asc", "", 1, totalrow).ToList();
+                    var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filterCliente, filterEstado, filterPeriodo, totalrow).ToList();
+                    //var asignacion = context.sp_GetProyectosActualesPaginacion(0, 10, 1, 1, "asc", "", 1, totalrow).ToList();
 
 
                     responsePag.data = Mapper.Map<List<ServiciosActualesPaginadorDTO>>(asignacion);
@@ -354,8 +354,8 @@ namespace ModeloDatos.Gestion
 
 
                     ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
-                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filterPeriodo, totalrow).ToList();
-                    var asignacion = context.sp_GetAsignacionesActualesPaginacion(0, 10, 1, 1, "asc", "", totalrow).ToList();
+                    var asignacion = context.sp_GetAsignacionesActualesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, totalrow).ToList();
+                    //var asignacion = context.sp_GetAsignacionesActualesPaginacion(0, 10, 1, 1, "asc", "", totalrow).ToList();
 
 
                     responsePag.data = Mapper.Map<List<ServiciosActualesPaginadorDTO>>(asignacion);
@@ -384,8 +384,8 @@ namespace ModeloDatos.Gestion
 
 
                     ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
-                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filterPeriodo, totalrow).ToList();
-                    var asignacion = context.sp_GetCarteraVencidaPaginacion(0, 10, 1, 1, "asc", "",1, filterPeriodo, totalrow).ToList();
+                    var asignacion = context.sp_GetCarteraVencidaPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filterEstado, filterPeriodo, totalrow).ToList();
+                    //var asignacion = context.sp_GetCarteraVencidaPaginacion(0, 10, 1, 1, "asc", "",1, filterPeriodo, totalrow).ToList();
 
                     responsePag.data = Mapper.Map<List<CarteraVencidaPaginadorDTO>>(asignacion);
                     responsePag.recordsTotal = Convert.ToInt32(totalrow.Value);

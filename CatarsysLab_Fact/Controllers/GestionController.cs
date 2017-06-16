@@ -653,12 +653,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
-        #region Shared
-        [HttpPost]
-        public JsonResult AjustarFacturas(int tipo, int id, DateTime inicio, DateTime fin)
-        {
-            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
-        }
+       
 
         #endregion
 

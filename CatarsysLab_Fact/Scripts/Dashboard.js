@@ -17,7 +17,7 @@ $(document).ready(function () {
     $("#datepickerIngresos").datepicker('setDate', new Date());
 
     
-    //PENDIENTES POR FACTURAR
+    //PENDIENTES POR FACTURAR -- IndexTabla = 1
     var table = $('#datatable').DataTable({
         dom: "<'row itemHeader'<'col-sm-6'<'col-sm-12'>><'col-sm-6'<'col-sm-12'f>>><'row itemHeader'<'col-sm-6'<'col-sm-12'l>><'col-sm-6'<'col-sm-12'B>>>rt<p>",
         buttons: [{ extend: "copy", className: "btn-sm" }, { extend: "csv", className: "btn-sm" }, { extend: "excel", className: "btn-sm" }, { extend: "pdf", className: "btn-sm" }, { extend: "print", className: "btn-sm" }],
@@ -91,14 +91,20 @@ $(document).ready(function () {
             }, 0)
 
             $(".tFacVencidas").text(moneda + total_page_salary);
-            tPintadas += 1;
-            checktPintadas();
+
+            //Pinar simbolo monetario y semaforo
+            pimp_simbolo_moneda(1);
+            asign_semaphore(1);
 
         }
     });
 
-    //PROXIMOS INGRESOS
-    var table2 = $('#datatableProxIngresos').DataTable({
+    //SERVICIOS ACTUALES -- IndexTabla = 2
+    //SE CARGAN LAS ASIGNACIONES INICIALMENTE
+    loadTableServActuales(ServiciosActuales.ASIGNACIONES);
+
+    //PROXIMOS INGRESOS -- IndexTabla = 3
+    var table3 = $('#datatableProxIngresos').DataTable({
         dom: "<'row itemHeader'<'col-sm-6'<'col-sm-12'>><'col-sm-6'<'col-sm-12'f>>><'row itemHeader'<'col-sm-6'<'col-sm-12'l>><'col-sm-6'<'col-sm-12'B>>>rt<p>",
         buttons: [{ extend: "copy", className: "btn-sm" }, { extend: "csv", className: "btn-sm" }, { extend: "excel", className: "btn-sm" }, { extend: "pdf", className: "btn-sm" }, { extend: "print", className: "btn-sm" }],
         language: {
@@ -134,8 +140,7 @@ $(document).ready(function () {
                 // has been obtained.
                 // That data should be passed into the callback as the only parameter.
                 callback(data);
-                order = table2.order();
-
+                order = table3.order();
 
             })
 
@@ -164,12 +169,13 @@ $(document).ready(function () {
             }, 0)
 
             $(".tProxIngresos").text(moneda + total_page_salary);
-            tPintadas += 1;
-            checktPintadas();
+            //Pinar simbolo monetario y semaforo
+            pimp_simbolo_moneda(3);
+            asign_semaphore(3);
         }
     });
 
-    //CARTERA VENCIDA
+    //CARTERA VENCIDA -- IndexTabla = 4
     var table4 = $('#datatableCarVencida').DataTable({
         dom: "<'row itemHeader'<'col-sm-6'<'col-sm-12'>><'col-sm-6'<'col-sm-12'f>>><'row itemHeader'<'col-sm-6'<'col-sm-12'l>><'col-sm-6'<'col-sm-12'B>>>rt<p>",
         buttons: [{ extend: "copy", className: "btn-sm" }, { extend: "csv", className: "btn-sm" }, { extend: "excel", className: "btn-sm" }, { extend: "pdf", className: "btn-sm" }, { extend: "print", className: "btn-sm" }],
@@ -238,14 +244,14 @@ $(document).ready(function () {
             }, 0)
 
             $(".tCarteraVencidaResult").text(moneda + total_page_salary);
-            tPintadas += 1;
-            checktPintadas();
+
+            //Pinar simbolo monetario y semaforo
+            pimp_simbolo_moneda(4);
+            asign_semaphore(4);
         }
     });
 
-    //SERVICIOS ACTUALES
-    //SE CARGAN LAS ASIGNACIONES INICIALMENTE
-    loadTableServActuales(ServiciosActuales.ASIGNACIONES);
+   
 
     //SE ESCUCHA ALGUN CAMBIO DE SELECCION
     $('input[type=radio][name=servTyperadio]').change(function () {
@@ -261,10 +267,10 @@ $(document).ready(function () {
    
 
         
-    $('#datatable tbody').on('click', 'tr', function () {
-        var data = table.row(this).data();
-        cargarInfoModal(data["IdEmpleado"]);
-    });
+    //$('#datatable tbody').on('click', 'tr', function () {
+    //    var data = table.row(this).data();
+    //    cargarInfoModal(data["IdEmpleado"]);
+    //});
 
 
     $("#sltEmpresa").change(function () {
@@ -285,109 +291,16 @@ $(document).ready(function () {
         weekStart: 1
     };
 
-    $('#datatable tbody').on('click', 'tr', function () {
-        var data = table2.row(this).data();
-        cargarInfoModal(data["IdEmpleado"]);
-    });
+    //$('#datatable tbody').on('click', 'tr', function () {
+    //    var data = table2.row(this).data();
+    //    cargarInfoModal(data["IdEmpleado"]);
+    //});
 
 
 
 });
 
-//Asigna el color al td representativo del semaforo
-function asign_semaphore()
-{
-    console.log("asignando a table");
-    $('#datatable').find('tr').each(function (index) {
-        $(this).children("td").each(function (index2) {
-            //BUSCAMOS DIRECTAMENTE LA COLUMNA DE ESTADO
-            if (index2 == 4) {
-                var vencida = $(this).text();
-                //validamos su vigencia
-                if (vencida == "1")
-                {
-                    $(this).parent('tr').addClass('facVencida');
-                } else
-                {
-                    $(this).parent('tr').addClass('facAtiempo');
-                }
-            }
-            
-        })
-    });
-
-    console.log("asignando a datatableServActuales");
-    $('#datatableServActuales').find('tr').each(function (index) {
-        $(this).children("td").each(function (index2) {
-            //BUSCAMOS DIRECTAMENTE LA COLUMNA DE ESTADO
-            if (index2 == 4) {
-                
-                var color = $(this).text();
-                
-                $(this).parent('tr').css("color", color);
-            }
-
-        })
-    });
-
-
-    console.log("asignando a datatableCarVencida");
-    $('#datatableCarVencida').find('tr').each(function (index) {
-        $(this).children("td").each(function (index2) {
-            //BUSCAMOS DIRECTAMENTE LA COLUMNA DE ESTADO
-            if (index2 == 4) {
-                var color = $(this).text();
-
-                $(this).parent('tr').css("color", color);
-            }
-
-        })
-    });
-
-    
-}
-
-//Concatena el simbolo de moneda deseado a los valores de la columna deseada
-function pimp_sombolo_moneda() {
-
-    console.log("-------------------");
-    console.log("asignando a table");
-    $('#datatable').find('tr').each(function (index) {
-        $(this).children("td").each(function (index2) {
-            //BUSCAMOS DIRECTAMENTE LA COLUMNA DE MONTO
-            if (index2 == 3) {
-                var monto = $(this).text();
-                $(this).text(moneda + monto);
-            }
-        })
-    });
-
-    console.log("asignando a datatableProxIngresos");
-    $('#datatableProxIngresos').find('tr').each(function (index) {
-        $(this).children("td").each(function (index2) {
-            //BUSCAMOS DIRECTAMENTE LA COLUMNA DE MONTO
-            if (index2 == 3) {
-                var monto = $(this).text();
-                $(this).text(moneda + monto);
-            }
-        })
-    });
-
-    console.log("asignando a datatableCarVencida");
-    $('#datatableCarVencida').find('tr').each(function (index) {
-        $(this).children("td").each(function (index2) {
-            //BUSCAMOS DIRECTAMENTE LA COLUMNA DE MONTO
-            if (index2 == 3) {
-                var monto = $(this).text();
-                $(this).text(moneda + monto);
-            }
-        })
-    });
-}
-
-
-function loadTableServActuales(tipoServicio)
-{
+function loadTableServActuales(tipoServicio) {
     //1 -> Asignaciones , 2 -> Proyecto
     var tipo = "";
     switch (tipoServicio) {
@@ -400,7 +313,7 @@ function loadTableServActuales(tipoServicio)
     }
 
     //SERVICIOS ACTUALES
-    var table3 = $('#datatableServActuales').DataTable({
+    var table2 = $('#datatableServActuales').DataTable({
         destroy: true,
         dom: "<'row itemHeader'<'col-sm-6'<'col-sm-12'>><'col-sm-6'<'col-sm-12'f>>><'row itemHeader'<'col-sm-6'<'col-sm-12'l>><'col-sm-6'<'col-sm-12'B>>>rt<p>",
         buttons: [{ extend: "copy", className: "btn-sm" }, { extend: "csv", className: "btn-sm" }, { extend: "excel", className: "btn-sm" }, { extend: "pdf", className: "btn-sm" }, { extend: "print", className: "btn-sm" }],
@@ -437,8 +350,8 @@ function loadTableServActuales(tipoServicio)
                 // has been obtained.
                 // That data should be passed into the callback as the only parameter.
                 callback(data);
-                order = table3.order();
-             
+                order = table2.order();
+
 
             })
 
@@ -463,21 +376,103 @@ function loadTableServActuales(tipoServicio)
                 "class": "semaphoreServicio"
             }],
         drawCallback: function () {
-            tPintadas += 1;
-            checktPintadas();
+            //Pinar simbolo monetario y semaforo
+            pimp_simbolo_moneda(2);
+            asign_semaphore(2);
         }
     });
 }
 
-function checktPintadas()
+//Asigna el color al td representativo del semaforo
+function asign_semaphore(IndexTabla)
 {
-    console.log("Entro checkP:"+tPintadas); 
-    if (tPintadas == 4)
-    {
-        //Asignamos colores de semaforos y monedas
-        asign_semaphore();
-        //AGREGAMOS LOS SIMBOLO DE MONEDA
-        pimp_sombolo_moneda();
+    if (IndexTabla == 1) {
+        $('#datatable').find('tr').each(function (index) {
+            $(this).children("td").each(function (index2) {
+                //BUSCAMOS DIRECTAMENTE LA COLUMNA DE ESTADO
+                if (index2 == 4) {
+                    var vencida = $(this).text();
+                    //validamos su vigencia
+                    if (vencida == "1") {
+                        $(this).parent('tr').addClass('facVencida');
+                    } else {
+                        $(this).parent('tr').addClass('facAtiempo');
+                    }
+                }
+
+            })
+        });
     }
 
+    else if (IndexTabla == 2) {
+        $('#datatableServActuales').find('tr').each(function (index) {
+            $(this).children("td").each(function (index2) {
+                //BUSCAMOS DIRECTAMENTE LA COLUMNA DE ESTADO
+                if (index2 == 4) {
+
+                    var color = $(this).text();
+
+                    $(this).parent('tr').css("color", color);
+                }
+
+            })
+        });
+
+    }
+
+    else if (IndexTabla == 4) {
+        $('#datatableCarVencida').find('tr').each(function (index) {
+            $(this).children("td").each(function (index2) {
+                //BUSCAMOS DIRECTAMENTE LA COLUMNA DE ESTADO
+                if (index2 == 4) {
+                    var color = $(this).text();
+
+                    $(this).parent('tr').css("color", color);
+                }
+
+            })
+        });
+    }
+
+    
+}
+
+//Concatena el simbolo de moneda deseado a los valores de la columna deseada
+function pimp_simbolo_moneda(IndexTabla) {
+
+    if (IndexTabla == 1) {
+        $('#datatable').find('tr').each(function (index) {
+            $(this).children("td").each(function (index2) {
+                //BUSCAMOS DIRECTAMENTE LA COLUMNA DE MONTO
+                if (index2 == 3) {
+                    var monto = $(this).text();
+                    $(this).text(moneda + monto);
+                }
+            })
+        });
+    }
+
+    else if (IndexTabla == 3) {
+        $('#datatableProxIngresos').find('tr').each(function (index) {
+            $(this).children("td").each(function (index2) {
+                //BUSCAMOS DIRECTAMENTE LA COLUMNA DE MONTO
+                if (index2 == 3) {
+                    var monto = $(this).text();
+                    $(this).text(moneda + monto);
+                }
+            })
+        });
+    }
+
+    else if (IndexTabla == 4) {
+        $('#datatableCarVencida').find('tr').each(function (index) {
+            $(this).children("td").each(function (index2) {
+                //BUSCAMOS DIRECTAMENTE LA COLUMNA DE MONTO
+                if (index2 == 3) {
+                    var monto = $(this).text();
+                    $(this).text(moneda + monto);
+                }
+            })
+        });
+    }
 }

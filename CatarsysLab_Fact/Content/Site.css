@@ -183,6 +183,9 @@
     float: right;
 }
 
+#datatableServActuales tbody tr:hover,
+#datatableCarVencida tbody tr:hover,
+#datatableProxIngresos tbody tr:hover,
 #datatableContactos tbody tr:hover,
 #datatableFacturasProyecto tbody tr:hover,
 #datatable tbody tr:hover {
@@ -285,3 +288,141 @@ input:read-only {
     border: 1px solid #ccc;
     box-shadow: 1px 1px 1px;
 }
+
+
+/*Dashboard Tables*/
+
+/*Prox Ingresos*/
+#datatableServActuales .sorting,
+#datatableServActuales .sorting_asc,
+#datatableServActuales .sorting_desc,
+#datatableServActuales .sorting_asc_disabled,
+#datatableServActuales .sorting_desc_disabled {
+    cursor: pointer;
+    position: relative;
+}
+
+    #datatableServActuales .sorting:after,
+    #datatableServActuales .sorting_asc:after,
+    #datatableServActuales .sorting_desc:after {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: block;
+        font-family: 'Glyphicons Halflings';
+        opacity: 0.5;
+    }
+
+    #datatableServActuales .sorting:after {
+        opacity: 0.2;
+        content: "\e150"; /* sort */
+    }
+
+    #datatableServActuales .sorting_asc:after {
+        content: "\e155"; /* sort-by-attributes */
+    }
+
+    #datatableServActuales .sorting_desc:after {
+        content: "\e156"; /* sort-by-attributes-alt */
+    }
+
+    #datatableServActuales .sorting_asc_disabled:after,
+    #datatableServActuales .sorting_desc_disabled:after {
+        color: #eee;
+    }
+
+#datatableServActuales {
+    margin-top: 20px;
+}
+
+
+/*Prox Ingresos*/
+#datatableProxIngresos .sorting,
+#datatableProxIngresos .sorting_asc,
+#datatableProxIngresos .sorting_desc,
+#datatableProxIngresos .sorting_asc_disabled,
+#datatableProxIngresos .sorting_desc_disabled {
+    cursor: pointer;
+    position: relative;
+}
+
+    #datatableProxIngresos .sorting:after,
+    #datatableProxIngresos .sorting_asc:after,
+    #datatableProxIngresos .sorting_desc:after {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        display: block;
+        font-family: 'Glyphicons Halflings';
+        opacity: 0.5;
+    }
+
+    #datatableProxIngresos .sorting:after {
+        opacity: 0.2;
+        content: "\e150"; /* sort */
+    }
+
+    #datatableProxIngresos .sorting_asc:after {
+        content: "\e155"; /* sort-by-attributes */
+    }
+
+    #datatableProxIngresos .sorting_desc:after {
+        content: "\e156"; /* sort-by-attributes-alt */
+    }
+
+    #datatableProxIngresos .sorting_asc_disabled:after,
+    #datatableProxIngresos .sorting_desc_disabled:after {
+        color: #eee;
+    }
+
+#datatableProxIngresos {
+    margin-top: 20px;
+}
+
+  /*Cartera Vencida*/
+    #datatableCarVencida .sorting,
+    #datatableCarVencida .sorting_asc,
+    #datatableCarVencida .sorting_desc,
+    #datatableCarVencida .sorting_asc_disabled,
+    #datatableCarVencida .sorting_desc_disabled {
+        cursor: pointer;
+        position: relative;
+    }
+
+        #datatableCarVencida .sorting:after,
+        #datatableCarVencida .sorting_asc:after,
+        #datatableCarVencida .sorting_desc:after {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            display: block;
+            font-family: 'Glyphicons Halflings';
+            opacity: 0.5;
+        }
+
+        #datatableCarVencida .sorting:after {
+            opacity: 0.2;
+            content: "\e150"; /* sort */
+        }
+
+        #datatableCarVencida .sorting_asc:after {
+            content: "\e155"; /* sort-by-attributes */
+        }
+
+        #datatableCarVencida .sorting_desc:after {
+            content: "\e156"; /* sort-by-attributes-alt */
+        }
+
+        #datatableCarVencida .sorting_asc_disabled:after,
+        #datatableCarVencida .sorting_desc_disabled:after {
+            color: #eee;
+        }
+
+#datatableCarVencida {
+    margin-top: 20px;
+}
+
+
+
+
+/*End*/
