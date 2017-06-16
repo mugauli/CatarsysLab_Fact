@@ -264,8 +264,8 @@ namespace ModeloDatos.Gestion
 
 
                     ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
-                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filterCliente, filterEstado, filterPeriodo, totalrow).ToList();
-                    var asignacion = context.sp_GetFacturasPendientesPaginacion(0, 10, 1, 1, "asc", "", 1, 1, filterPeriodo, totalrow).ToList();
+                    var asignacion = context.sp_GetFacturasPendientesPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filterCliente, filterEstado, filterPeriodo, totalrow).ToList();
+                    //var asignacion = context.sp_GetFacturasPendientesPaginacion(0, 10, 1, 1, "asc", "", 1, 1, filterPeriodo, totalrow).ToList();
 
 
                     responsePag.data = Mapper.Map<List<FacturasPaginadorDTO>>(asignacion);
