@@ -41,11 +41,40 @@ namespace ModeloDatos
         public virtual DbSet<Contactos> Contactos { get; set; }
         public virtual DbSet<ctPermisos> ctPermisos { get; set; }
         public virtual DbSet<EmpleadoPermiso> EmpleadoPermiso { get; set; }
+        public virtual DbSet<Empleados> Empleados { get; set; }
         public virtual DbSet<Empresa> Empresa { get; set; }
         public virtual DbSet<Facturas> Facturas { get; set; }
         public virtual DbSet<Proyectos> Proyectos { get; set; }
         public virtual DbSet<DocumentosFacturas> DocumentosFacturas { get; set; }
-        public virtual DbSet<Empleados> Empleados { get; set; }
+    
+        public virtual ObjectResult<sp_GetAsignacionesActualesPaginacion_Result> sp_GetAsignacionesActualesPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, ObjectParameter totalrow)
+        {
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("page", page) :
+                new ObjectParameter("page", typeof(int));
+    
+            var sizeParameter = size.HasValue ?
+                new ObjectParameter("size", size) :
+                new ObjectParameter("size", typeof(int));
+    
+            var sortParameter = sort.HasValue ?
+                new ObjectParameter("sort", sort) :
+                new ObjectParameter("sort", typeof(int));
+    
+            var companyParameter = company.HasValue ?
+                new ObjectParameter("company", company) :
+                new ObjectParameter("company", typeof(int));
+    
+            var sortDireccionParameter = sortDireccion != null ?
+                new ObjectParameter("sortDireccion", sortDireccion) :
+                new ObjectParameter("sortDireccion", typeof(string));
+    
+            var filterParameter = filter != null ?
+                new ObjectParameter("filter", filter) :
+                new ObjectParameter("filter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAsignacionesActualesPaginacion_Result>("sp_GetAsignacionesActualesPaginacion", pageParameter, sizeParameter, sortParameter, companyParameter, sortDireccionParameter, filterParameter, totalrow);
+        }
     
         public virtual ObjectResult<sp_GetAsigPaginacion_Result> sp_GetAsigPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, ObjectParameter totalrow)
         {
@@ -76,7 +105,7 @@ namespace ModeloDatos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAsigPaginacion_Result>("sp_GetAsigPaginacion", pageParameter, sizeParameter, sortParameter, companyParameter, sortDireccionParameter, filterParameter, totalrow);
         }
     
-        public virtual ObjectResult<sp_GetProyectosPaginacion_Result> sp_GetProyectosPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, Nullable<int> filter2, ObjectParameter totalrow)
+        public virtual ObjectResult<sp_GetCarteraVencidaPaginacion_Result> sp_GetCarteraVencidaPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, Nullable<int> filterEstado, Nullable<System.DateTime> filterPeriodo, ObjectParameter totalrow)
         {
             var pageParameter = page.HasValue ?
                 new ObjectParameter("page", page) :
@@ -102,40 +131,15 @@ namespace ModeloDatos
                 new ObjectParameter("filter", filter) :
                 new ObjectParameter("filter", typeof(string));
     
-            var filter2Parameter = filter2.HasValue ?
-                new ObjectParameter("filter2", filter2) :
-                new ObjectParameter("filter2", typeof(int));
+            var filterEstadoParameter = filterEstado.HasValue ?
+                new ObjectParameter("filterEstado", filterEstado) :
+                new ObjectParameter("filterEstado", typeof(int));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetProyectosPaginacion_Result>("sp_GetProyectosPaginacion", pageParameter, sizeParameter, sortParameter, companyParameter, sortDireccionParameter, filterParameter, filter2Parameter, totalrow);
-        }
+            var filterPeriodoParameter = filterPeriodo.HasValue ?
+                new ObjectParameter("filterPeriodo", filterPeriodo) :
+                new ObjectParameter("filterPeriodo", typeof(System.DateTime));
     
-        public virtual ObjectResult<sp_GetEmpleadosPaginacion_Result> sp_GetEmpleadosPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, ObjectParameter totalrow)
-        {
-            var pageParameter = page.HasValue ?
-                new ObjectParameter("page", page) :
-                new ObjectParameter("page", typeof(int));
-    
-            var sizeParameter = size.HasValue ?
-                new ObjectParameter("size", size) :
-                new ObjectParameter("size", typeof(int));
-    
-            var sortParameter = sort.HasValue ?
-                new ObjectParameter("sort", sort) :
-                new ObjectParameter("sort", typeof(int));
-    
-            var companyParameter = company.HasValue ?
-                new ObjectParameter("company", company) :
-                new ObjectParameter("company", typeof(int));
-    
-            var sortDireccionParameter = sortDireccion != null ?
-                new ObjectParameter("sortDireccion", sortDireccion) :
-                new ObjectParameter("sortDireccion", typeof(string));
-    
-            var filterParameter = filter != null ?
-                new ObjectParameter("filter", filter) :
-                new ObjectParameter("filter", typeof(string));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetEmpleadosPaginacion_Result>("sp_GetEmpleadosPaginacion", pageParameter, sizeParameter, sortParameter, companyParameter, sortDireccionParameter, filterParameter, totalrow);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetCarteraVencidaPaginacion_Result>("sp_GetCarteraVencidaPaginacion", pageParameter, sizeParameter, sortParameter, companyParameter, sortDireccionParameter, filterParameter, filterEstadoParameter, filterPeriodoParameter, totalrow);
         }
     
         public virtual ObjectResult<sp_GetClientesPaginacion_Result> sp_GetClientesPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, ObjectParameter totalrow)
@@ -165,6 +169,35 @@ namespace ModeloDatos
                 new ObjectParameter("filter", typeof(string));
     
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetClientesPaginacion_Result>("sp_GetClientesPaginacion", pageParameter, sizeParameter, sortParameter, companyParameter, sortDireccionParameter, filterParameter, totalrow);
+        }
+    
+        public virtual ObjectResult<sp_GetEmpleadosPaginacion_Result> sp_GetEmpleadosPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, ObjectParameter totalrow)
+        {
+            var pageParameter = page.HasValue ?
+                new ObjectParameter("page", page) :
+                new ObjectParameter("page", typeof(int));
+    
+            var sizeParameter = size.HasValue ?
+                new ObjectParameter("size", size) :
+                new ObjectParameter("size", typeof(int));
+    
+            var sortParameter = sort.HasValue ?
+                new ObjectParameter("sort", sort) :
+                new ObjectParameter("sort", typeof(int));
+    
+            var companyParameter = company.HasValue ?
+                new ObjectParameter("company", company) :
+                new ObjectParameter("company", typeof(int));
+    
+            var sortDireccionParameter = sortDireccion != null ?
+                new ObjectParameter("sortDireccion", sortDireccion) :
+                new ObjectParameter("sortDireccion", typeof(string));
+    
+            var filterParameter = filter != null ?
+                new ObjectParameter("filter", filter) :
+                new ObjectParameter("filter", typeof(string));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetEmpleadosPaginacion_Result>("sp_GetEmpleadosPaginacion", pageParameter, sizeParameter, sortParameter, companyParameter, sortDireccionParameter, filterParameter, totalrow);
         }
     
         public virtual ObjectResult<sp_GetEmpresaPaginacion_Result> sp_GetEmpresaPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, ObjectParameter totalrow)
@@ -311,7 +344,7 @@ namespace ModeloDatos
             return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetProyectosActualesPaginacion_Result>("sp_GetProyectosActualesPaginacion", pageParameter, sizeParameter, sortParameter, companyParameter, sortDireccionParameter, filterParameter, filterClienteParameter, totalrow);
         }
     
-        public virtual ObjectResult<sp_GetAsignacionesActualesPaginacion_Result> sp_GetAsignacionesActualesPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, ObjectParameter totalrow)
+        public virtual ObjectResult<sp_GetProyectosPaginacion_Result> sp_GetProyectosPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, Nullable<int> filter2, ObjectParameter totalrow)
         {
             var pageParameter = page.HasValue ?
                 new ObjectParameter("page", page) :
@@ -337,44 +370,11 @@ namespace ModeloDatos
                 new ObjectParameter("filter", filter) :
                 new ObjectParameter("filter", typeof(string));
     
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetAsignacionesActualesPaginacion_Result>("sp_GetAsignacionesActualesPaginacion", pageParameter, sizeParameter, sortParameter, companyParameter, sortDireccionParameter, filterParameter, totalrow);
-        }
+            var filter2Parameter = filter2.HasValue ?
+                new ObjectParameter("filter2", filter2) :
+                new ObjectParameter("filter2", typeof(int));
     
-        public virtual ObjectResult<sp_GetCarteraVencidaPaginacion_Result> sp_GetCarteraVencidaPaginacion(Nullable<int> page, Nullable<int> size, Nullable<int> sort, Nullable<int> company, string sortDireccion, string filter, Nullable<int> filterEstado, Nullable<System.DateTime> filterPeriodo, ObjectParameter totalrow)
-        {
-            var pageParameter = page.HasValue ?
-                new ObjectParameter("page", page) :
-                new ObjectParameter("page", typeof(int));
-    
-            var sizeParameter = size.HasValue ?
-                new ObjectParameter("size", size) :
-                new ObjectParameter("size", typeof(int));
-    
-            var sortParameter = sort.HasValue ?
-                new ObjectParameter("sort", sort) :
-                new ObjectParameter("sort", typeof(int));
-    
-            var companyParameter = company.HasValue ?
-                new ObjectParameter("company", company) :
-                new ObjectParameter("company", typeof(int));
-    
-            var sortDireccionParameter = sortDireccion != null ?
-                new ObjectParameter("sortDireccion", sortDireccion) :
-                new ObjectParameter("sortDireccion", typeof(string));
-    
-            var filterParameter = filter != null ?
-                new ObjectParameter("filter", filter) :
-                new ObjectParameter("filter", typeof(string));
-    
-            var filterEstadoParameter = filterEstado.HasValue ?
-                new ObjectParameter("filterEstado", filterEstado) :
-                new ObjectParameter("filterEstado", typeof(int));
-    
-            var filterPeriodoParameter = filterPeriodo.HasValue ?
-                new ObjectParameter("filterPeriodo", filterPeriodo) :
-                new ObjectParameter("filterPeriodo", typeof(System.DateTime));
-    
-            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetCarteraVencidaPaginacion_Result>("sp_GetCarteraVencidaPaginacion", pageParameter, sizeParameter, sortParameter, companyParameter, sortDireccionParameter, filterParameter, filterEstadoParameter, filterPeriodoParameter, totalrow);
+            return ((IObjectContextAdapter)this).ObjectContext.ExecuteFunction<sp_GetProyectosPaginacion_Result>("sp_GetProyectosPaginacion", pageParameter, sizeParameter, sortParameter, companyParameter, sortDireccionParameter, filterParameter, filter2Parameter, totalrow);
         }
     }
 }

@@ -20,7 +20,21 @@ namespace CatarsysLab_Fact.Controllers
             Session[Constantes.Session.Empresa] = 1;
             return View();
         }
-        [AuthorizeCustom(IdObjetos = "0", IdTipoPermiso = "1")]
+
+        public ActionResult About()
+        {
+            ViewBag.Message = "Your application description page.";
+
+            return View();
+        }
+       
+        public ActionResult Contact()
+        {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+       
         public ActionResult BannerEmpresa()
         {
 
