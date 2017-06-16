@@ -12,6 +12,7 @@ namespace CatarsysLab_Fact.Utilerias
     public class AuthorizeCustomAttribute : AuthorizeAttribute
     {
         public string IdObjetos { get; set; }
+        public string IdTipoPermiso { get; set; }
 
         protected override bool AuthorizeCore(HttpContextBase httpContext)
         {
@@ -28,27 +29,32 @@ namespace CatarsysLab_Fact.Utilerias
             IPrincipal user = httpContext.User;
             EmpreadosData _Empleados = new EmpreadosData();
 
-            
+
 
             var rolesDeUsuario = System.Web.Security.Roles.GetRolesForUser(user.Identity.Name);
 
-            //if (rolesDeUsuario.Count() > 0)
-            //{
-            //    foreach (var idObjeto in IdObjetos.Split(','))
-            //    {
-            //        var rolesPermitidosObj = _Empleados.ObtenerPermisos() // obtengo los roles permitidos del objeto de la base de datos
-            //        if (rolesPermitidosObj.Code < 0)
-            //        {
-            //            throw new Exception("Error al consultar privilegios. Codigo: " + rolesPermitidosObj.Code.ToString());
-            //        }
 
+            if (rolesDeUsuario.Count() > 0)
+            {
+                foreach (var idObjeto in IdObjetos.Split(','))
+                {
 
-            //        if (rolesDeUsuario.Any(ru => rolesPermitidosObj.Result.Any(rp => rp.IdRol.ToString() == ru) == true))
-            //        {
-            //            return true;
-            //        }
-            //    }
-            //}
+                    if (rolesDeUsuario.Contains(idObjeto) || idObjeto.Equals("0"))
+                    {
+                        if (IdTipoPermiso.Equals("2"))
+                        {
+                            var tipopermiso = _Empleados.ObtenerPermisosTipo(int.Parse(user.Identity.Name),int.Parse(idObjeto));
+                            if (tipopermiso.Code == 0)
+                                return tipopermiso.Result;
+                            else
+                                return false;
+                        }
+                        else
+                            return true;
+                    }
+                }
+            }
+
 
             return false;
 

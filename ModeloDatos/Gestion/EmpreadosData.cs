@@ -208,6 +208,43 @@ namespace ModeloDatos.Gestion
             }
         }
 
+        public MethodResponseDTO<bool> ObtenerPermisosTipo(int IdEmpleado,int Idpermiso)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<bool> { Code = 0 };
+
+
+                    var objDB = context.EmpleadoPermiso.Where(a => a.Id_Empleado == IdEmpleado && a.Id_Permiso == Idpermiso).FirstOrDefault();
+
+                   
+
+                    response.Result = (objDB.Tipo_Permiso == 2 || objDB.Tipo_Permiso == 3);
+
+                    return response;
+                }
+                catch (DbEntityValidationException e)
+                {
+                    string Result = string.Empty;
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Result += string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Result += string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    Result += ("Code: -100, Mensaje: " + e.Message + ", InnerException: " + (e.InnerException != null ? e.InnerException.Message : ""));
+                    return new MethodResponseDTO<bool> { Code = -100, Message = Result };
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<bool> { Code = -100, Message = "Obtener permiso Tipo: " + ex.Message };
+                }
+            }
+        }
 
         public MethodResponseDTO<List<EmpleadoPermisoDTO>> ObtenerPermisos(int IdEmpleado)
         {
@@ -220,7 +257,7 @@ namespace ModeloDatos.Gestion
 
                     var objDB = context.EmpleadoPermiso
                             .Join(context.ctPermisos, c => c.Id_Permiso,cm => cm.Id_Permisos, (c, cm) => new { EmpPer = c, Per = cm })
-                            .Where(a => a.EmpPer.Id_Empleado == IdEmpleado && a.Per.Estado_Permiso == true).Select(x => x.EmpPer);
+                            .Where(a => a.EmpPer.Id_Empleado == IdEmpleado && a.Per.Estado_Permiso == true && a.EmpPer.Tipo_Permiso > 0).Select(x => x.EmpPer);
 
                     response.Result = Mapper.Map<List<EmpleadoPermisoDTO>>(objDB);
 

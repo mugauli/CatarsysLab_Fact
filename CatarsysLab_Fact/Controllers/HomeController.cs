@@ -14,27 +14,13 @@ namespace CatarsysLab_Fact.Controllers
     
     public class HomeController : Controller
     {
-        [AuthorizeCustom(IdObjetos = "1")]
+        [AuthorizeCustom(IdObjetos = "0", IdTipoPermiso = "1")]
         public ActionResult Index()
         {
             Session[Constantes.Session.Empresa] = 1;
             return View();
         }
-        [AuthorizeCustom]
-        public ActionResult About()
-        {
-            ViewBag.Message = "Your application description page.";
-
-            return View();
-        }
-        [AuthorizeCustom]
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "0", IdTipoPermiso = "1")]
         public ActionResult BannerEmpresa()
         {
 
@@ -56,7 +42,7 @@ namespace CatarsysLab_Fact.Controllers
 
             return View(response);
         }
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "0", IdTipoPermiso = "1")]
         [HttpPost]
         public JsonResult ActualizaEmpresa(int Empresa)
         {

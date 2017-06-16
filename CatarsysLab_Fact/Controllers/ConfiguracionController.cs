@@ -16,11 +16,13 @@ namespace CatarsysLab_Fact.Controllers
     {
         #region Empresas
         // GET: Configuracion
+        [AuthorizeCustom(IdObjetos = "6",IdTipoPermiso = "1")]
         public ActionResult Empresas()
         {
             return View();
         }
 
+        [AuthorizeCustom(IdObjetos = "6", IdTipoPermiso = "1")]
         [HttpPost]
         public JsonResult TablePaginacionEmpresas(int draw, int start, int length, int company, string search, string order)
         {
@@ -55,6 +57,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(data.Result, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom(IdObjetos = "6", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult GuardarEmpresa(int idEmpresa, string Nombre, string RazonSocial, string RFC, string calle, string Exterior, string Interior, string Colonia, short CP, string DelMpio, string EstadoDomicilio, string Email, string fecha_creacion, int estado)
         {
@@ -84,6 +87,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom(IdObjetos = "6", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult ObtenerEmpresa(int IdEmpresa)
         {
@@ -98,11 +102,13 @@ namespace CatarsysLab_Fact.Controllers
         #endregion
 
         #region Clientes
+        [AuthorizeCustom(IdObjetos = "7", IdTipoPermiso = "1")]
         public ActionResult Clientes()
         {
             return View();
         }
 
+        [AuthorizeCustom(IdObjetos = "7", IdTipoPermiso = "1")]
         [HttpPost]
         public JsonResult TablePaginacionClientes(int draw, int start, int length, int company, string search, string order)
         {
@@ -137,6 +143,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(data.Result, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom(IdObjetos = "7", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult GuardarCliente(int idCliente, int frIdEmpresa, string Nombre, string RazonSocial, string RFC, string calle, string Exterior, string Interior, string Colonia, short CP, string DelMpio, string EstadoDomicilio, string diasPago, int estado)
         {
@@ -167,6 +174,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom(IdObjetos = "7", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult GuardarContacto(int idContacto, int idClienteContacto, string Nombre_Contacto, string Puesto_Contacto, string Email_Contacto, string Skype_Contacto, string Telefono_Contacto, string Movil_Contacto, string Comentario_Contacto, int estado, int enviaFactura)
         {
@@ -198,6 +206,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true, contactos = objContactos.Result }, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom(IdObjetos = "7", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult ObtenerCliente(int IdCliente)
         {
@@ -212,6 +221,7 @@ namespace CatarsysLab_Fact.Controllers
         #endregion
 
         #region Empleados
+        [AuthorizeCustom(IdObjetos = "8", IdTipoPermiso = "1")]
         public ActionResult Empleados()
         {
             if (Session[Constantes.Session.Empresa] == null)
@@ -254,6 +264,7 @@ namespace CatarsysLab_Fact.Controllers
             return View(response);
         }
 
+        [AuthorizeCustom(IdObjetos = "8", IdTipoPermiso = "1")]
         [HttpPost]
         public JsonResult TablePaginacionEmpleados(int draw, int start, int length, int company, string search, string order)
         {
@@ -288,6 +299,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(data.Result, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom(IdObjetos = "8", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult GuardarEmpleado(int idEmpleado, int frIdEmpresa, string Nombre, string Puesto, int? JefeInmediato, string fecha_nacimiento, string fecha_ingreso, string Email, string Skype, string Movil, string Casa,
             string Domicilio, int IsLogin, string Usuario, string Password, string Password2, int estado, string hdPermisos)
@@ -358,6 +370,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
+        [AuthorizeCustom(IdObjetos = "8", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult ObtenerEmpleado(int IdEmpleado)
         {

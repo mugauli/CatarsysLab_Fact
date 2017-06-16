@@ -54,7 +54,7 @@ namespace CatarsysLab_Fact.Controllers
                     var usuario = _Empleados.ObtenerEmpleados(login.Username);
 
                     Session[Constantes.Session.Usuario] = usuario.Result;
-
+                    Session[Constantes.Session.Empresa] = usuario.Result.Id_Empresa;
 
                     FormsAuthentication.SetAuthCookie(usuario.Result.Id_Empleado.ToString(), false);
 

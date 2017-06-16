@@ -18,9 +18,16 @@ namespace CatarsysLab_Fact.Controllers
     {
         Helpers _helpers = new Helpers();
 
+        #region Dashboard
+        public ActionResult Dashboard() {
+
+            return View();
+        }
+        #endregion
+
         #region Asignaciones
         // GET: Gestion
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "2", IdTipoPermiso = "1")]
         public ActionResult Asignaciones()
         {
             Session[Constantes.Session.Empresa] = 1;
@@ -125,7 +132,8 @@ namespace CatarsysLab_Fact.Controllers
 
             return View(response);
         }
-        [AuthorizeCustom]
+
+        [AuthorizeCustom(IdObjetos = "2", IdTipoPermiso = "1")]
         [HttpPost]
         public JsonResult TablePaginacion(int draw, int start, int length, int company, string search,string order)
         {
@@ -163,7 +171,8 @@ namespace CatarsysLab_Fact.Controllers
 
             return Json(data.Result, JsonRequestBehavior.AllowGet);
         }
-        [AuthorizeCustom]
+
+        [AuthorizeCustom(IdObjetos = "2", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult GuardarAsignacion(int idAsignacion, int frIdEmpresa, int Cliente, int Consultor, int Tipo, string fecha_inicio, string fecha_fin, int Corte, decimal Costo, int Periodo, int Moneda, int IVA, int estado)
         {
@@ -191,7 +200,8 @@ namespace CatarsysLab_Fact.Controllers
 
             return Json(new {success = true}, JsonRequestBehavior.AllowGet);
         }
-        [AuthorizeCustom]
+
+        [AuthorizeCustom(IdObjetos = "2", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult ObtenerAsignacion(int IdAsignacion)
         {
@@ -206,7 +216,8 @@ namespace CatarsysLab_Fact.Controllers
         #endregion
 
         #region Proyectos
-        [AuthorizeCustom]
+
+        [AuthorizeCustom(IdObjetos = "3", IdTipoPermiso = "1")]
         public ActionResult Proyectos()
         {
             Session[Constantes.Session.Empresa] = 1;
@@ -284,7 +295,7 @@ namespace CatarsysLab_Fact.Controllers
            
         }
 
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "3", IdTipoPermiso = "1")]
         [HttpPost]
         public JsonResult TablePaginacionProy(int draw, int start, int length, int company,int filter2, string search, string order)
         {
@@ -321,7 +332,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(data.Result, JsonRequestBehavior.AllowGet);
         }
 
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "3", IdTipoPermiso = "2")]
         [HttpPost] 
         public JsonResult GuardarProyecto(int idProyecto, int frIdEmpresa, int Cliente, string NombreProyecto, string fecha_inicio, string fecha_fin, decimal Costo, int Moneda, int CantidadFacturas, int TipoCambio, int IVA, int estado, string Comentarios,string tablaJSON)
         {
@@ -381,7 +392,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "3", IdTipoPermiso = "1")]
         [HttpPost]
         public JsonResult ObtenerProyecto(int IdProyecto)
         {
@@ -397,7 +408,7 @@ namespace CatarsysLab_Fact.Controllers
 
         #region Facturas
 
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "4", IdTipoPermiso = "1")]
         public ActionResult Facturacion()
         {
             Session[Constantes.Session.Empresa] = 1;
@@ -502,7 +513,7 @@ namespace CatarsysLab_Fact.Controllers
             return View(response);
         }
 
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "4", IdTipoPermiso = "1")]
         [HttpPost]
         public JsonResult TablePaginacionFacturas(int draw, int start, int length, int company, int filter2, string search, string order)
         {
@@ -538,7 +549,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(data.Result, JsonRequestBehavior.AllowGet);
         }
 
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "4", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult GuardarFacturas(int IdFacturas, int frIdEmpresa, int Cliente, string NombreProyecto, string fecha_inicio, string fecha_fin, decimal Costo, int Moneda, int CantidadFacturas, int TipoCambio, int IVA, int estado, string Comentarios)
         {
@@ -567,7 +578,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "4", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult ObtenerFacturas(int IdFacturas)
         {
@@ -580,7 +591,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true, info = gdAsignacion.Result }, JsonRequestBehavior.AllowGet);
         }
 
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "4", IdTipoPermiso = "2")]
         [HttpPost]
         public ActionResult UploadFiles()
         {
@@ -635,7 +646,7 @@ namespace CatarsysLab_Fact.Controllers
 
         #region Shared
 
-        [AuthorizeCustom]
+        [AuthorizeCustom(IdObjetos = "4", IdTipoPermiso = "2")]
         [HttpPost]
         public JsonResult AjustarFacturas(int tipo, int id, DateTime inicio, DateTime fin)
         {
