@@ -108,5 +108,10 @@ namespace CatarsysLab_Fact.Controllers
             return View(login);
         }
 
+        public ActionResult SinPrivilegios()
+        {
+            return View();
+        }
+
     }
 }
