@@ -31,6 +31,10 @@ namespace ModeloDatos.Gestion
                     {
                         Facturas facturasDB = Mapper.Map<Facturas>(factura);
                         context.Facturas.Add(facturasDB);
+
+                        context.SaveChanges();
+
+                        response.Result = facturasDB.IdFactura;
                     }
                     else
                     {
@@ -52,8 +56,14 @@ namespace ModeloDatos.Gestion
                         fact.Descuento_Factura = factura.Descuento_Factura;
                         fact.Monto_Factura = factura.Monto_Factura;
                         fact.Ultimos_4_digitos_Factura = factura.Ultimos_4_digitos_Factura;
+
+                        context.SaveChanges();
+
+                        response.Result = fact.IdFactura;
                     }
-                    context.SaveChanges();
+                    
+
+                    
 
                     return response;
                 }
@@ -92,33 +102,33 @@ namespace ModeloDatos.Gestion
 
                     foreach (var factura in ltsFacturas)
                     {
-                        if(factura.Id_Estado_Factura == 1)
-                        if (factura.IdFactura == 0)
-                        {
-                            Facturas facturasDB = Mapper.Map<Facturas>(factura);
-                            context.Facturas.Add(facturasDB);
-                        }
-                        else
-                        {
-                            var fact = context.Facturas.SingleOrDefault(x => x.IdFactura == factura.IdFactura);
+                        if (factura.Id_Estado_Factura == 1)
+                            if (factura.IdFactura == 0)
+                            {
+                                Facturas facturasDB = Mapper.Map<Facturas>(factura);
+                                context.Facturas.Add(facturasDB);
+                            }
+                            else
+                            {
+                                var fact = context.Facturas.SingleOrDefault(x => x.IdFactura == factura.IdFactura);
 
-                            fact.IdFactura = factura.IdFactura;
-                            fact.IdCliente = factura.IdCliente;
-                            fact.IdEmpresa = factura.IdEmpresa;
-                            fact.IdAsignacion = factura.IdAsignacion;
-                            fact.IdProyecto = factura.IdProyecto;
-                            fact.C_Id_IVA = factura.C_Id_IVA;
-                            fact.C_Id_Moneda = factura.C_Id_Moneda;
-                            fact.C_Id_Tipo_Cambio = factura.C_Id_Tipo_Cambio;
-                            fact.C_Id_Metodo_Pago = factura.C_Id_Metodo_Pago;
-                            fact.Tipo_Factura = factura.Tipo_Factura;
-                            fact.Fecha_Inicio_Factura = factura.Fecha_Inicio_Factura;
-                            fact.Fecha_fin_Factura = factura.Fecha_fin_Factura;
-                            fact.No_Factura = factura.No_Factura;
-                            fact.Descuento_Factura = factura.Descuento_Factura;
-                            fact.Monto_Factura = factura.Monto_Factura;
-                            fact.Ultimos_4_digitos_Factura = factura.Ultimos_4_digitos_Factura;
-                        }
+                                fact.IdFactura = factura.IdFactura;
+                                fact.IdCliente = factura.IdCliente;
+                                fact.IdEmpresa = factura.IdEmpresa;
+                                fact.IdAsignacion = factura.IdAsignacion;
+                                fact.IdProyecto = factura.IdProyecto;
+                                fact.C_Id_IVA = factura.C_Id_IVA;
+                                fact.C_Id_Moneda = factura.C_Id_Moneda;
+                                fact.C_Id_Tipo_Cambio = factura.C_Id_Tipo_Cambio;
+                                fact.C_Id_Metodo_Pago = factura.C_Id_Metodo_Pago;
+                                fact.Tipo_Factura = factura.Tipo_Factura;
+                                fact.Fecha_Inicio_Factura = factura.Fecha_Inicio_Factura;
+                                fact.Fecha_fin_Factura = factura.Fecha_fin_Factura;
+                                fact.No_Factura = factura.No_Factura;
+                                fact.Descuento_Factura = factura.Descuento_Factura;
+                                fact.Monto_Factura = factura.Monto_Factura;
+                                fact.Ultimos_4_digitos_Factura = factura.Ultimos_4_digitos_Factura;
+                            }
                         context.SaveChanges();
                     }
 
@@ -146,10 +156,10 @@ namespace ModeloDatos.Gestion
         }
 
         /// <summary>
-        /// Borrar Facturas
+        /// Guardar pagos Facturas
         /// </summary>
         /// <returns>Lista de tipo asignacion</returns>
-        public MethodResponseDTO<int> BorrarFacturas(int Id, int tipo)
+        public MethodResponseDTO<int> GuardarPagosFacturas(PagosFacturasDTO pago)
         {
             using (var context = new DB_9F97CF_CatarsysSGCEntities())
             {
@@ -157,19 +167,12 @@ namespace ModeloDatos.Gestion
                 {
                     var response = new MethodResponseDTO<int>() { Code = 0, Result = 1 };
 
-                    List<Facturas> ltsFacturas;
-                    if (tipo == 1)
-                        ltsFacturas = context.Facturas.Where(x => x.IdProyecto == Id && x.Id_Estado_Factura == 1).ToList();
-                    else
-                        ltsFacturas = context.Facturas.Where(x => x.IdAsignacion == Id && x.Id_Estado_Factura == 1).ToList();
+                    var pagosDB = Mapper.Map<PagosFacturas>(pago);
+                    context.PagosFacturas.Add(pagosDB);
 
-                    foreach (var factura in ltsFacturas)
-                    {
+                    context.SaveChanges();
 
-                        context.Facturas.Remove(factura);
-                        context.SaveChanges();
-                    }
-
+                    response.Result = pagosDB.IdPago;
                     return response;
                 }
                 catch (DbEntityValidationException e)
@@ -189,6 +192,104 @@ namespace ModeloDatos.Gestion
                 catch (Exception ex)
                 {
                     return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = "GuardarAsignacion: " + ex.Message };
+                }
+            }
+        }
+
+        /// <summary>
+        /// Guardar Doctos Facturas
+        /// </summary>
+        /// <returns>Lista de tipo asignacion</returns>
+        public MethodResponseDTO<int> GuardarDocumentosFacturas(int IdPago, List<DocumentosFacturasDTO> doctos)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<int>() { Code = 0, Result = 1 };
+
+                    foreach (var dosto in doctos)
+                    {
+                        dosto.IdPago = IdPago;
+                        var pagosDB = Mapper.Map<DocumentosFacturas>(dosto);
+                        context.DocumentosFacturas.Add(pagosDB);
+                        context.SaveChanges();
+                    }
+
+
+                    return response;
+                }
+                catch (DbEntityValidationException e)
+                {
+                    string Result = string.Empty;
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Result += string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Result += string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    Result += ("Code: -100, Mensaje: " + e.Message + ", InnerException: " + (e.InnerException != null ? e.InnerException.Message : ""));
+                    return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = Result };
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = "GuardarAsignacion: " + ex.Message };
+                }
+            }
+        }
+
+        /// <summary>
+        /// Borrar Facturas
+        /// </summary>
+        /// <returns>Lista de tipo asignacion</returns>
+        public MethodResponseDTO<DateTime> BorrarFacturas(int Id, int tipo)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<DateTime>() { Code = 0};
+
+
+
+                    List<Facturas> ltsFacturas;
+                    if (tipo == 1)
+                        ltsFacturas = context.Facturas.Where(x => x.IdProyecto == Id && x.Id_Estado_Factura == 1).ToList();
+                    else
+                        ltsFacturas = context.Facturas.Where(x => x.IdAsignacion == Id && x.Id_Estado_Factura == 1).ToList();
+
+                    if (ltsFacturas.Count < 1) response.Result = DateTime.Now;
+                    else
+                        response.Result = ltsFacturas.First().Fecha_Inicio_Factura.Value;
+
+                    foreach (var factura in ltsFacturas)
+                    {
+                       
+                        context.Facturas.Remove(factura);
+                        context.SaveChanges();                        
+                    }
+
+                    return response;
+                }
+                catch (DbEntityValidationException e)
+                {
+                    string Result = string.Empty;
+                    foreach (var eve in e.EntityValidationErrors)
+                    {
+                        Result += string.Format("Entity of type \"{0}\" in state \"{1}\" has the following validation errors:", eve.Entry.Entity.GetType().Name, eve.Entry.State);
+                        foreach (var ve in eve.ValidationErrors)
+                        {
+                            Result += string.Format("- Property: \"{0}\", Error: \"{1}\"", ve.PropertyName, ve.ErrorMessage);
+                        }
+                    }
+                    Result += ("Code: -100, Mensaje: " + e.Message + ", InnerException: " + (e.InnerException != null ? e.InnerException.Message : ""));
+                    return new MethodResponseDTO<DateTime> { Code = -100, Message = e.Message };
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<DateTime> { Code = -100, Message = "GuardarAsignacion: " + ex.Message };
                 }
             }
         }
@@ -223,7 +324,46 @@ namespace ModeloDatos.Gestion
             }
         }
 
-        public MethodResponseDTO<PaginacionDTO<List<FacturasPaginadorDTO>>> ObtenerFacturasPaginacion(int page, int size, int sort, string sortDireccion, string filter,int filterCliente,int filterEstado,DateTime filterPeriodo, int Id_Empresa)
+        /// <summary>
+        /// Obtiene el siguiente numero de factura disponible
+        /// 1 : Asignación 
+        /// 0 : Proyectos
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="tipo"></param>
+        /// <returns></returns>
+        public MethodResponseDTO<short> ObtenerNumeroMaxFactura(int id, int tipo)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<short>() { Code = 0 };
+
+                    if (tipo == 1) //Tipo 1 : asignaciones
+                    {
+
+                        var facturasDB = context.Facturas.Where(x => x.IdAsignacion == id).Max(x => x.No_Factura);
+                        response.Result = (short)((facturasDB.HasValue ? facturasDB.Value : (short)1) + 1);
+
+                    }
+                    else
+                    {
+
+                        var facturasDB = context.Facturas.Where(x => x.IdProyecto == id).Max(x => x.No_Factura);
+                        response.Result = (short)((facturasDB.HasValue ? facturasDB.Value : (short)1) + 1);
+
+                    }
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<short> { Code = -100, Message = "ObtenerAsignaciones: " + ex.Message };
+                }
+            }
+        }
+
+        public MethodResponseDTO<PaginacionDTO<List<FacturasPaginadorDTO>>> ObtenerFacturasPaginacion(int page, int size, int sort, string sortDireccion, string filter, int filterCliente, int filterEstado, DateTime filterPeriodo, int Id_Empresa)
         {
             using (var context = new DB_9F97CF_CatarsysSGCEntities())
             {
@@ -235,7 +375,7 @@ namespace ModeloDatos.Gestion
 
 
                     ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
-                    var asignacion = context.sp_GetFacturasPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter,filterCliente,filterEstado,filterPeriodo,totalrow).ToList();
+                    var asignacion = context.sp_GetFacturasPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filterCliente, filterEstado, filterPeriodo, totalrow).ToList();
 
 
                     responsePag.data = Mapper.Map<List<FacturasPaginadorDTO>>(asignacion);

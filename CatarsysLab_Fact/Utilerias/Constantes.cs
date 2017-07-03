@@ -10,7 +10,7 @@ namespace CatarsysLab_Fact.Utilerias
         public struct Session
         {
             public static string Empresa = "Empresa";
-            public static string Usuario = "Usuario";
+            public static string Empleados = "Usuario";
         }
     }
 }

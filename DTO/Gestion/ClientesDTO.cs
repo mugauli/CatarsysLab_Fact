@@ -22,6 +22,8 @@ namespace DTO.Gestion
         public string Estado_Dom_Cliente { get; set; }
         public string Dias_de_Pago_Cliente { get; set; }
         public Nullable<bool> Estado { get; set; }
+        public string Emails { get; set; }
+        
         public virtual ICollection<ContactosDTO> Contactos { get; set; }
     }
 }

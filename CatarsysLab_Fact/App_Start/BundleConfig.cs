@@ -19,14 +19,15 @@ namespace CatarsysLab_Fact
                         "~/Scripts/jquery.nicescroll.js",
                         "~/Scripts/jquery.scrollTo.min.js",
                         "~/Scripts/main.js",
-                         "~/Scripts/serializeAll.js"));
+                        "~/Scripts/jquery.mask.min.js"));
+
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
 
-            bundles.Add(new ScriptBundle("~/Plugins/morris").Include(
-                       "~/Content/Plugins/morris/morris.min.js",
-                       "~/Content/Plugins/raphael/raphael-min.js"));
+            //bundles.Add(new ScriptBundle("~/Plugins/morris").Include(
+            //           "~/Content/Plugins/morris/morris.min.js",
+            //           "~/Content/Plugins/raphael/raphael-min.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/counterup").Include(
                         "~/Content/Plugins/waypoints/lib/jquery.waypoints.js",
@@ -52,12 +53,12 @@ namespace CatarsysLab_Fact
 
 
             //Datatable
-            bundles.Add(new StyleBundle("~/Plugins/datatTables").Include(
-            "~/Content/Plugins/datatables/jquery.dataTables.min.css",
-            "~/Content/Plugins/datatables/buttons.bootstrap.min.css",
-            "~/Content/Plugins/datatables/fixedHeader.bootstrap.min.css",
-            "~/Content/Plugins/datatables/responsive.bootstrap.min.css",
-            "~/Content/Plugins/datatables/scroller.bootstrap.min.css"));
+            //bundles.Add(new StyleBundle("~/Plugins/datatTables").Include(
+            ////"~/Content/Plugins/datatables/jquery.dataTables.min.css",
+            ////"~/Content/Plugins/datatables/buttons.bootstrap.min.css",
+            ////"~/Content/Plugins/datatables/fixedHeader.bootstrap.min.css",
+            ////"~/Content/Plugins/datatables/responsive.bootstrap.min.css",
+            //"~/Content/Plugins/datatables/scroller.bootstrap.min.css"));
 
             bundles.Add(new ScriptBundle("~/Plugins/datatablesJS").Include(
             "~/Content/Plugins/datatables/jquery.dataTables.min.js",
@@ -86,6 +87,9 @@ namespace CatarsysLab_Fact
                         "~/Content/icons.css",
                         "~/Content/pages.css",
                         "~/Content/responsive.css"));
+
+            bundles.Add(new StyleBundle("~/Content/Facturas").Include(                      
+                        "~/Content/Facturas.css"));
 
             //Datepicker
             bundles.Add(new StyleBundle("~/Plugins/datepicker").Include(

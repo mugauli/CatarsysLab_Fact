@@ -19,7 +19,8 @@ namespace CatarsysLab_Fact.Controllers
         Helpers _helpers = new Helpers();
 
         #region Dashboard
-        public ActionResult Dashboard() {
+        public ActionResult Dashboard()
+        {
 
             return View();
         }
@@ -135,7 +136,7 @@ namespace CatarsysLab_Fact.Controllers
 
         [AuthorizeCustom(IdObjetos = "2", IdTipoPermiso = "1")]
         [HttpPost]
-        public JsonResult TablePaginacion(int draw, int start, int length, int company, string search,string order)
+        public JsonResult TablePaginacion(int draw, int start, int length, int company, string search, string order)
         {
             Session[Constantes.Session.Empresa] = company;
 
@@ -179,7 +180,7 @@ namespace CatarsysLab_Fact.Controllers
 
             var asignacion = new AsignacionDTO();
 
-            if(idAsignacion != 0) asignacion.Id_Asignacion = idAsignacion;
+            if (idAsignacion != 0) asignacion.Id_Asignacion = idAsignacion;
             asignacion.Id_Cliente_Asignacion = Cliente;
             asignacion.Id_Empresa = frIdEmpresa;
             asignacion.Id_Empleado_Asignacion = Consultor;
@@ -195,10 +196,10 @@ namespace CatarsysLab_Fact.Controllers
 
             var gdAsignacion = new AsignacionData().GuardarAsignacion(asignacion);
 
-            if(gdAsignacion.Code != 0)
+            if (gdAsignacion.Code != 0)
                 return Json(new { success = false, message = gdAsignacion.Message }, JsonRequestBehavior.AllowGet);
 
-            return Json(new {success = true}, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
         [AuthorizeCustom(IdObjetos = "2", IdTipoPermiso = "2")]
@@ -211,7 +212,7 @@ namespace CatarsysLab_Fact.Controllers
             if (gdAsignacion.Code != 0)
                 return Json(new { success = false, message = gdAsignacion.Message }, JsonRequestBehavior.AllowGet);
 
-            return Json(new { success = true, info = gdAsignacion.Result}, JsonRequestBehavior.AllowGet);
+            return Json(new { success = true, info = gdAsignacion.Result }, JsonRequestBehavior.AllowGet);
         }
         #endregion
 
@@ -292,12 +293,12 @@ namespace CatarsysLab_Fact.Controllers
             #endregion
 
             return View(response);
-           
+
         }
 
         [AuthorizeCustom(IdObjetos = "3", IdTipoPermiso = "1")]
         [HttpPost]
-        public JsonResult TablePaginacionProy(int draw, int start, int length, int company,int filter2, string search, string order)
+        public JsonResult TablePaginacionProy(int draw, int start, int length, int company, int filter2, string search, string order)
         {
             Session[Constantes.Session.Empresa] = company;
 
@@ -316,13 +317,13 @@ namespace CatarsysLab_Fact.Controllers
                 string datos = Request["order[0][]"];
                 string[] datos2 = datos.Split(',');
 
-                sortColumn = int.Parse(datos2[0])>0? int.Parse(datos2[0]): 1;
+                sortColumn = int.Parse(datos2[0]) > 0 ? int.Parse(datos2[0]) : 1;
                 sortDirection = datos2[1];
 
             }
 
 
-            var data = new ProyectosData().ObtenerProyectosPaginacion(start, length, sortColumn, sortDirection, search,filter2, company);
+            var data = new ProyectosData().ObtenerProyectosPaginacion(start, length, sortColumn, sortDirection, search, filter2, company);
 
             data.Result.draw = draw;
             data.Result.recordsFiltered = data.Result.recordsTotal;
@@ -333,13 +334,13 @@ namespace CatarsysLab_Fact.Controllers
         }
 
         [AuthorizeCustom(IdObjetos = "3", IdTipoPermiso = "2")]
-        [HttpPost] 
-        public JsonResult GuardarProyecto(int idProyecto, int frIdEmpresa, int Cliente, string NombreProyecto, string fecha_inicio, string fecha_fin, decimal Costo, int Moneda, int CantidadFacturas, int TipoCambio, int IVA, int estado, string Comentarios,string tablaJSON)
+        [HttpPost]
+        public JsonResult GuardarProyecto(int idProyecto, int frIdEmpresa, int Cliente, string NombreProyecto, string fecha_inicio, string fecha_fin, decimal Costo, int Moneda, int CantidadFacturas, int TipoCambio, int IVA, int estado, string Comentarios, string tablaJSON)
         {
 
             var proyecto = new ProyectosDTO();
 
-            if (idProyecto != 0) proyecto.Id_Proyectos = idProyecto;            
+            if (idProyecto != 0) proyecto.Id_Proyectos = idProyecto;
             proyecto.Id_Empresa = frIdEmpresa;
             proyecto.Id_Clientes_Proyectos = Cliente;
             proyecto.Nombre_Proyectos = NombreProyecto;
@@ -374,12 +375,12 @@ namespace CatarsysLab_Fact.Controllers
                 facturaJ.C_Id_Tipo_Cambio = TipoCambio;
                 facturaJ.Tipo_Factura = "PR";
                 var EstadoFact = ((JValue)prod.SelectToken("Estado")).Value.ToString();
-                facturaJ.Id_Estado_Factura = Convert.ToInt16(EstadoFact.Equals("SI") ? 2 :(EstadoFact.Equals("NO") ? 1 : 3)); 
+                facturaJ.Id_Estado_Factura = Convert.ToInt16(EstadoFact.Equals("SI") ? 2 : (EstadoFact.Equals("NO") ? 1 : 3));
                 if (((JValue)prod.SelectToken("NoFactura")).Value.ToString() != "0") facturaJ.No_Factura = Convert.ToInt16(((JValue)prod.SelectToken("NoFactura")).Value);
 
                 factLts.Add(facturaJ);
             }
-                 
+
             #endregion
 
             proyecto.facturas = factLts;
@@ -397,7 +398,7 @@ namespace CatarsysLab_Fact.Controllers
         public JsonResult ObtenerProyecto(int IdProyecto)
         {
 
-            var gdAsignacion = new ProyectosData().ObtenerProyecto(IdProyecto,0, 2);
+            var gdAsignacion = new ProyectosData().ObtenerProyecto(IdProyecto, 0, 2);
 
             if (gdAsignacion.Code != 0)
                 return Json(new { success = false, message = gdAsignacion.Message }, JsonRequestBehavior.AllowGet);
@@ -485,9 +486,9 @@ namespace CatarsysLab_Fact.Controllers
             }
             response.ctTipoCambio = tipoCambio.Result;
             #endregion
-            
+
             #region Empleados
-            var Empleados = new EmpreadosData().ObtenerEmpleados(0,IdEmpresa,1);
+            var Empleados = new EmpreadosData().ObtenerEmpleados(0, IdEmpresa, 1);
 
             if (Empleados.Code != 0)
             {
@@ -541,7 +542,7 @@ namespace CatarsysLab_Fact.Controllers
 
             sortColumn = sortColumn == 0 ? 1 : sortColumn;
 
-            var data = new FacturasData().ObtenerFacturasPaginacion(start, length, sortColumn, sortDirection, search,0,0,DateTime.Now.AddYears(-10), company);
+            var data = new FacturasData().ObtenerFacturasPaginacion(start, length, sortColumn, sortDirection, search, 0, 0, DateTime.Now.AddYears(-10), company);
 
             data.Result.draw = draw;
             data.Result.recordsFiltered = data.Result.recordsTotal;
@@ -551,29 +552,38 @@ namespace CatarsysLab_Fact.Controllers
 
         [AuthorizeCustom(IdObjetos = "4", IdTipoPermiso = "2")]
         [HttpPost]
-        public JsonResult GuardarFacturas(int IdFacturas, int frIdEmpresa, int Cliente, string NombreProyecto, string fecha_inicio, string fecha_fin, decimal Costo, int Moneda, int CantidadFacturas, int TipoCambio, int IVA, int estado, string Comentarios)
+        public JsonResult GuardarFacturas(int IdFactura, int frIdEmpresa, int Cliente, int? Proyecto, int? Asignacion, string fecha_inicio, string fecha_fin, decimal Monto, decimal? Descontar, int Moneda, short NoFactura, int? TipoCambio, int MetodoPago, int IVA, int asigProy, string Comentarios, short Digitos)
         {
 
-            var proyecto = new ProyectosDTO();
+            var objFactura = new FacturasDTO();
 
-            //if (IdFacturas != 0) proyecto.Id_Proyectos = IdFacturas;
-            //proyecto.Id_Empresa = frIdEmpresa;
-            //proyecto.Id_Clientes_Proyectos = Cliente;
-            //proyecto.Nombre_Proyectos = NombreProyecto;
-            //proyecto.Numero_Facturas_Proyectos = CantidadFacturas;
-            //proyecto.Fecha_Ini_Proyectos = Convert.ToDateTime(fecha_inicio);
-            //if (fecha_fin != string.Empty) proyecto.Fecha_Fin_Proyectos = Convert.ToDateTime(fecha_fin);
-            //proyecto.Costo_Proyectos = Costo;
-            //proyecto.Id_Tipo_Cambio_Proyectos = TipoCambio;
-            //proyecto.Id_Moneda_Proyectos = Moneda;
-            //proyecto.Id_IVA_Proyectos = IVA;
-            //proyecto.Comentarios_Proyecto = Comentarios;
-            //proyecto.Estado = estado == 1;
+            objFactura.IdFactura = IdFactura;
+            objFactura.IdCliente = Cliente;
+            objFactura.IdEmpresa = frIdEmpresa;
+            if (asigProy == 1) objFactura.IdAsignacion = Asignacion.Value;
+            else objFactura.IdProyecto = Proyecto.Value;
+            objFactura.C_Id_IVA = IVA;
+            objFactura.C_Id_Moneda = Moneda;
+            objFactura.C_Id_Tipo_Cambio = TipoCambio;
+            objFactura.C_Id_Metodo_Pago = MetodoPago;
+            objFactura.Tipo_Factura = asigProy == 1 ? "AS" : "PR";
 
-            var gdProyecto = new ProyectosData().GuardarProyecto(proyecto);
+            DateTime date;
+            if (DateTime.TryParse(fecha_inicio, out date)) objFactura.Fecha_Inicio_Factura = date;
+            if (DateTime.TryParse(fecha_fin, out date)) objFactura.Fecha_fin_Factura = date;
 
-            if (gdProyecto.Code != 0)
-                return Json(new { success = false, message = gdProyecto.Message }, JsonRequestBehavior.AllowGet);
+            objFactura.No_Factura = NoFactura;
+            objFactura.Descuento_Factura = Descontar;
+            objFactura.Monto_Factura = Monto;
+            objFactura.Ultimos_4_digitos_Factura = Digitos;
+            if (IdFactura == 0) objFactura.Id_Estado_Factura = 1;
+
+            objFactura.Comentarios = Comentarios;
+
+            var gdFactura = new FacturasData().GuardarFactura(objFactura);
+
+            if (gdFactura.Code != 0)
+                return Json(new { success = false, message = gdFactura.Message }, JsonRequestBehavior.AllowGet);
 
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
@@ -588,7 +598,12 @@ namespace CatarsysLab_Fact.Controllers
             if (gdAsignacion.Code != 0)
                 return Json(new { success = false, message = gdAsignacion.Message }, JsonRequestBehavior.AllowGet);
 
-            return Json(new { success = true, info = gdAsignacion.Result }, JsonRequestBehavior.AllowGet);
+            var cliente = new ClienteData().ObtenerClientes(gdAsignacion.Result.First().IdCliente, 0, 2);
+            if (cliente.Code != 0)
+                return Json(new { success = false, message = cliente.Message }, JsonRequestBehavior.AllowGet);
+
+
+            return Json(new { success = true, info = gdAsignacion.Result, cliente = cliente.Result }, JsonRequestBehavior.AllowGet);
         }
 
         [AuthorizeCustom(IdObjetos = "4", IdTipoPermiso = "2")]
@@ -600,36 +615,67 @@ namespace CatarsysLab_Fact.Controllers
             {
                 try
                 {
+                    var pago = new PagosFacturasDTO();
+                    var doctosLts = new List<DocumentosFacturasDTO>();
+
+
                     //  Get all files from Request object  
                     HttpFileCollectionBase files = Request.Files;
-                    int IdFactura = Convert.ToInt32(Request.Form["IdFactura"]);
-                    var Descripcion = Request.Form["Descripcion"];
+                    pago.IdFactura = Convert.ToInt32(Request.Form["IdFactura"]);
+                    pago.Monto = Convert.ToDecimal(Request.Form["Monto"]);
+                    pago.Concepto = Request.Form["Concepto"];
+                    pago.Descripcion = Request.Form["Descripcion"];
 
                     for (int i = 0; i < files.Count; i++)
                     {
-                        //string path = AppDomain.CurrentDomain.BaseDirectory + "Uploads/";  
-                        //string filename = Path.GetFileName(Request.Files[i].FileName);  
+                        var docto = new DocumentosFacturasDTO();
+
 
                         HttpPostedFileBase file = files[i];
-                        string fname;
+                        string fname, fname2;
 
                         // Checking for Internet Explorer  
                         if (Request.Browser.Browser.ToUpper() == "IE" || Request.Browser.Browser.ToUpper() == "INTERNETEXPLORER")
                         {
                             string[] testfiles = file.FileName.Split(new char[] { '\\' });
                             fname = testfiles[testfiles.Length - 1];
+                            fname2 = testfiles[testfiles.Length - 1];
                         }
                         else
                         {
-                            fname = file.FileName;
+                            fname = file.FileName.ToLowerInvariant();
+                            fname2 = file.FileName.ToLowerInvariant();
                         }
 
                         // Get the complete folder path and store the file inside it.  
                         fname = Path.Combine(Server.MapPath("~/Facturas/"), fname);
-                        file.SaveAs(fname);
+                        if (System.IO.File.Exists(fname))
+                        {
+
+                            string[] nameExt = fname.Split('.');
+                            fname2 = Path.Combine(Server.MapPath("~/Facturas/"), nameExt[0] + "_" + DateTime.Now.ToString("ss") + "." + nameExt[1]);
+                            file.SaveAs(fname2);
+                            docto.Url = fname2;
+                        }
+                        else
+                        {
+                            file.SaveAs(fname);
+                            docto.Url = fname;
+                        }
+                        doctosLts.Add(docto);
                     }
+
+
+
+                    var pagos = new FacturasData().GuardarPagosFacturas(pago);
+                    if (pagos.Code != 0)
+                        return Json("Erroredc: " + pagos.Message);
+
+                    var doctos = new FacturasData().GuardarDocumentosFacturas(pagos.Result, doctosLts);
+                    if (doctos.Code != 0)
+                        return Json("Error: " + pagos.Message);
                     // Returns message that successfully uploaded  
-                    return Json("File Uploaded Successfully!");
+                    return Json("Pago realizado con exito!");
                 }
                 catch (Exception ex)
                 {
@@ -638,10 +684,37 @@ namespace CatarsysLab_Fact.Controllers
             }
             else
             {
-                return Json("No files selected.");
+                return Json("No hay archivos seleccionados.");
             }
         }
 
+        [AuthorizeCustom(IdObjetos = "4", IdTipoPermiso = "2")]
+        [HttpPost]
+        public JsonResult ObtenerNumeroFactura(int Id, int tipo)
+        {
+            var numberObj = new FacturasData().ObtenerNumeroMaxFactura(Id, tipo);
+
+            return Json(new { success = numberObj.Code == 0, message = numberObj.Message, data = numberObj.Result }, JsonRequestBehavior.AllowGet);
+        }
+
+        [AuthorizeCustom(IdObjetos = "4", IdTipoPermiso = "2")]
+        [HttpPost]
+        public JsonResult ObtenerProyectosCliente(int IdCliente, int tipo)
+        {
+            var numberObj = new ProyectosData().ObtenerProyectoAsignacionCliente(IdCliente, tipo);
+
+            return Json(new { success = numberObj.Code == 0, data = numberObj.Result, message = numberObj.Message }, JsonRequestBehavior.AllowGet);
+        }
+
+        [AuthorizeCustom(IdObjetos = "4", IdTipoPermiso = "2")]
+        [HttpPost]
+        public JsonResult ObtenerDatosFiscales(int IdCliente)
+        {
+            var cliente = new ClienteData().ObtenerClientes(IdCliente, 0, 2);
+
+
+            return Json(new { success = cliente.Code == 0, data = cliente.Result, message = cliente.Message }, JsonRequestBehavior.AllowGet);
+        }
         #endregion
 
         #region Shared
@@ -653,7 +726,7 @@ namespace CatarsysLab_Fact.Controllers
             return Json(new { success = true }, JsonRequestBehavior.AllowGet);
         }
 
-       
+
 
         #endregion
 

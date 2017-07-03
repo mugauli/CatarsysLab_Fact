@@ -200,7 +200,8 @@ namespace ModeloDatos
             #region Clientes
             //DB --> DTO
             Mapper.CreateMap<Clientes, ClientesDTO>()
-                .ForMember(dest => dest.Contactos, opt => opt.MapFrom(src => Mapper.Map<List<ContactosDTO>>(src.Contactos)));
+                .ForMember(dest => dest.Contactos, opt => opt.MapFrom(src => Mapper.Map<List<ContactosDTO>>(src.Contactos)))
+                .ForMember(dest => dest.Emails, opt => opt.MapFrom(src => src.Contactos == null ? string.Empty : ObtenerEmails(src.Contactos)));
             Mapper.AssertConfigurationIsValid();
 
             //DTO --> DB
@@ -234,11 +235,43 @@ namespace ModeloDatos
             Mapper.AssertConfigurationIsValid();
             #endregion
 
+
+            #region PagosFacturas
+            //DB --> DTO
+            Mapper.CreateMap<PagosFacturas, PagosFacturasDTO>()
+                .ForMember(dest => dest.DocumentosFacturas, opt => opt.MapFrom(src => Mapper.Map<List<DocumentosFacturasDTO>>(src.DocumentosFacturas)));
+            Mapper.AssertConfigurationIsValid();
+
+            //DTO --> DB
+
+            Mapper.CreateMap<PagosFacturasDTO, PagosFacturas>()
+                     .ForMember(dest => dest.Facturas, opt => opt.Ignore())
+                     .ForMember(dest => dest.DocumentosFacturas, opt => opt.Ignore());
+            Mapper.AssertConfigurationIsValid();
+            #endregion
+
+            #region DocumentosFacturas
+            //DB --> DTO
+            Mapper.CreateMap<DocumentosFacturas, DocumentosFacturasDTO>();
+            Mapper.AssertConfigurationIsValid();
+
+            //DTO --> DB
+
+            Mapper.CreateMap<DocumentosFacturasDTO, DocumentosFacturas>()
+                     .ForMember(dest => dest.PagosFacturas, opt => opt.Ignore());
+            Mapper.AssertConfigurationIsValid();
+            #endregion
+
             #region Facturas
             //DB --> DTO
             Mapper.CreateMap<Facturas, FacturasDTO>()
                  .ForMember(dest => dest.Fecha_Inicio_FacturaSTR, opt => opt.MapFrom(src => src.Fecha_Inicio_Factura == null ? string.Empty : src.Fecha_Inicio_Factura.Value.ToString("dd/MM/yyyy")))
-                 .ForMember(dest => dest.Fecha_fin_FacturaSTR, opt => opt.MapFrom(src => src.Fecha_fin_Factura == null ? string.Empty : src.Fecha_fin_Factura.Value.ToString("dd/MM/yyyy")));
+                 .ForMember(dest => dest.Fecha_fin_FacturaSTR, opt => opt.MapFrom(src => src.Fecha_fin_Factura == null ? string.Empty : src.Fecha_fin_Factura.Value.ToString("dd/MM/yyyy")))
+                 .ForMember(dest => dest.PagosFacturas, opt => opt.MapFrom(src => Mapper.Map<List<PagosFacturasDTO>>(src.PagosFacturas)))
+                 .ForMember(dest => dest.TipoFact, opt => opt.MapFrom(src => (src.IdAsignacion == null)))
+                 .ForMember(dest => dest.IdConsultor, opt => opt.MapFrom(src => (src.IdAsignacion == null ? 0 : src.Asignacion.Id_Empleado_Asignacion)))
+                 .ForMember(dest => dest.DiasLaborados, opt => opt.MapFrom(src => src.Fecha_Inicio_Factura == null ? string.Empty : DiasLaborados((DateTime)src.Fecha_Inicio_Factura,(DateTime)src.Fecha_fin_Factura,(src.DiasDescuento != null ? src.DiasDescuento.Value : 0))));
+            
             Mapper.AssertConfigurationIsValid();
 
             //DTO --> DB
@@ -253,22 +286,10 @@ namespace ModeloDatos
                     .ForMember(dest => dest.Clientes, opt => opt.Ignore())
                     .ForMember(dest => dest.Empresa, opt => opt.Ignore())
                     .ForMember(dest => dest.Proyectos, opt => opt.Ignore())
-                    .ForMember(dest => dest.DocumentosFacturas, opt => opt.Ignore());
+                    .ForMember(dest => dest.PagosFacturas, opt => opt.Ignore());
             Mapper.AssertConfigurationIsValid();
             #endregion
-
-            #region DocumentosFacturas
-            //DB --> DTO
-            Mapper.CreateMap<DocumentosFacturas, DocumentosFacturasDTO>();
-            Mapper.AssertConfigurationIsValid();
-
-            //DTO --> DB
-
-            Mapper.CreateMap<DocumentosFacturasDTO, DocumentosFacturas>()
-               .ForMember(dest => dest.Facturas, opt => opt.Ignore());
-            Mapper.AssertConfigurationIsValid();
-            #endregion
-
+            
             #region Contactos
             //DB --> DTO
             Mapper.CreateMap<Contactos, ContactosDTO>();
@@ -357,7 +378,9 @@ namespace ModeloDatos
             #region PaginadorFacturas
             //DB --> DTO
             Mapper.CreateMap<sp_GetFacturasPaginacion_Result, FacturasPaginadorDTO>()
-                .ForMember(dest => dest.DiaFacturacion, opt => opt.MapFrom(src => src.DiaFacturacion == null ? string.Empty : src.DiaFacturacion.Value.ToString("dd/MM/yyyy")));
+                .ForMember(dest => dest.DiaFacturacion, opt => opt.MapFrom(src => src.DiaFacturacion == null ? string.Empty : src.DiaFacturacion.Value.ToString("dd/MM/yyyy")))
+                .ForMember(dest => dest.Botones, opt => opt.MapFrom(src => src.estado.Equals("Pendiente de Facturar") ? "<button type='button' class='btnPago btn btn-success'>Agregar Pago</button>" : "<button type='button' class='btnDetalle btn btn-custom'>Detalle</button>"));
+            //.ForMember(dest => dest.Botones, opt => opt.MapFrom(src => src.Facturado));
             Mapper.AssertConfigurationIsValid();
             //DTO --> DB
 
@@ -369,8 +392,9 @@ namespace ModeloDatos
             //DB --> DTO
             Mapper.CreateMap<sp_GetFacturasPendientesPaginacion_Result, FacturasPaginadorDTO>()
                 //.ForMember(dest => dest.DiaFacturacion, opt => opt.MapFrom(src => src.DiaFacturacion == null ? string.Empty : src.DiaFacturacion.Value.ToString("dd/MM/yyyy")))
-                .ForMember(dest => dest.DiaFacturacion, opt => opt.MapFrom(src => src.DiaFacturacion == null ? string.Empty :  DateTranslate((DateTime)src.DiaFacturacion)))
-                .ForMember(dest => dest.estado, opt => opt.MapFrom(src => src.DiaFacturacion >= DateTime.Now  ? "0" : "1"));
+                .ForMember(dest => dest.DiaFacturacion, opt => opt.MapFrom(src => src.DiaFacturacion == null ? string.Empty : DateTranslate((DateTime)src.DiaFacturacion)))
+                .ForMember(dest => dest.estado, opt => opt.MapFrom(src => src.DiaFacturacion >= DateTime.Now ? "0" : "1"))
+            .ForMember(dest => dest.Botones, opt => opt.Ignore());
             Mapper.AssertConfigurationIsValid();
             //DTO --> DB
 
@@ -387,7 +411,6 @@ namespace ModeloDatos
             Mapper.AssertConfigurationIsValid();
             //DTO --> DB
             #endregion
-
 
             #region PaginadorServiciosActuales
             //DB --> DTO
@@ -417,7 +440,6 @@ namespace ModeloDatos
             //Mapper.CreateMap<ProximosIngresosDTO, sp_GetFacturasPaginacion_Result>();
             //Mapper.AssertConfigurationIsValid();
             #endregion
-
 
             #region PaginadorCarteraVencida
             //DB --> DTO
@@ -467,7 +489,7 @@ namespace ModeloDatos
         public static string SemaforoTranslate(string semaforo)
         {
             string colorSemaforo = string.Empty;
-            switch(semaforo)
+            switch (semaforo)
             {
                 case "0":
                     colorSemaforo = "Red";
@@ -483,6 +505,32 @@ namespace ModeloDatos
             }
 
             return colorSemaforo;
+        }
+
+        public static string DiasLaborados(DateTime fecha_inicial, DateTime fecha_final, int DiasDescuento)
+        {
+            int dias_habiles = 0;
+            while (fecha_inicial < fecha_final)
+            {
+                int numero_dia = Convert.ToInt16(fecha_inicial.DayOfWeek.ToString("d"));
+                if (numero_dia == 1 || numero_dia == 2 || numero_dia == 3 || numero_dia == 4 || numero_dia == 5)
+                {
+                    dias_habiles++;
+                }
+                fecha_final = fecha_final.AddDays(1);
+            }
+            
+            return ("Total: " + (dias_habiles - DiasDescuento).ToString() + (dias_habiles != 1 ? "días hábiles" : "día hábil"));
+        }
+
+        public static string ObtenerEmails(ICollection<Contactos> contactos)
+        {
+            string emails = String.Empty;
+
+            foreach (var con in contactos)
+                emails += con.Email_Contacto + ",";
+
+            return emails.TrimEnd(','); ;
         }
     }
 
@@ -574,7 +622,7 @@ namespace ModeloDatos
     }
 
 
-    
+
 
 }
 

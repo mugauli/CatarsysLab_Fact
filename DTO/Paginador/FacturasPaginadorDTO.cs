@@ -16,5 +16,6 @@ namespace DTO.Paginador
         public string Facturado { get; set; }
         public string DiaFacturacion { get; set; }
         public string estado { get; set; }
+        public string Botones { get; set; }
     }
 }

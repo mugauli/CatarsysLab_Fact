@@ -328,7 +328,7 @@ namespace CatarsysLab_Fact.Controllers
             empleados.Usuario_Empleado = Usuario;
             empleados.Estado = estado == 1;
 
-            if (Password != String.Empty)
+            if (!String.IsNullOrEmpty(Password))
 
             {
                 //string salt = "E524F5DDD49564AB7C10A42C2A187A1340ECB854877DB019A370809E1C6840E3C35299A7CBEF656E0C656B5F0C1DD46E1051BC61F165266993908633FEFAE5FF";

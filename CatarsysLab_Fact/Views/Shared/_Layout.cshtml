@@ -67,7 +67,7 @@
     <!--Morris Chart-->
     @*<script src="assets/plugins/morris/morris.min.js"></script>
         <script src="assets/plugins/raphael/raphael-min.js"></script>*@
-    @Scripts.Render("~/Plugins/morris")
+    @*@Scripts.Render("~/Plugins/morris")*@
 
 
     <!--DatePicker-->
@@ -87,6 +87,13 @@
 
 <body class="fixed-left">
 
+
+    <div id="ModalCargando">
+        <div id="CntModalCargando">
+            <img src="~/Images/loading.gif" id="ImgModalCargando" />
+        </div>
+    </div>
+
     <!-- Begin page -->
     <div id="wrapper">
 
@@ -97,7 +104,7 @@
             <div class="topbar-left">
                 <div class="text-center">
                     <a href="/" class="logo">
-                        <img id="imgLogo" src="~/Images/logo_firma_small.jpg" class="img-responsive" />
+                        <img id="imgLogo" src="~/Images/color/logo_color_mid.png" class="img-responsive" />
                     </a>
                 </div>
             </div>
@@ -142,45 +149,7 @@
             <li>@Html.ActionLink("Contacto", "Contact", "Home")</li>*@
 
         <div class="left side-menu">
-            <div class="sidebar-inner slimscrollleft">
-                <!--- Divider -->
-                <div id="sidebar-menu">
-                    <ul>
-
-                        <li class="text-muted menu-title">Navigation</li>
-
-                        <li class="has_sub">
-                            <a href="/" class="waves-effect"><i class="zmdi zmdi-view-dashboard"></i> <span> Dashboard </span> </a>
-                        </li>
-
-                        <li class="has_sub">
-                            <a href="/Gestion/Asignaciones" class="waves-effect"><i class="zmdi zmdi-assignment-account"></i> <span> Asignaciones </span> </a>
-                        </li>
-                        <li class="has_sub">
-                            <a href="/Gestion/Proyectos" class="waves-effect"><i class="zmdi zmdi-assignment-check"></i> <span> Proyectos </span> </a>
-                        </li>
-                        <li class="has_sub">
-                            <a href="/Gestion/Facturacion" class="waves-effect"><i class="zmdi zmdi-money"></i> <span> Facturas </span> </a>
-                        </li>
-
-
-
-                        <li class="has_sub">
-                            <a href="javascript:void(0);" class="waves-effect"><i class="zmdi zmdi-settings"></i> <span> Configuración</span> <span class="menu-arrow"></span> </a>
-                            <ul class="list-unstyled">
-                                <li><a href="/Configuracion/Empresas"><i class="zmdi zmdi-home"></i> <span>Empresas</span></a></li>
-                                <li><a href="/Configuracion/Clientes"><i class="zmdi zmdi-accounts"></i> <span>Clientes</span></a></li>
-                                <li><a href="/Configuracion/Empleados"><i class="zmdi zmdi-male"></i> <span>Empleados</span></a></li>
-                            </ul>
-                        </li>
-
-
-                    </ul>
-                    <div class="clearfix"></div>
-                </div>
-                <div class="clearfix"></div>
-
-            </div>
+            @{ Html.RenderAction("Menu", "Home"); }
         </div>
         <!-- Left Sidebar End -->
         <!-- ============================================================== -->
@@ -283,6 +252,7 @@
 
     </div>
     <!-- END wrapper -->
+
 
     <script>
         var resizefunc = [];

@@ -34,7 +34,35 @@ namespace CatarsysLab_Fact.Controllers
 
             return View();
         }
-       
+
+        [AuthorizeCustom(IdObjetos = "0", IdTipoPermiso = "1")]
+        public ActionResult Menu()
+        {
+            if (Session[Constantes.Session.Empleados] != null)
+            {
+                var empleado = (EmpleadosDTO)Session[Constantes.Session.Empleados];
+
+
+                var permisos = new EmpreadosData().ObtenerPermisos(empleado.Id_Empleado);
+
+                if (permisos.Code != 0)
+                {
+                    ViewBag.Titulo = "Info";
+                    ViewBag.Mensaje = "No fue posible obtener los permisos para el armado del menú.";
+                    return View("_InfoMensaje");
+                }
+                return PartialView(permisos.Result);
+            }
+            else
+            {
+                ViewBag.Titulo = "Info";
+                ViewBag.Mensaje = "Se ha perdido la sesión.";
+                return View("_InfoMensaje");
+            }
+            
+        }
+
+        [AuthorizeCustom(IdObjetos = "0", IdTipoPermiso = "1")]
         public ActionResult BannerEmpresa()
         {
 
@@ -56,6 +84,7 @@ namespace CatarsysLab_Fact.Controllers
 
             return View(response);
         }
+
         [AuthorizeCustom(IdObjetos = "0", IdTipoPermiso = "1")]
         [HttpPost]
         public JsonResult ActualizaEmpresa(int Empresa)

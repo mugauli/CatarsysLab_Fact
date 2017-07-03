@@ -77,6 +77,82 @@ namespace ModeloDatos.Gestion
             }
         }
 
+        public MethodResponseDTO<int> GuardarFacturasAsignacioón(Asignacion asignacion)
+        {
+            try
+            {
+                var response = new MethodResponseDTO<int>() { Code = 0, Result = 1 };
+                var _FacturasData = new FacturasData();
+
+                var BrFacturas = _FacturasData.BorrarFacturas(asignacion.Id_Asignacion, 2);
+
+                if (BrFacturas.Code != 0)
+                {
+                    return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = "Borrar Facturas: " + BrFacturas.Message };
+                }
+
+
+                var fechaInicio = BrFacturas.Result;
+                var fechaLimite = asignacion.Fecha_Fin_Asignacion;
+                var periodo = asignacion.Id_Periodo_Asignacion;
+                var facturasLst = new List<FacturasDTO>();
+                var NoInicialFactura = _FacturasData.ObtenerNumeroMaxFactura(asignacion.Id_Asignacion, 1).Result;
+                DateTime fecha = fechaInicio;
+
+                while (fechaLimite < fecha)
+                {
+                    var fact = new FacturasDTO();
+                    fact.IdFactura = 0;
+                    fact.IdCliente = asignacion.Id_Cliente_Asignacion.Value;
+                    fact.IdEmpresa = asignacion.Id_Empresa.Value;
+                    fact.IdAsignacion = asignacion.Id_Asignacion;
+                    fact.C_Id_IVA = asignacion.Id_IVA_Asignacion;
+                    fact.C_Id_Moneda = asignacion.Id_Moneda_Asignacion;
+                    fact.Tipo_Factura = "AS";
+                    fact.No_Factura = NoInicialFactura;
+                    fact.Monto_Factura = asignacion.Costo_Pactado_Asignacion;
+                    fact.Id_Estado_Factura = 1;
+
+                    fact.Fecha_Inicio_Factura = fecha;
+                    if (periodo == 1)
+                    {
+
+                        fact.Fecha_fin_Factura = fecha.AddDays(7); ;
+
+                    }
+                    else if (periodo == 2)
+                    {
+
+                        fact.Fecha_fin_Factura = fecha.AddMonths(1); ;
+                    }
+                    else
+                    {
+                        fact.Fecha_fin_Factura = fecha.AddYears(1); ;
+                    }
+
+                    fecha = fact.Fecha_fin_Factura.Value;
+
+                    facturasLst.Add(fact);
+
+                    NoInicialFactura++;
+                }
+
+                var gdFacturas = _FacturasData.GuardarFacturas(facturasLst);
+
+                response.Code = gdFacturas.Code;
+                response.Message = gdFacturas.Message;
+
+
+
+                return response;
+            }
+
+            catch (Exception ex)
+            {
+                return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = "Generar Facturas Asignación: " + ex.Message };
+            }
+        }
+
         /// <summary>
         /// Obtener Asignaciones
         /// Con idAsignacion = 0 regresara todas las asignaciones

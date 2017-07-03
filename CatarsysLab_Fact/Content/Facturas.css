@@ -1,0 +1,25 @@
+﻿.btnPago {
+    width: 100%;
+}
+
+.btnDetalle {
+    width: 100%;
+}
+
+#datatable tbody tr:hover {
+    box-shadow: none !important;
+    cursor: inherit !important;
+    opacity: 1;
+}
+
+.imgIcon {
+    width: 20px;
+}
+
+#GuardarProyecto {
+    float: right;
+}
+
+#Comentarios {
+    margin-bottom: 20px;
+}

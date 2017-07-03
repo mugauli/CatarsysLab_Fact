@@ -130,19 +130,13 @@
           <Property Name="Nombre_Permiso" Type="varchar" MaxLength="30" Nullable="false" />
           <Property Name="Estado_Permiso" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="DocumentosFacturas">
           <Key>
             <PropertyRef Name="IdDocumento" />
-            <PropertyRef Name="IdFactura" />
-            <PropertyRef Name="Url" />
           </Key>
           <Property Name="IdDocumento" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="IdFactura" Type="int" Nullable="false" />
+          <Property Name="IdPago" Type="int" Nullable="false" />
           <Property Name="Url" Type="varchar" MaxLength="150" Nullable="false" />
-          <Property Name="Descripción" Type="varchar" MaxLength="250" />
-          <Property Name="Activo" Type="bit" />
         </EntityType>
         <EntityType Name="EmpleadoPermiso">
           <Key>
@@ -216,6 +210,19 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           <Property Name="Monto_Factura" Type="decimal" Precision="18" Scale="2" />
           <Property Name="Ultimos_4_digitos_Factura" Type="smallint" />
           <Property Name="Id_Estado_Factura" Type="smallint" Nullable="false" />
+          <Property Name="DiasDescuento" Type="smallint" />
+          <Property Name="Comentarios" Type="varchar" MaxLength="250" />
+        </EntityType>
+        <EntityType Name="PagosFacturas">
+          <Key>
+            <PropertyRef Name="IdPago" />
+          </Key>
+          <Property Name="IdPago" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="IdFactura" Type="int" Nullable="false" />
+          <Property Name="Descripcion" Type="varchar" MaxLength="250" />
+          <Property Name="Activo" Type="bit" />
+          <Property Name="Monto" Type="decimal" Precision="18" Scale="2" />
+          <Property Name="Concepto" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Proyectos">
           <Key>
@@ -369,13 +376,25 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
         </Association>
         <Association Name="FK_DocumentosFacturas_Facturas">
           <End Role="Facturas" Type="Self.Facturas" Multiplicity="1" />
-          <End Role="DocumentosFacturas" Type="Self.DocumentosFacturas" Multiplicity="*" />
+          <End Role="PagosFacturas" Type="Self.PagosFacturas" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Facturas">
               <PropertyRef Name="IdFactura" />
             </Principal>
-            <Dependent Role="DocumentosFacturas">
+            <Dependent Role="PagosFacturas">
               <PropertyRef Name="IdFactura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentosFacturas_PagosFacturas">
+          <End Role="PagosFacturas" Type="Self.PagosFacturas" Multiplicity="1" />
+          <End Role="DocumentosFacturas" Type="Self.DocumentosFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PagosFacturas">
+              <PropertyRef Name="IdPago" />
+            </Principal>
+            <Dependent Role="DocumentosFacturas">
+              <PropertyRef Name="IdPago" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -724,20 +743,13 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           <EntitySet Name="Clientes" EntityType="Self.Clientes" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Contactos" EntityType="Self.Contactos" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="ctPermisos" EntityType="Self.ctPermisos" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DocumentosFacturas" EntityType="Self.DocumentosFacturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="EmpleadoPermiso" EntityType="Self.EmpleadoPermiso" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Empresa" EntityType="Self.Empresa" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Facturas" EntityType="Self.Facturas" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="PagosFacturas" EntityType="Self.PagosFacturas" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Proyectos" EntityType="Self.Proyectos" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="DocumentosFacturas" EntityType="Self.DocumentosFacturas" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [DocumentosFacturas].[IdDocumento] AS [IdDocumento], 
-    [DocumentosFacturas].[IdFactura] AS [IdFactura], 
-    [DocumentosFacturas].[Url] AS [Url], 
-    [DocumentosFacturas].[Descripción] AS [Descripción], 
-    [DocumentosFacturas].[Activo] AS [Activo]
-    FROM [dbo].[DocumentosFacturas] AS [DocumentosFacturas]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Asignacion_Clientes" Association="Self.FK_Asignacion_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Asignacion" EntitySet="Asignacion" />
@@ -784,6 +796,10 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           </AssociationSet>
           <AssociationSet Name="FK_DocumentosFacturas_Facturas" Association="Self.FK_DocumentosFacturas_Facturas">
             <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="PagosFacturas" EntitySet="PagosFacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentosFacturas_PagosFacturas" Association="Self.FK_DocumentosFacturas_PagosFacturas">
+            <End Role="PagosFacturas" EntitySet="PagosFacturas" />
             <End Role="DocumentosFacturas" EntitySet="DocumentosFacturas" />
           </AssociationSet>
           <AssociationSet Name="FK_EmpleadoPermiso_ctPermisos" Association="Self.FK_EmpleadoPermiso_ctPermisos">
@@ -980,9 +996,7 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           <EntitySet Name="EmpleadoPermiso" EntityType="DB_9F97CF_CatarsysSGCModel.EmpleadoPermiso" />
           <EntitySet Name="Empleados" EntityType="DB_9F97CF_CatarsysSGCModel.Empleados" />
           <EntitySet Name="Empresa" EntityType="DB_9F97CF_CatarsysSGCModel.Empresa" />
-          <EntitySet Name="Facturas" EntityType="DB_9F97CF_CatarsysSGCModel.Facturas" />
           <EntitySet Name="Proyectos" EntityType="DB_9F97CF_CatarsysSGCModel.Proyectos" />
-          <EntitySet Name="DocumentosFacturas" EntityType="DB_9F97CF_CatarsysSGCModel.DocumentosFacturas" />
           <AssociationSet Name="FK_Asignacion_Clientes" Association="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Asignacion" EntitySet="Asignacion" />
@@ -1019,37 +1033,13 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
             <End Role="Empleados" EntitySet="Empleados" />
             <End Role="Asignacion" EntitySet="Asignacion" />
           </AssociationSet>
-          <AssociationSet Name="FK_Facturas_Asignacion" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Asignacion">
-            <End Role="Asignacion" EntitySet="Asignacion" />
-            <End Role="Facturas" EntitySet="Facturas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Facturas_C_Estado_Factura" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Estado_Factura">
-            <End Role="C_Estado_Factura" EntitySet="C_Estado_Factura" />
-            <End Role="Facturas" EntitySet="Facturas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Facturas_C_IVA" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_IVA">
-            <End Role="C_IVA" EntitySet="C_IVA" />
-            <End Role="Facturas" EntitySet="Facturas" />
-          </AssociationSet>
           <AssociationSet Name="FK_Proyectos_IVA" Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_IVA">
             <End Role="C_IVA" EntitySet="C_IVA" />
             <End Role="Proyectos" EntitySet="Proyectos" />
           </AssociationSet>
-          <AssociationSet Name="FK_Facturas_C_Metodo_Pago" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Metodo_Pago">
-            <End Role="C_Metodo_Pago" EntitySet="C_Metodo_Pago" />
-            <End Role="Facturas" EntitySet="Facturas" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Facturas_C_Moneda" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Moneda">
-            <End Role="C_Moneda" EntitySet="C_Moneda" />
-            <End Role="Facturas" EntitySet="Facturas" />
-          </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Moneda" Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Moneda">
             <End Role="C_Moneda" EntitySet="C_Moneda" />
             <End Role="Proyectos" EntitySet="Proyectos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Facturas_C_Tipo_Cambio" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Tipo_Cambio">
-            <End Role="C_Tipo_Cambio" EntitySet="C_Tipo_Cambio" />
-            <End Role="Facturas" EntitySet="Facturas" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Tipo_Cambio" Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Tipo_Cambio">
             <End Role="C_Tipo_Cambio" EntitySet="C_Tipo_Cambio" />
@@ -1062,10 +1052,6 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           <AssociationSet Name="FK_Contactos_Clientes" Association="DB_9F97CF_CatarsysSGCModel.FK_Contactos_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
             <End Role="Contactos" EntitySet="Contactos" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Facturas_Clientes" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Clientes">
-            <End Role="Clientes" EntitySet="Clientes" />
-            <End Role="Facturas" EntitySet="Facturas" />
           </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Clientes" Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Clientes">
             <End Role="Clientes" EntitySet="Clientes" />
@@ -1087,23 +1073,58 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
             <End Role="Empleados" EntitySet="Empleados" />
             <End Role="Empleados1" EntitySet="Empleados" />
           </AssociationSet>
-          <AssociationSet Name="FK_Facturas_Empresa" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa">
-            <End Role="Empresa" EntitySet="Empresa" />
-            <End Role="Facturas" EntitySet="Facturas" />
-          </AssociationSet>
           <AssociationSet Name="FK_Proyectos_Empresa" Association="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Empresa">
             <End Role="Empresa" EntitySet="Empresa" />
             <End Role="Proyectos" EntitySet="Proyectos" />
           </AssociationSet>
-          <AssociationSet Name="FK_DocumentosFacturas_Facturas" Association="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_Facturas">
+          <EntitySet Name="DocumentosFacturas" EntityType="DB_9F97CF_CatarsysSGCModel.DocumentosFacturas" />
+          <EntitySet Name="Facturas" EntityType="DB_9F97CF_CatarsysSGCModel.Facturas" />
+          <AssociationSet Name="FK_Facturas_Asignacion" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Asignacion">
+            <End Role="Asignacion" EntitySet="Asignacion" />
             <End Role="Facturas" EntitySet="Facturas" />
-            <End Role="DocumentosFacturas" EntitySet="DocumentosFacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Estado_Factura" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Estado_Factura">
+            <End Role="C_Estado_Factura" EntitySet="C_Estado_Factura" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_IVA" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_IVA">
+            <End Role="C_IVA" EntitySet="C_IVA" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Metodo_Pago" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Metodo_Pago">
+            <End Role="C_Metodo_Pago" EntitySet="C_Metodo_Pago" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Moneda" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Moneda">
+            <End Role="C_Moneda" EntitySet="C_Moneda" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_C_Tipo_Cambio" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Tipo_Cambio">
+            <End Role="C_Tipo_Cambio" EntitySet="C_Tipo_Cambio" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Clientes" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Clientes">
+            <End Role="Clientes" EntitySet="Clientes" />
+            <End Role="Facturas" EntitySet="Facturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Facturas_Empresa" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa">
+            <End Role="Empresa" EntitySet="Empresa" />
+            <End Role="Facturas" EntitySet="Facturas" />
           </AssociationSet>
           <AssociationSet Name="FK_Facturas_Proyectos" Association="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Proyectos">
             <End Role="Proyectos" EntitySet="Proyectos" />
             <End Role="Facturas" EntitySet="Facturas" />
           </AssociationSet>
-        </EntityContainer>
+          <EntitySet Name="PagosFacturas" EntityType="DB_9F97CF_CatarsysSGCModel.PagosFacturas" />
+          <AssociationSet Name="FK_DocumentosFacturas_PagosFacturas" Association="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_PagosFacturas">
+            <End Role="PagosFacturas" EntitySet="PagosFacturas" />
+            <End Role="DocumentosFacturas" EntitySet="DocumentosFacturas" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DocumentosFacturas_Facturas" Association="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_Facturas">
+            <End Role="Facturas" EntitySet="Facturas" />
+            <End Role="PagosFacturas" EntitySet="PagosFacturas" />
+          </AssociationSet>
+          </EntityContainer>
         <ComplexType Name="sp_GetAsignacionesActualesPaginacion_Result">
           <Property Type="Int32" Name="IdAsignacion" Nullable="true" />
           <Property Type="String" Name="Consultor" Nullable="true" MaxLength="50" />
@@ -1249,8 +1270,8 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           <Property Name="C_Id_IVA" Type="Int32" Nullable="false" />
           <Property Name="C_Desc_IVA" Type="String" Nullable="false" MaxLength="10" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_IVA" FromRole="C_IVA" ToRole="Asignacion" />
-          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_IVA" FromRole="C_IVA" ToRole="Facturas" />
           <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_IVA" FromRole="C_IVA" ToRole="Proyectos" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_IVA" FromRole="C_IVA" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="C_Metodo_Pago">
           <Key>
@@ -1267,8 +1288,8 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           <Property Name="C_Id_Moneda" Type="Int32" Nullable="false" />
           <Property Name="C_Desc_Moneda" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
           <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Moneda" FromRole="C_Moneda" ToRole="Asignacion" />
-          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Moneda" FromRole="C_Moneda" ToRole="Facturas" />
           <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Moneda" FromRole="C_Moneda" ToRole="Proyectos" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Moneda" FromRole="C_Moneda" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="C_Periodos">
           <Key>
@@ -1293,8 +1314,8 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           </Key>
           <Property Name="C_Id_Tipo_Cambio" Type="Int32" Nullable="false" />
           <Property Name="C_Desc_Tipo_Cambio" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Tipo_Cambio" FromRole="C_Tipo_Cambio" ToRole="Facturas" />
           <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Tipo_Cambio" FromRole="C_Tipo_Cambio" ToRole="Proyectos" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Tipo_Cambio" FromRole="C_Tipo_Cambio" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="Clientes">
           <Key>
@@ -1317,8 +1338,8 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Clientes" FromRole="Clientes" ToRole="Asignacion" />
           <NavigationProperty Name="Empresa" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Clientes_Empresa" FromRole="Clientes" ToRole="Empresa" />
           <NavigationProperty Name="Contactos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Contactos_Clientes" FromRole="Clientes" ToRole="Contactos" />
-          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Clientes" FromRole="Clientes" ToRole="Facturas" />
           <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Clientes" FromRole="Clientes" ToRole="Proyectos" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Clientes" FromRole="Clientes" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="Contactos">
           <Key>
@@ -1406,40 +1427,8 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Asignacion_Empresa" FromRole="Empresa" ToRole="Asignacion" />
           <NavigationProperty Name="Clientes" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Clientes_Empresa" FromRole="Empresa" ToRole="Clientes" />
           <NavigationProperty Name="Empleados" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Usuarios_Empresa" FromRole="Empresa" ToRole="Empleados" />
-          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa" FromRole="Empresa" ToRole="Facturas" />
           <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Empresa" FromRole="Empresa" ToRole="Proyectos" />
-        </EntityType>
-        <EntityType Name="Facturas">
-          <Key>
-            <PropertyRef Name="IdFactura" />
-          </Key>
-          <Property Name="IdFactura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdCliente" Type="Int32" Nullable="false" />
-          <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
-          <Property Name="IdAsignacion" Type="Int32" />
-          <Property Name="IdProyecto" Type="Int32" />
-          <Property Name="C_Id_IVA" Type="Int32" />
-          <Property Name="C_Id_Moneda" Type="Int32" />
-          <Property Name="C_Id_Tipo_Cambio" Type="Int32" />
-          <Property Name="C_Id_Metodo_Pago" Type="Int32" />
-          <Property Name="Tipo_Factura" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
-          <Property Name="Fecha_Inicio_Factura" Type="DateTime" Precision="3" />
-          <Property Name="Fecha_fin_Factura" Type="DateTime" Precision="3" />
-          <Property Name="No_Factura" Type="Int16" />
-          <Property Name="Descuento_Factura" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Monto_Factura" Type="Decimal" Precision="18" Scale="2" />
-          <Property Name="Ultimos_4_digitos_Factura" Type="Int16" />
-          <Property Name="Id_Estado_Factura" Type="Int16" Nullable="false" />
-          <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Asignacion" FromRole="Facturas" ToRole="Asignacion" />
-          <NavigationProperty Name="C_Estado_Factura" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Estado_Factura" FromRole="Facturas" ToRole="C_Estado_Factura" />
-          <NavigationProperty Name="C_IVA" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_IVA" FromRole="Facturas" ToRole="C_IVA" />
-          <NavigationProperty Name="C_Metodo_Pago" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Metodo_Pago" FromRole="Facturas" ToRole="C_Metodo_Pago" />
-          <NavigationProperty Name="C_Moneda" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Moneda" FromRole="Facturas" ToRole="C_Moneda" />
-          <NavigationProperty Name="C_Tipo_Cambio" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Tipo_Cambio" FromRole="Facturas" ToRole="C_Tipo_Cambio" />
-          <NavigationProperty Name="Clientes" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Clientes" FromRole="Facturas" ToRole="Clientes" />
-          <NavigationProperty Name="Empresa" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa" FromRole="Facturas" ToRole="Empresa" />
-          <NavigationProperty Name="DocumentosFacturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_Facturas" FromRole="Facturas" ToRole="DocumentosFacturas" />
-          <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Proyectos" FromRole="Facturas" ToRole="Proyectos" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa" FromRole="Empresa" ToRole="Facturas" />
         </EntityType>
         <EntityType Name="Proyectos">
           <Key>
@@ -1464,19 +1453,6 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           <NavigationProperty Name="Clientes" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Clientes" FromRole="Proyectos" ToRole="Clientes" />
           <NavigationProperty Name="Empresa" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Proyectos_Empresa" FromRole="Proyectos" ToRole="Empresa" />
           <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Proyectos" FromRole="Proyectos" ToRole="Facturas" />
-        </EntityType>
-        <EntityType Name="DocumentosFacturas">
-          <Key>
-            <PropertyRef Name="IdDocumento" />
-            <PropertyRef Name="IdFactura" />
-            <PropertyRef Name="Url" />
-          </Key>
-          <Property Name="IdDocumento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IdFactura" Type="Int32" Nullable="false" />
-          <Property Name="Url" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
-          <Property Name="Descripción" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
-          <Property Name="Activo" Type="Boolean" />
-          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_Facturas" FromRole="DocumentosFacturas" ToRole="Facturas" />
         </EntityType>
         <Association Name="FK_Asignacion_Clientes">
           <End Type="DB_9F97CF_CatarsysSGCModel.Clientes" Role="Clientes" Multiplicity="0..1" />
@@ -1586,42 +1562,6 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Facturas_Asignacion">
-          <End Type="DB_9F97CF_CatarsysSGCModel.Asignacion" Role="Asignacion" Multiplicity="0..1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Asignacion">
-              <PropertyRef Name="Id_Asignacion" />
-            </Principal>
-            <Dependent Role="Facturas">
-              <PropertyRef Name="IdAsignacion" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Facturas_C_Estado_Factura">
-          <End Type="DB_9F97CF_CatarsysSGCModel.C_Estado_Factura" Role="C_Estado_Factura" Multiplicity="1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="C_Estado_Factura">
-              <PropertyRef Name="Id_Estado_Factura" />
-            </Principal>
-            <Dependent Role="Facturas">
-              <PropertyRef Name="Id_Estado_Factura" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Facturas_C_IVA">
-          <End Type="DB_9F97CF_CatarsysSGCModel.C_IVA" Role="C_IVA" Multiplicity="0..1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="C_IVA">
-              <PropertyRef Name="C_Id_IVA" />
-            </Principal>
-            <Dependent Role="Facturas">
-              <PropertyRef Name="C_Id_IVA" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Proyectos_IVA">
           <End Type="DB_9F97CF_CatarsysSGCModel.C_IVA" Role="C_IVA" Multiplicity="0..1" />
           <End Type="DB_9F97CF_CatarsysSGCModel.Proyectos" Role="Proyectos" Multiplicity="*" />
@@ -1634,30 +1574,6 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Facturas_C_Metodo_Pago">
-          <End Type="DB_9F97CF_CatarsysSGCModel.C_Metodo_Pago" Role="C_Metodo_Pago" Multiplicity="0..1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="C_Metodo_Pago">
-              <PropertyRef Name="C_ID_Metodo_Pago" />
-            </Principal>
-            <Dependent Role="Facturas">
-              <PropertyRef Name="C_Id_Metodo_Pago" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Facturas_C_Moneda">
-          <End Type="DB_9F97CF_CatarsysSGCModel.C_Moneda" Role="C_Moneda" Multiplicity="0..1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="C_Moneda">
-              <PropertyRef Name="C_Id_Moneda" />
-            </Principal>
-            <Dependent Role="Facturas">
-              <PropertyRef Name="C_Id_Moneda" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Proyectos_Moneda">
           <End Type="DB_9F97CF_CatarsysSGCModel.C_Moneda" Role="C_Moneda" Multiplicity="0..1" />
           <End Type="DB_9F97CF_CatarsysSGCModel.Proyectos" Role="Proyectos" Multiplicity="*" />
@@ -1667,18 +1583,6 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
             </Principal>
             <Dependent Role="Proyectos">
               <PropertyRef Name="Id_Moneda_Proyectos" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Facturas_C_Tipo_Cambio">
-          <End Type="DB_9F97CF_CatarsysSGCModel.C_Tipo_Cambio" Role="C_Tipo_Cambio" Multiplicity="0..1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="C_Tipo_Cambio">
-              <PropertyRef Name="C_Id_Tipo_Cambio" />
-            </Principal>
-            <Dependent Role="Facturas">
-              <PropertyRef Name="C_Id_Tipo_Cambio" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1715,18 +1619,6 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
             </Principal>
             <Dependent Role="Contactos">
               <PropertyRef Name="Id_Cliente" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Facturas_Clientes">
-          <End Type="DB_9F97CF_CatarsysSGCModel.Clientes" Role="Clientes" Multiplicity="1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Clientes">
-              <PropertyRef Name="Id_Cliente" />
-            </Principal>
-            <Dependent Role="Facturas">
-              <PropertyRef Name="IdCliente" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1790,18 +1682,6 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Facturas_Empresa">
-          <End Type="DB_9F97CF_CatarsysSGCModel.Empresa" Role="Empresa" Multiplicity="1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Empresa">
-              <PropertyRef Name="Id_Empresa" />
-            </Principal>
-            <Dependent Role="Facturas">
-              <PropertyRef Name="IdEmpresa" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Proyectos_Empresa">
           <End Type="DB_9F97CF_CatarsysSGCModel.Empresa" Role="Empresa" Multiplicity="0..1" />
           <End Type="DB_9F97CF_CatarsysSGCModel.Proyectos" Role="Proyectos" Multiplicity="*" />
@@ -1814,15 +1694,142 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_DocumentosFacturas_Facturas">
-          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="1" />
-          <End Type="DB_9F97CF_CatarsysSGCModel.DocumentosFacturas" Role="DocumentosFacturas" Multiplicity="*" />
+        <EntityType Name="DocumentosFacturas">
+          <Key>
+            <PropertyRef Name="IdDocumento" />
+          </Key>
+          <Property Name="IdDocumento" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdPago" Type="Int32" Nullable="false" />
+          <Property Name="Url" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="PagosFacturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_PagosFacturas" FromRole="DocumentosFacturas" ToRole="PagosFacturas" />
+        </EntityType>
+        <EntityType Name="Facturas">
+          <Key>
+            <PropertyRef Name="IdFactura" />
+          </Key>
+          <Property Name="IdFactura" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdCliente" Type="Int32" Nullable="false" />
+          <Property Name="IdEmpresa" Type="Int32" Nullable="false" />
+          <Property Name="IdAsignacion" Type="Int32" />
+          <Property Name="IdProyecto" Type="Int32" />
+          <Property Name="C_Id_IVA" Type="Int32" />
+          <Property Name="C_Id_Moneda" Type="Int32" />
+          <Property Name="C_Id_Tipo_Cambio" Type="Int32" />
+          <Property Name="C_Id_Metodo_Pago" Type="Int32" />
+          <Property Name="Tipo_Factura" Type="String" MaxLength="5" FixedLength="false" Unicode="false" />
+          <Property Name="Fecha_Inicio_Factura" Type="DateTime" Precision="3" />
+          <Property Name="Fecha_fin_Factura" Type="DateTime" Precision="3" />
+          <Property Name="No_Factura" Type="Int16" />
+          <Property Name="Descuento_Factura" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Monto_Factura" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Ultimos_4_digitos_Factura" Type="Int16" />
+          <Property Name="Id_Estado_Factura" Type="Int16" Nullable="false" />
+          <Property Name="DiasDescuento" Type="Int16" />
+          <Property Name="Comentarios" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Asignacion" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Asignacion" FromRole="Facturas" ToRole="Asignacion" />
+          <NavigationProperty Name="C_Estado_Factura" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Estado_Factura" FromRole="Facturas" ToRole="C_Estado_Factura" />
+          <NavigationProperty Name="C_IVA" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_IVA" FromRole="Facturas" ToRole="C_IVA" />
+          <NavigationProperty Name="C_Metodo_Pago" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Metodo_Pago" FromRole="Facturas" ToRole="C_Metodo_Pago" />
+          <NavigationProperty Name="C_Moneda" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Moneda" FromRole="Facturas" ToRole="C_Moneda" />
+          <NavigationProperty Name="C_Tipo_Cambio" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_C_Tipo_Cambio" FromRole="Facturas" ToRole="C_Tipo_Cambio" />
+          <NavigationProperty Name="Clientes" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Clientes" FromRole="Facturas" ToRole="Clientes" />
+          <NavigationProperty Name="Empresa" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Empresa" FromRole="Facturas" ToRole="Empresa" />
+          <NavigationProperty Name="Proyectos" Relationship="DB_9F97CF_CatarsysSGCModel.FK_Facturas_Proyectos" FromRole="Facturas" ToRole="Proyectos" />
+          <NavigationProperty Name="PagosFacturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_Facturas" FromRole="Facturas" ToRole="PagosFacturas" />
+        </EntityType>
+        <Association Name="FK_Facturas_Asignacion">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Asignacion" Role="Asignacion" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
           <ReferentialConstraint>
-            <Principal Role="Facturas">
-              <PropertyRef Name="IdFactura" />
+            <Principal Role="Asignacion">
+              <PropertyRef Name="Id_Asignacion" />
             </Principal>
-            <Dependent Role="DocumentosFacturas">
-              <PropertyRef Name="IdFactura" />
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdAsignacion" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_Estado_Factura">
+          <End Type="DB_9F97CF_CatarsysSGCModel.C_Estado_Factura" Role="C_Estado_Factura" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Estado_Factura">
+              <PropertyRef Name="Id_Estado_Factura" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="Id_Estado_Factura" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_IVA">
+          <End Type="DB_9F97CF_CatarsysSGCModel.C_IVA" Role="C_IVA" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_IVA">
+              <PropertyRef Name="C_Id_IVA" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_IVA" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_Metodo_Pago">
+          <End Type="DB_9F97CF_CatarsysSGCModel.C_Metodo_Pago" Role="C_Metodo_Pago" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Metodo_Pago">
+              <PropertyRef Name="C_ID_Metodo_Pago" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_Metodo_Pago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_Moneda">
+          <End Type="DB_9F97CF_CatarsysSGCModel.C_Moneda" Role="C_Moneda" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Moneda">
+              <PropertyRef Name="C_Id_Moneda" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_Moneda" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_C_Tipo_Cambio">
+          <End Type="DB_9F97CF_CatarsysSGCModel.C_Tipo_Cambio" Role="C_Tipo_Cambio" Multiplicity="0..1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="C_Tipo_Cambio">
+              <PropertyRef Name="C_Id_Tipo_Cambio" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="C_Id_Tipo_Cambio" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_Clientes">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Clientes" Role="Clientes" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Clientes">
+              <PropertyRef Name="Id_Cliente" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdCliente" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Facturas_Empresa">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Empresa" Role="Empresa" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Empresa">
+              <PropertyRef Name="Id_Empresa" />
+            </Principal>
+            <Dependent Role="Facturas">
+              <PropertyRef Name="IdEmpresa" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -1835,6 +1842,43 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
             </Principal>
             <Dependent Role="Facturas">
               <PropertyRef Name="IdProyecto" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="PagosFacturas">
+          <Key>
+            <PropertyRef Name="IdPago" />
+          </Key>
+          <Property Name="IdPago" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IdFactura" Type="Int32" Nullable="false" />
+          <Property Name="Descripcion" Type="String" MaxLength="250" FixedLength="false" Unicode="false" />
+          <Property Name="Activo" Type="Boolean" />
+          <Property Name="Monto" Type="Decimal" Precision="18" Scale="2" />
+          <Property Name="Concepto" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="DocumentosFacturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_PagosFacturas" FromRole="PagosFacturas" ToRole="DocumentosFacturas" />
+          <NavigationProperty Name="Facturas" Relationship="DB_9F97CF_CatarsysSGCModel.FK_DocumentosFacturas_Facturas" FromRole="PagosFacturas" ToRole="Facturas" />
+        </EntityType>
+        <Association Name="FK_DocumentosFacturas_PagosFacturas">
+          <End Type="DB_9F97CF_CatarsysSGCModel.PagosFacturas" Role="PagosFacturas" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.DocumentosFacturas" Role="DocumentosFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="PagosFacturas">
+              <PropertyRef Name="IdPago" />
+            </Principal>
+            <Dependent Role="DocumentosFacturas">
+              <PropertyRef Name="IdPago" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DocumentosFacturas_Facturas">
+          <End Type="DB_9F97CF_CatarsysSGCModel.Facturas" Role="Facturas" Multiplicity="1" />
+          <End Type="DB_9F97CF_CatarsysSGCModel.PagosFacturas" Role="PagosFacturas" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facturas">
+              <PropertyRef Name="IdFactura" />
+            </Principal>
+            <Dependent Role="PagosFacturas">
+              <PropertyRef Name="IdFactura" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -2161,29 +2205,6 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Facturas">
-            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Facturas">
-              <MappingFragment StoreEntitySet="Facturas">
-                <ScalarProperty Name="Id_Estado_Factura" ColumnName="Id_Estado_Factura" />
-                <ScalarProperty Name="Ultimos_4_digitos_Factura" ColumnName="Ultimos_4_digitos_Factura" />
-                <ScalarProperty Name="Monto_Factura" ColumnName="Monto_Factura" />
-                <ScalarProperty Name="Descuento_Factura" ColumnName="Descuento_Factura" />
-                <ScalarProperty Name="No_Factura" ColumnName="No_Factura" />
-                <ScalarProperty Name="Fecha_fin_Factura" ColumnName="Fecha_fin_Factura" />
-                <ScalarProperty Name="Fecha_Inicio_Factura" ColumnName="Fecha_Inicio_Factura" />
-                <ScalarProperty Name="Tipo_Factura" ColumnName="Tipo_Factura" />
-                <ScalarProperty Name="C_Id_Metodo_Pago" ColumnName="C_Id_Metodo_Pago" />
-                <ScalarProperty Name="C_Id_Tipo_Cambio" ColumnName="C_Id_Tipo_Cambio" />
-                <ScalarProperty Name="C_Id_Moneda" ColumnName="C_Id_Moneda" />
-                <ScalarProperty Name="C_Id_IVA" ColumnName="C_Id_IVA" />
-                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
-                <ScalarProperty Name="IdAsignacion" ColumnName="IdAsignacion" />
-                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
-                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
-                <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Proyectos">
             <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Proyectos">
               <MappingFragment StoreEntitySet="Proyectos">
@@ -2206,11 +2227,46 @@ warning 6002: The table/view 'DB_9F97CF_CatarsysSGC.dbo.DocumentosFacturas' does
           <EntitySetMapping Name="DocumentosFacturas">
             <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.DocumentosFacturas">
               <MappingFragment StoreEntitySet="DocumentosFacturas">
-                <ScalarProperty Name="Activo" ColumnName="Activo" />
-                <ScalarProperty Name="Descripción" ColumnName="Descripción" />
                 <ScalarProperty Name="Url" ColumnName="Url" />
-                <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
+                <ScalarProperty Name="IdPago" ColumnName="IdPago" />
                 <ScalarProperty Name="IdDocumento" ColumnName="IdDocumento" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facturas">
+            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.Facturas">
+              <MappingFragment StoreEntitySet="Facturas">
+                <ScalarProperty Name="Comentarios" ColumnName="Comentarios" />
+                <ScalarProperty Name="DiasDescuento" ColumnName="DiasDescuento" />
+                <ScalarProperty Name="Id_Estado_Factura" ColumnName="Id_Estado_Factura" />
+                <ScalarProperty Name="Ultimos_4_digitos_Factura" ColumnName="Ultimos_4_digitos_Factura" />
+                <ScalarProperty Name="Monto_Factura" ColumnName="Monto_Factura" />
+                <ScalarProperty Name="Descuento_Factura" ColumnName="Descuento_Factura" />
+                <ScalarProperty Name="No_Factura" ColumnName="No_Factura" />
+                <ScalarProperty Name="Fecha_fin_Factura" ColumnName="Fecha_fin_Factura" />
+                <ScalarProperty Name="Fecha_Inicio_Factura" ColumnName="Fecha_Inicio_Factura" />
+                <ScalarProperty Name="Tipo_Factura" ColumnName="Tipo_Factura" />
+                <ScalarProperty Name="C_Id_Metodo_Pago" ColumnName="C_Id_Metodo_Pago" />
+                <ScalarProperty Name="C_Id_Tipo_Cambio" ColumnName="C_Id_Tipo_Cambio" />
+                <ScalarProperty Name="C_Id_Moneda" ColumnName="C_Id_Moneda" />
+                <ScalarProperty Name="C_Id_IVA" ColumnName="C_Id_IVA" />
+                <ScalarProperty Name="IdProyecto" ColumnName="IdProyecto" />
+                <ScalarProperty Name="IdAsignacion" ColumnName="IdAsignacion" />
+                <ScalarProperty Name="IdEmpresa" ColumnName="IdEmpresa" />
+                <ScalarProperty Name="IdCliente" ColumnName="IdCliente" />
+                <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="PagosFacturas">
+            <EntityTypeMapping TypeName="DB_9F97CF_CatarsysSGCModel.PagosFacturas">
+              <MappingFragment StoreEntitySet="PagosFacturas">
+                <ScalarProperty Name="Concepto" ColumnName="Concepto" />
+                <ScalarProperty Name="Monto" ColumnName="Monto" />
+                <ScalarProperty Name="Activo" ColumnName="Activo" />
+                <ScalarProperty Name="Descripcion" ColumnName="Descripcion" />
+                <ScalarProperty Name="IdFactura" ColumnName="IdFactura" />
+                <ScalarProperty Name="IdPago" ColumnName="IdPago" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

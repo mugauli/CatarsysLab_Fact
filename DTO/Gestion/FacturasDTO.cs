@@ -27,5 +27,13 @@ namespace DTO.Gestion
         public Nullable<decimal> Monto_Factura { get; set; }
         public Nullable<short> Ultimos_4_digitos_Factura { get; set; }
         public short Id_Estado_Factura { get; set; }
+        public Nullable<short> DiasDescuento { get; set; }
+        public string Comentarios { get; set; }
+
+        //Adicionales para tratamiento en modal
+        public bool TipoFact { get; set; }
+        public List<PagosFacturasDTO> PagosFacturas { get; set; }
+        public int IdConsultor { get; set; }
+        public string DiasLaborados { get; set; }
     }
 }

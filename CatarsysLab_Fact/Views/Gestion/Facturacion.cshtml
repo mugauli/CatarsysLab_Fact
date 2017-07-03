@@ -1,7 +1,11 @@
 ﻿
 @model CatarsysLab_Fact.Models.FacturacionModel
 
-@Scripts.Render("~/Plugins/datatTables")
+@*@Scripts.Render("~/Plugins/datatTables")*@
+
+@Styles.Render("~/Content/Facturas")
+
+
 
 
 <div class="container">
@@ -11,27 +15,28 @@
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="TitleModalAsignacion">Proyectos</h5>
+                    <h5 class="modal-title" id="TitleModalAsignacion">Facturas</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body" id="contAgregar">
+
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:98%">
+                        <div id="progressBarFactura" class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:98%" tooltip="hola">
                             <span class="sr-only">70% Complete</span>
                         </div>
                     </div>
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#ServiciosFacturar">Servicios a Facturar</a></li>
                         <li><a data-toggle="tab" href="#DatosFiscales">Datos Fiscales</a></li>
-                        <li><a data-toggle="tab" href="#Facturas">Facturas</a></li>
+                        <li><a data-toggle="tab" href="#Facturas">Pagos</a></li>
                     </ul>
 
                     <div class="tab-content">
                         <div id="ServiciosFacturar" class="tab-pane fade in active">
-                            <form class="form-horizontal" role="form" id="fnGuardarProyecto">
-                                <input type="hidden" name="idProyecto" id="idProyecto" />
+                            <form class="form-horizontal" role="form" id="fnGuardarFactura">
+                                <input type="hidden" name="IdFactura" id="IdFactura" />
                                 <input type="hidden" name="frIdEmpresa" id="frIdEmpresa" />
 
                                 <div class="row" id="fnCliente">
@@ -50,12 +55,20 @@
                                     <div class="form-group col-md-6">
                                         <div class="col-md-12">
                                             <div class="contEstado col-md-12  col-centered">
-                                                <label class="radio-inline">
-                                                    <input type="radio" name="asigProy" tabindex="2" value="1" id="rdFact">Asignación
-                                                </label>
-                                                <label class="radio-inline">
-                                                    <input type="radio" checked name="asigProy" tabindex="3" value="0" id="rdProy">Proyecto
-                                                </label>
+                                                <div class="radio radio-custom radio-inline">
+                                                    <input type="radio" id="rdFact" value="1" name="asigProy" checked="">
+                                                    <label for="rdFact"> Asignación </label>
+                                                </div>
+                                                <div class="radio radio-custom radio-inline">
+                                                    <input type="radio" id="rdProy" value="0" name="asigProy" checked="checked">
+                                                    <label for="rdProy"> Proyecto </label>
+                                                </div>
+                                                @*<label class="radio-inline">
+                                                        <input type="radio" name="asigProy" tabindex="2" value="1" id="rdFact">Asignación
+                                                    </label>
+                                                    <label class="radio-inline">
+                                                        <input type="radio" checked name="asigProy" tabindex="3" value="0" id="rdProy">Proyecto
+                                                    </label>*@
                                             </div>
                                         </div>
                                     </div>
@@ -67,17 +80,13 @@
                                     </div>
                                 </div>
 
-                                <div class="asignacion">
-                                    <div class="row" id="fnCliente">
+                                <div id="conAsignacion" style="display:none;">
+                                    <div class="row" id="fnAsignacion">
                                         <div class="form-group col-md-6">
-                                            <label class="col-md-3 control-label">Consultor Asignado:</label>
+                                            <label class="col-md-3 control-label">Asignación:</label>
                                             <div class="col-md-9">
-                                                <select class="form-control" name="Empleado" id="Empleado" tabindex="4">
-                                                    <option value="0">Seleccione</option>
-                                                    @foreach (var emp in Model.ctEmpleado)
-                                                    {
-                                                        <option value="@emp.Id_Empleado">@emp.Nombre_Empleado</option>
-                                                    }
+                                                <select class="form-control" name="Asignacion" id="sltAsignacion" tabindex="4">
+                                                    <option value="0">Seleccione</option>                                                   
                                                 </select>
                                             </div>
                                         </div>
@@ -90,14 +99,14 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-sm-8"><h5>Periodo a facturar</h5></div>
-                                        <div class="col-sm-4"><h5>Total: 22 días hábiles</h5></div>
+                                        <div class="col-sm-4"><h5 id="contDiasLaborados"></h5></div>
                                     </div>
                                     <div class="row" id="fnFecha">
                                         <div class="form-group col-md-6">
                                             <label class="col-md-3 control-label">Fecha Inicio:</label>
                                             <div class="col-md-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="fecha_inicio" name="fecha_inicio" tabindex="5">
+                                                    <input type="text" class="form-control Only-Date" placeholder="dd/mm/yyyy" id="fecha_inicio" name="fecha_inicio" tabindex="5">
                                                     <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
                                                 </div><!-- input-group -->
                                             </div>
@@ -106,7 +115,7 @@
                                             <label class="col-md-3 control-label">Fecha Fin:</label>
                                             <div class="col-md-9">
                                                 <div class="input-group">
-                                                    <input type="text" class="form-control" placeholder="dd/mm/yyyy" id="fecha_fin" name="fecha_fin" tabindex="6">
+                                                    <input type="text" class="form-control Only-Date" placeholder="dd/mm/yyyy" id="fecha_fin" name="fecha_fin" tabindex="6">
                                                     <span class="input-group-addon bg-primary b-0 text-white"><i class="ti-calendar"></i></span>
                                                 </div><!-- input-group -->
                                             </div>
@@ -122,19 +131,25 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label">Descontar:</label>
+                                        <div class="col-md-9">
+                                            <input type="number" class="form-control" id="Descontar" name="Descontar" tabindex="8">
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <div class="proyecto">
+                                <div id="contProyecto">
                                     <div class="row" id="fnNombreProyecto">
                                         <div class="form-group col-md-12">
                                             <label class="col-md-2 control-label" style="width: 12%;">Nombre Proyecto:</label>
                                             <div class="col-md-10" style="width: 88%;">
-                                                <select class="form-control" name="Cliente" id="Cliente" tabindex="7">
+                                                <select class="form-control" name="Proyecto" id="Proyecto" tabindex="7">
                                                     <option value="0">Seleccione</option>
-                                                    @foreach (var emp in Model.ctProyectos)
-                                                    {
-                                                        <option value="@emp.Id_Proyectos">@emp.Nombre_Proyectos</option>
-                                                    }
+                                                    @*@foreach (var emp in Model.ctProyectos)
+                                                        {
+                                                            <option value="@emp.Id_Proyectos">@emp.Nombre_Proyectos</option>
+                                                        }*@
                                                 </select>
                                             </div>
                                         </div>
@@ -145,13 +160,42 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
 
+                                    @*<div class="row">
+                                            <div class="form-group col-md-12">
+                                                <div class="col-sm-2"><h5>No. de Factura:</h5></div>
+                                                <div class="col-md-10">
+                                                    <div class="contEstado col-md-12  col-centered">
+                                                        <label class="radio-inline">
+                                                            <input type="radio" name="asigProy" tabindex="2" value="1" id="NoFact1">Asignación
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" checked name="asigProy" tabindex="3" value="0" id="NoFact2">Proyecto
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" checked name="asigProy" tabindex="3" value="0" id="NoFact3">Proyecto
+                                                        </label>
+                                                        <label class="radio-inline">
+                                                            <input type="radio" checked name="asigProy" tabindex="3" value="0" id="NoFactOT">Proyecto
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                </div>
+                                <div class="row" id="NoFacturaCont">
+                                    <div class="form-group col-md-6">
+                                        <label class="col-md-3 control-label">No. Factura:</label>
+                                        <div class="col-md-9">
+                                            <input type="text" class="form-control" id="NoFactura" name="NoFactura" tabindex="8" readonly>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="row" id="fnCostoMoneda">
                                     <div class="form-group col-md-6">
                                         <label class="col-md-3 control-label">Monto:</label>
                                         <div class="col-md-9">
-                                            <input type="number" class="form-control" id="Monto" name="Monto" tabindex="8">
+                                            <input type="text" class="form-control Only-Number" id="Monto" name="Monto" tabindex="8" maxlength="20">
                                         </div>
                                     </div>
                                     <div class="form-group col-md-6">
@@ -178,22 +222,8 @@
                                     </div>
                                 </div>
 
-                                <div class="row" id="fnCantidadTipo">
 
-
-                                    <div class="col-xs-12">
-                                        <div class="col-xs-6 ">
-                                            <div class="col-xs-3"></div>
-                                            <div class="col-xs-9 errorMsg"></div>
-                                        </div>
-                                        <div class="col-xs-6 ">
-                                            <div class="col-xs-3"></div>
-                                            <div class="col-xs-9 errorMsg2"></div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="row" id="fnIVA">
+                                <div class="row" id="fnMonedaTipo">
                                     <div class="form-group col-md-6">
                                         <label class="col-md-3 control-label">Moneda a Fact:</label>
                                         <div class="col-md-9">
@@ -234,17 +264,17 @@
                                                 <table style="width:100%; text-align:right;">
                                                     <tr>
                                                         <td>Sub-Total:</td>
-                                                        <td>$12,000.00 USD</td>
+                                                        <td id="txtSubTotal"></td>
 
                                                     </tr>
                                                     <tr>
                                                         <td>IVA:</td>
-                                                        <td>$1,920.00 USD</td>
+                                                        <td id="txtIva"></td>
 
                                                     </tr>
                                                     <tr>
                                                         <td>Total:</td>
-                                                        <td>$13,920.00 USD</td>
+                                                        <td id="txtTotal"></td>
                                                     </tr>
                                                 </table>
                                             </div>
@@ -256,13 +286,16 @@
                                     <div class="form-group col-md-6">
                                         <label class="col-md-3 control-label">Información Adicional:</label>
                                         <div class="col-md-9">
-                                            <textarea class="form-control" name="Comentarios" id="Comentarios" cols="40" rows="5" maxlength="250"></textarea>
+                                            <textarea class="form-control" name="Comentarios" id="Comentarios" cols="40" rows="5" maxlength="250" tabindex="12"></textarea>
                                         </div>
+                                        <div class="col-xs-3"></div>
+                                        <div class="col-xs-9 errorMsg" id="errorMsgCom"></div>
+
                                     </div>
                                     <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label">Tipo de cambio:</label>
+                                        <label class="col-md-3 control-label">Metodo de pago:</label>
                                         <div class="col-md-9">
-                                            <select class="form-control" name="TipoCambio" id="TipoCambio" tabindex="11">
+                                            <select class="form-control" name="MetodoPago" id="MetodoPago" tabindex="13">
                                                 <option value="0">Seleccione</option>
                                                 @foreach (var emp in Model.ctMetodoPago)
                                                 {
@@ -271,24 +304,41 @@
                                             </select>
                                         </div>
                                     </div>
+
+                                    <div class="col-xs-6 ">
+                                        <div class="col-xs-3"></div>
+                                        <div class="col-xs-9 errorMsg" id="errorMsgMP"></div>
+                                    </div>
+
                                     <div class="form-group col-md-6">
                                         <label class="col-md-3 control-label">Últimos 4 Digitos:</label>
                                         <div class="col-md-9">
-                                            <input type="number" class="form-control" id="txtDigitos" name="txtDigitos" tabindex="12">
+                                            <input type="text" class="form-control Only-Number" id="txtDigitos" name="Digitos" maxlength="4" tabindex="14" max="9999">
                                         </div>
+                                    </div>
+                                    <div class="col-xs-6 ">
+                                        <div class="col-xs-3"></div>
+                                        <div class="col-xs-9 errorMsg" id="errorMsgDig"></div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-sm-2 col-sm-offset-10">
+                                        <button type="button" class="btn btn-custom " id="GuardarFactura" tabindex="15">Guardar</button>
                                     </div>
                                 </div>
 
                             </form>
                         </div>
+
                         <div id="DatosFiscales" class="tab-pane fade">
-                            <form class="form-horizontal" role="form" id="fnGuardarProyecto">
+                            <form class="form-horizontal" role="form" id="fnDatosFiscales">
 
                                 <div class="row" id="fnCliente">
                                     <div class="form-group col-md-6">
                                         <label class="col-md-3 control-label">Cliente:</label>
                                         <div class="col-md-9">
-                                            <select class="form-control" name="Cliente" id="Cliente" tabindex="1">
+                                            <select class="form-control" name="ClienteFiscal" id="ClienteFiscal" tabindex="1">
                                                 <option value="0">Seleccione</option>
                                                 @foreach (var emp in Model.ctClientes)
                                                 {
@@ -418,9 +468,9 @@
                                 </div>
 
                                 <div class="row" id="fnEmail">
-                                    <div class="form-group col-md-6">
-                                        <label class="col-md-3 control-label" for="example-email">E-mail:</label>
-                                        <div class="col-md-9">
+                                    <div class="form-group col-md-12">
+                                        <label class="col-md-2 control-label" for="example-email" style="width:12%;">E-mail:</label>
+                                        <div class="col-md-10" style="width:88%;">
                                             <input type="email" class="form-control" id="Email" name="Email" tabindex="11" maxlength="50">
                                         </div>
                                     </div>
@@ -433,6 +483,7 @@
                                 </div>
                             </form>
                         </div>
+
                         <div id="Facturas" class="tab-pane fade">
 
                             <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
@@ -448,32 +499,30 @@
                                     </div>
                                     <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
                                         <div class="panel-body">
-                                            <div class="row ContCargar">
-                                                <button type="button" data-URL="/Facturas/3/documentos.pdf" data-TitleDocto="Título 1" data-DescDocto="Descripcion 1" data-toggle="tooltip" title="Descripción 1" class="btnDoctoView btn btn-primary">Factura 1</button>
-                                                <button type="button" data-URL="/Facturas/3/documentos.xml" data-TitleDocto="Título 2" data-DescDocto="Descripcion 2" data-toggle="tooltip" title="Descripción 2" class="btnDoctoView btn btn-custom">Factura 2</button>
-                                                <button type="button" data-URL="/Facturas/3/documentos.pdf" data-TitleDocto="Título 3" data-DescDocto="Descripcion 3" data-toggle="tooltip" title="Descripción 3" class="btnDoctoView btn btn-custom">Factura 3</button>
-                                                <button type="button" data-URL="/Facturas/3/documentos.xml" data-TitleDocto="Título 4" data-DescDocto="Descripcion 4" data-toggle="tooltip" title="Descripción 4" class="btnDoctoView btn btn-custom">Factura 4</button>
-                                            </div>
-                                            <div class="row ContCargar">
-                                                <div class="form-group col-md-12">
-                                                    <label class="col-md-3 control-label" for="txtTituloArchivo">Título:</label>
-                                                    <div class="col-md-9">
-                                                        <input type="text" class="form-control" id="txtTituloArchivo" readonly="readonly" value="Título 1">
+                                            <div class="row" id="fnTablaFacturas">
+                                                <div class="col-xs-12">
+                                                    <div class="card-box table-responsive">
+                                                        <input type="hidden" name="tablaJSON" id="tablaJSON" />
+                                                        <table id="datatableFacturasCargadas" class="table table-striped dt-responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable_info">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>No.</th>
+                                                                    <th>Monto</th>
+                                                                    <th>Concepto</th>
+                                                                    <th>Comentarios</th>
+                                                                    <th>Archivos Cargados</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody></tbody>
+                                                        </table>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="row ContCargar">
-                                                <div class="form-group col-md-12">
-                                                    <label class="col-md-3 control-label" for="txtDescripcionDocto">Comentarios:</label>
-                                                    <div class="col-md-9">
-                                                        <textarea class="form-control" id="txtDescripcionDocto" readonly="readonly">Descripción 1</textarea>
-                                                    </div>
-                                                </div>
-                                            </div>
+
                                             <div class="row ContCargar">
                                                 <div id="objVistaPreviaCont">
-                                                    <object id="objVistaPrevia" data="" type="application/xml"></object>            
-                                                </div>                                    
+                                                    <textarea class="form-control" id="txtXMLViewer" style="width:100%; min-height:300px;" disabled></textarea>
+                                                </div>
                                             </div>
 
                                         </div>
@@ -485,7 +534,7 @@
                                             <a class="collapsed" role="button" data-toggle="collapse"
                                                data-parent="#accordion" href="#collapseTwo"
                                                aria-expanded="false" aria-controls="collapseTwo">
-                                                Cargar Archivos
+                                                Agregar Pago
                                             </a>
                                         </h4>
                                     </div>
@@ -493,9 +542,17 @@
                                         <div class="panel-body">
                                             <div class="row ContCargar">
                                                 <div class="form-group col-md-12">
-                                                    <label class="col-md-3 control-label" for="txtTituloArchivo">Título:</label>
+                                                    <label class="col-md-3 control-label" for="txtMontoPago">Monto:</label>
                                                     <div class="col-md-9">
-                                                        <input type="text" class="form-control" id="txtTituloArchivo" name="txtTituloArchivo" tabindex="11" maxlength="20">
+                                                        <input type="text" class="form-control Only-Number" id="txtMontoPago" name="txtMontoPago" tabindex="11" maxlength="20">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row ContCargar">
+                                                <div class="form-group col-md-12">
+                                                    <label class="col-md-3 control-label" for="txtConceptoArchivo">Concepto:</label>
+                                                    <div class="col-md-9">
+                                                        <input type="text" class="form-control" id="txtConceptoArchivo" name="txtConceptoArchivo" tabindex="11" maxlength="20">
                                                     </div>
                                                 </div>
                                             </div>
@@ -532,7 +589,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                    <button type="button" class="btn btn-custom " id="GuardarProyecto">Guardar</button>
+
                 </div>
             </div>
         </div>
@@ -555,7 +612,6 @@
                             <th>Monto</th>
                             <th>Facturado</th>
                             <th>Día de facturación</th>
-                            @*<th>Estado</th>*@
                             <th>Acciones</th>
                         </tr>
                     </thead>

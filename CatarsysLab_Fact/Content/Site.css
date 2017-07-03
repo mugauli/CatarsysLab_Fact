@@ -243,10 +243,6 @@
     margin-left: 25px;
 }
 
-input:-moz-read-only { /* For Firefox */
-    cursor: not-allowed !important;
-}
-
 input:read-only {
     cursor: not-allowed !important;
 }
@@ -426,3 +422,33 @@ input:read-only {
 
 
 /*End*/
+#panelSinPrivilegios {
+    margin-top: 15vh;
+}
+
+/*Modal Cargando*/
+
+#ModalCargando {
+    position: absolute;
+    background: rgba(0,0,0,0.8);
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    display:none;
+
+}
+#CntModalCargando {
+    display: -moz-box; /* Firefox */
+    display: -webkit-box; /* Safari and Chrome */
+    display: -ms-flexbox; /* Internet Explorer 10 */
+    display: flex;
+    display: -webkit-flex; /* Safari 7 */
+    width: 100vw;
+    height: 100vh;
+}
+#ImgModalCargando {
+    width: 8vh;
+    margin: auto;
+}
+
+/*legend Modal Cargando*/

@@ -166,6 +166,7 @@ $(document).ready(function () {
 
     var cargarInfoModal = function (IdProyecto) {
 
+        ModalCargando(true);
 
         $.ajax({
             type: 'POST',
@@ -184,10 +185,12 @@ $(document).ready(function () {
                 }
                 else
                     alert(response.message);
+                ModalCargando(false);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 var mensaje = 'Error al obtener asignación:' + thrownError;
                 alert(mensaje);
+                ModalCargando(false);
             }
         });
 
@@ -489,7 +492,7 @@ $(document).ready(function () {
         //alert($("#fnGuardarProyecto").serialize());
 
         if (validarGuardarProyecto()) {
-
+            ModalCargando(true);
             $.ajax({
                 type: 'POST',
                 url: '/Gestion/GuardarProyecto',
@@ -502,10 +505,12 @@ $(document).ready(function () {
                     }
                     else
                         alert(response.message);
+                    ModalCargando(false);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     var mensaje = 'Error al guardar asignación:' + thrownError;
                     alert(mensaje);
+                    ModalCargando(false);
                 }
             });
         }

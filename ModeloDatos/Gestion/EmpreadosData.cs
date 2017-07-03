@@ -62,7 +62,7 @@ namespace ModeloDatos.Gestion
                     var response = new MethodResponseDTO<EmpleadosDTO>() { Code = 0 };
 
 
-                    var clientes = context.Empleados.Where(x => x.Usuario_Empleado == Username).FirstOrDefault();
+                    var clientes = context.Empleados.Where(x => x.Usuario_Empleado == Username && x.Estado.Value == true && x.IsLogIn.Value == 1).FirstOrDefault();
 
                     response.Result = Mapper.Map<EmpleadosDTO>(clientes);
 
@@ -111,7 +111,7 @@ namespace ModeloDatos.Gestion
                         objDB.Id_JefeInmediato_Empleado = empleado.Id_JefeInmediato_Empleado;
                         objDB.IsLogIn = empleado.IsLogIn;
                         objDB.Usuario_Empleado = empleado.Usuario_Empleado;
-                        if (empleado.Password_Empleado != string.Empty)
+                        if (!String.IsNullOrEmpty(empleado.Password_Empleado))
                         {
                             objDB.Password_Empleado = empleado.Password_Empleado;
                             objDB.Salt = empleado.Salt;

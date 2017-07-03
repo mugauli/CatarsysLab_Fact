@@ -133,11 +133,13 @@
     </Compile>
     <Compile Include="Gestion\AsignacionData.cs" />
     <Compile Include="Gestion\ClienteData.cs" />
-    <Compile Include="Gestion\DocumentosFacturasDTO.cs" />
     <Compile Include="Gestion\EmpreadosData.cs" />
     <Compile Include="Gestion\EmpresaData.cs" />
     <Compile Include="Gestion\FacturasData.cs" />
     <Compile Include="Gestion\ProyectosData.cs" />
+    <Compile Include="PagosFacturas.cs">
+      <DependentUpon>CatarsysLabSGC.tt</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Proyectos.cs">
       <DependentUpon>CatarsysLabSGC.tt</DependentUpon>

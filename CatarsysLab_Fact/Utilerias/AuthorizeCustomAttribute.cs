@@ -63,14 +63,14 @@ namespace CatarsysLab_Fact.Utilerias
         //Llamado cuando el acceso es denegado
         protected override void HandleUnauthorizedRequest(AuthorizationContext filterContext)
         {
-            //Usuario no esta logeado
+            //Empleados no esta logeado
             if (!filterContext.HttpContext.User.Identity.IsAuthenticated)
             {
                 filterContext.Result = new RedirectToRouteResult(
                         new RouteValueDictionary(new { controller = "Account", action = "LoginAuth", returnUrl = filterContext.RequestContext.HttpContext.Request.Path.Trim() })
                 );
             }
-            //Usuario esta logueado pero no tiene acceso
+            //Empleados esta logueado pero no tiene acceso
             else
             {
                 if (filterContext.RequestContext.HttpContext.Request.IsAjaxRequest())

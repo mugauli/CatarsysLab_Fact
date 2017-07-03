@@ -104,7 +104,7 @@ $(document).ready(function () {
 
     var limpiarModal = function () {
 
-        
+
         $("#idAsignacion").val(0);
 
         $("#Cliente").val(0);
@@ -156,8 +156,7 @@ $(document).ready(function () {
 
         $("#IVA").val(info.Id_IVA_Asignacion);
 
-        if (info.Id_Estatus_Asignacion == 1)
-        {
+        if (info.Id_Estatus_Asignacion == 1) {
             $("#rdSI").attr('checked', true);
             $("#rdNO").attr('checked', false);
         }
@@ -169,13 +168,14 @@ $(document).ready(function () {
     }
 
     var cargarInfoModal = function (IdAsignacion) {
-
+        ModalCargando(true);
 
         $.ajax({
             type: 'POST',
             url: '/Gestion/ObtenerAsignacion',
             data: { IdAsignacion: IdAsignacion },
             success: function (response) {
+                ModalCargando(false);
                 if (response.success) {
                     cargarModal(response.info[0]);
                     $("#TitleModalAsignacion").html("Detalle - Asignación");
@@ -188,6 +188,7 @@ $(document).ready(function () {
             error: function (xhr, ajaxOptions, thrownError) {
                 var mensaje = 'Error al obtener asignación:' + thrownError;
                 alert(mensaje);
+                ModalCargando(false);
             }
         });
 
@@ -270,12 +271,13 @@ $(document).ready(function () {
     $("#GuardarAsignacion").click(function () {
         $("#frIdEmpresa").val($("#sltEmpresa").val());
         if (validarGuardarAsignacion()) {
-           // alert($("#fnGuardarAsignacion").serialize());
+            ModalCargando(true);
             $.ajax({
                 type: 'POST',
                 url: '/Gestion/GuardarAsignacion',
                 data: $("#fnGuardarAsignacion").serialize(),
                 success: function (response) {
+                    ModalCargando(false);
                     if (response.success) {
                         limpiarModal();
                         table.draw();
@@ -287,6 +289,7 @@ $(document).ready(function () {
                 error: function (xhr, ajaxOptions, thrownError) {
                     var mensaje = 'Error al guardar asignación:' + thrownError;
                     alert(mensaje);
+                    ModalCargando(false);
                 }
             });
         }

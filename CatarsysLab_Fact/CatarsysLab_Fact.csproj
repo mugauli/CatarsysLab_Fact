@@ -181,6 +181,7 @@
     <Content Include="Content\core.css" />
     <Content Include="Content\Dashboard.css" />
     <Content Include="Content\elements.css" />
+    <Content Include="Content\Facturas.css" />
     <Content Include="Content\icons.css" />
     <Content Include="Content\menu.css" />
     <Content Include="Content\menu_light.css" />
@@ -274,6 +275,15 @@
     <Content Include="fonts\themify.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Images\blanco\logo_blanco_high.png" />
+    <Content Include="Images\blanco\logo_blanco_low.png" />
+    <Content Include="Images\blanco\logo_blanco_mid.png" />
+    <Content Include="Images\color\logo_color_high.png" />
+    <Content Include="Images\color\logo_color_low.png" />
+    <Content Include="Images\color\logo_color_mid.png" />
+    <Content Include="Images\doc_pdf_icon.png" />
+    <Content Include="Images\doc_xml_icon.png" />
+    <Content Include="Images\loading.gif" />
     <Content Include="Images\logo_firma_small.jpg" />
     <Content Include="Images\logo_firma_small_2.png" />
     <Content Include="Images\logo_small.jpg" />
@@ -317,6 +327,10 @@
     <Content Include="Content\Plugins\waypoints\lib\waypoints.debug.js" />
     <Content Include="Content\Plugins\waypoints\lib\zepto.waypoints.js" />
     <Content Include="Content\Plugins\waypoints\lib\zepto.waypoints.min.js" />
+    <Content Include="Images\negro\logo_negro_high.png" />
+    <Content Include="Images\negro\logo_negro_low.png" />
+    <Content Include="Images\negro\logo_negro_mid.png" />
+    <Content Include="Images\tenor.gif" />
     <Content Include="Scripts\Asignacion.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -355,6 +369,8 @@
     <Content Include="Scripts\jquery.core.js" />
     <Content Include="Scripts\jquery.dashboard.js" />
     <Content Include="Scripts\jquery.datatables.init.js" />
+    <Content Include="Scripts\jquery.mask.js" />
+    <Content Include="Scripts\jquery.mask.min.js" />
     <Content Include="Scripts\jquery.min.js" />
     <Content Include="Scripts\jquery.nicescroll.js" />
     <Content Include="Scripts\jquery.scrollTo.min.js" />
@@ -397,6 +413,7 @@
     <Content Include="Views\Account\Login.cshtml" />
     <Content Include="Views\Account\LoginAuth.cshtml" />
     <Content Include="Views\Account\SinPrivilegios.cshtml" />
+    <Content Include="Views\Home\Menu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

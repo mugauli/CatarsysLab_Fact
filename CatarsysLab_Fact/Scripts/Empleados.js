@@ -103,6 +103,16 @@ $(document).ready(function () {
             $("#Password2").removeClass("inputError");
         }
 
+        if ($("#Password").val() != '' && $("#Password").val() != $("#Password2").val()) {
+            $("#fnPassword .errorMsg").html('Las contraseñas escritas no coincidenContraseña y repetir contraseña deben ser iguales.');
+            $("#Password").addClass("inputError");
+            $("#Password2").addClass("inputError");
+            correcto = false;
+        } else {
+            $("#fnPassword .errorMsg").html('');
+            $("#Password").removeClass("inputError");
+            $("#Password").removeClass("inputError");
+        }
 
         return correcto;
 
@@ -169,7 +179,7 @@ $(document).ready(function () {
     }
 
     var cargarInfoModal = function (IdEmpleado) {
-
+        ModalCargando(true);
 
         $.ajax({
             type: 'POST',
@@ -183,10 +193,12 @@ $(document).ready(function () {
                 }
                 else
                     alert(response.message);
+                ModalCargando(false);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 var mensaje = 'Error al obtener asignación:' + thrownError;
                 alert(mensaje);
+                ModalCargando(false);
             }
         });
 
@@ -325,7 +337,8 @@ $(document).ready(function () {
 
         $("#frIdEmpresa").val($("#sltEmpresa").val());
         if (validarGuardar()) {
-
+            $("#addModal").modal("hide");
+            ModalCargando(true);
             $.ajax({
                 type: 'POST',
                 url: '/Configuracion/GuardarEmpleado',
@@ -334,13 +347,19 @@ $(document).ready(function () {
                     if (response.success) {
                         limpiarModal();
                         table.draw();
-                        $("#addModal").modal("hide");
+
                     }
-                    else
+                    else {
                         alert(response.message);
+                        $("#addModal").modal("show");
+                    }
+                    ModalCargando(false);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     var mensaje = 'Error al guardar asignación:' + thrownError;
+                    
+                    $("#addModal").modal("show");
+                    ModalCargando(false);
                     alert(mensaje);
                 }
             });

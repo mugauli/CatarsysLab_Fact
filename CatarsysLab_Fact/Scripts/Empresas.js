@@ -149,7 +149,7 @@ $(document).ready(function () {
 
     var cargarInfoModal = function (IdEmpresa) {
 
-
+        ModalCargando(true);
         $.ajax({
             type: 'POST',
             url: '/Configuracion/ObtenerEmpresa',
@@ -162,10 +162,12 @@ $(document).ready(function () {
                 }
                 else
                     alert(response.message);
+                ModalCargando(false);
             },
             error: function (xhr, ajaxOptions, thrownError) {
                 var mensaje = 'Error al obtener asignación:' + thrownError;
                 alert(mensaje);
+                ModalCargando(false);
             }
         });
 
@@ -246,7 +248,7 @@ $(document).ready(function () {
 
         $("#frIdEmpresa").val($("#sltEmpresa").val());
         if (validarGuardar()) {
-
+            ModalCargando(true);
             $.ajax({
                 type: 'POST',
                 url: '/Configuracion/GuardarEmpresa',
@@ -259,10 +261,12 @@ $(document).ready(function () {
                     }
                     else
                         alert(response.message);
+                    ModalCargando(false);
                 },
                 error: function (xhr, ajaxOptions, thrownError) {
                     var mensaje = 'Error al guardar asignación:' + thrownError;
                     alert(mensaje);
+                    ModalCargando(false);
                 }
             });
         }

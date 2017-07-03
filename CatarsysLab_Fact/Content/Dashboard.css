@@ -2,12 +2,43 @@
     display: none;
 }
 
-.facVencida
-{
-    color:red;
+#datatable .facVencida {
+    color: white !important;
+    background-color: rgba(255, 0, 0, 0.59) !important;
 }
 
-.facAtiempo
-{
-    color:green;
+#datatable .facAtiempo {
+    color: white !important;
+    background-color: rgba(33, 142, 20, 0.59) !important;
 }
+
+#datatableServActuales .facVencida {
+    color: rgba(255, 0, 0, 0.59) !important;
+}
+
+#datatableServActuales .facAtiempo {
+    color: rgba(33, 142, 20, 0.59) !important;
+}
+
+
+/*#datatableServActuales .facVencida {
+    color: white !important;
+    background-color: rgba(255, 0, 0, 0.59) !important;
+}
+
+#datatableServActuales .facAtiempo {
+    color: white !important;
+    background-color: rgba(33, 142, 20, 0.59) !important;
+}*/
+
+
+#datatableCarVencida .facVencida {
+    color: white !important;
+    background-color: rgba(255, 0, 0, 0.59) !important;
+}
+
+#datatableCarVencida .facAtiempo {
+    color: black !important;
+    background-color: rgb(239, 239, 30) !important;
+}
+

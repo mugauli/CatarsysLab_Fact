@@ -59,14 +59,17 @@
     <Compile Include="Catalogos\C_Tipo_AsignacionDTO.cs" />
     <Compile Include="Catalogos\C_Tipo_CambioDTO.cs" />
     <Compile Include="General\MethodResponseDTO.cs" />
+    <Compile Include="General\SelectDTO.cs" />
     <Compile Include="Gestion\AsignacionDTO.cs" />
     <Compile Include="Catalogos\C_CorteDTO.cs" />
     <Compile Include="Gestion\ClientesDTO.cs" />
     <Compile Include="Gestion\ContactosDTO.cs" />
+    <Compile Include="Gestion\DocumentosFacturasDTO.cs" />
     <Compile Include="Gestion\EmpleadoPermisoDTO.cs" />
     <Compile Include="Gestion\EmpresaDTO.cs" />
     <Compile Include="Gestion\FacturasDTO.cs" />
     <Compile Include="Gestion\PaginacionDTO.cs" />
+    <Compile Include="Gestion\PagosFacturasDTO.cs" />
     <Compile Include="Gestion\PermisosDTO.cs" />
     <Compile Include="Gestion\ProyectosDTO.cs" />
     <Compile Include="Gestion\EmpleadosDTO.cs" />

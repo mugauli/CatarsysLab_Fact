@@ -11,12 +11,12 @@ var ServiciosActuales = {
 
 $(document).ready(function () {
 
-   
+
     //Asignamos datepichers
     $("#datepickerPendientes").datepicker('setDate', new Date());
     $("#datepickerIngresos").datepicker('setDate', new Date());
 
-    
+
     //PENDIENTES POR FACTURAR -- IndexTabla = 1
     var table = $('#datatable').DataTable({
         dom: "<'row itemHeader'<'col-sm-6'<'col-sm-12'>><'col-sm-6'<'col-sm-12'f>>><'row itemHeader'<'col-sm-6'<'col-sm-12'l>><'col-sm-6'<'col-sm-12'B>>>rt<p>",
@@ -55,8 +55,8 @@ $(document).ready(function () {
                 // That data should be passed into the callback as the only parameter.
                 callback(data);
                 order = table.order();
-                
-                
+
+
             })
 
         },
@@ -131,7 +131,7 @@ $(document).ready(function () {
                     start: data.start,    // Needed for paging
                     length: data.length, // Needed for paging
                     company: $("#sltEmpresa").val(),
-                    search: $("#datatable_filter input").val(), 
+                    search: $("#datatable_filter input").val(),
                     order: order
                 }
             }).done(function (data, textStatus, jqXHR) {
@@ -213,8 +213,8 @@ $(document).ready(function () {
                 // That data should be passed into the callback as the only parameter.
                 callback(data);
                 order = table4.order();
-                
-                
+
+
 
             })
 
@@ -251,7 +251,7 @@ $(document).ready(function () {
         }
     });
 
-   
+
 
     //SE ESCUCHA ALGUN CAMBIO DE SELECCION
     $('input[type=radio][name=servTyperadio]').change(function () {
@@ -264,9 +264,9 @@ $(document).ready(function () {
         }
     });
 
-   
 
-        
+
+
     //$('#datatable tbody').on('click', 'tr', function () {
     //    var data = table.row(this).data();
     //    cargarInfoModal(data["IdEmpleado"]);
@@ -384,8 +384,7 @@ function loadTableServActuales(tipoServicio) {
 }
 
 //Asigna el color al td representativo del semaforo
-function asign_semaphore(IndexTabla)
-{
+function asign_semaphore(IndexTabla) {
     if (IndexTabla == 1) {
         $('#datatable').find('tr').each(function (index) {
             $(this).children("td").each(function (index2) {
@@ -411,8 +410,14 @@ function asign_semaphore(IndexTabla)
                 if (index2 == 4) {
 
                     var color = $(this).text();
+                    //debugger;
 
-                    $(this).parent('tr').css("color", color);
+                    if (color == "Red") {
+                        $(this).parent('tr').addClass("facVencida");
+                    }
+                    else {
+                        $(this).parent('tr').addClass("facAtiempo");
+                    }
                 }
 
             })
@@ -426,15 +431,22 @@ function asign_semaphore(IndexTabla)
                 //BUSCAMOS DIRECTAMENTE LA COLUMNA DE ESTADO
                 if (index2 == 4) {
                     var color = $(this).text();
+                    //debugger;
 
-                    $(this).parent('tr').css("color", color);
+                    if (color == "Red") {
+                        $(this).parent('tr').addClass("facVencida");
+                    }
+                    else {
+                        $(this).parent('tr').addClass("facAtiempo");
+                    }
+
                 }
 
             })
         });
     }
 
-    
+
 }
 
 //Concatena el simbolo de moneda deseado a los valores de la columna deseada

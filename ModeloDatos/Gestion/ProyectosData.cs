@@ -45,13 +45,13 @@ namespace ModeloDatos.Gestion
                         asig.Costo_Proyectos = proyecto.Costo_Proyectos;
                         asig.Id_Moneda_Proyectos = proyecto.Id_Moneda_Proyectos;
                         asig.Numero_Facturas_Proyectos = proyecto.Numero_Facturas_Proyectos;
-                        asig.Id_Tipo_Cambio_Proyectos = proyecto.Id_Tipo_Cambio_Proyectos;                      
-                        asig.Id_IVA_Proyectos = proyecto.Id_IVA_Proyectos;                        
+                        asig.Id_Tipo_Cambio_Proyectos = proyecto.Id_Tipo_Cambio_Proyectos;
+                        asig.Id_IVA_Proyectos = proyecto.Id_IVA_Proyectos;
                         asig.Estado = proyecto.Estado;
                     }
                     context.SaveChanges();
 
-                    
+
                     var _FacturasData = new FacturasData();
 
                     var BrFacturas = _FacturasData.BorrarFacturas(proyecto.Id_Proyectos, 1);
@@ -67,7 +67,7 @@ namespace ModeloDatos.Gestion
                     {
                         return new MethodResponseDTO<int> { Code = -100, Result = 0, Message = "Guardar Facturas: " + Facturas.Message };
                     }
-                
+
 
                     return response;
                 }
@@ -102,7 +102,7 @@ namespace ModeloDatos.Gestion
         /// <param name="idEmpresa"></param>
         /// <param name="estado"></param>
         /// <returns>Lista de proyectos</returns>
-        public MethodResponseDTO<List<ProyectosDTO>> ObtenerProyecto(int idProyecto,int idEmpresa, int estado)
+        public MethodResponseDTO<List<ProyectosDTO>> ObtenerProyecto(int idProyecto, int idEmpresa, int estado)
         {
             using (var context = new DB_9F97CF_CatarsysSGCEntities())
             {
@@ -111,11 +111,11 @@ namespace ModeloDatos.Gestion
                     var response = new MethodResponseDTO<List<ProyectosDTO>>() { Code = 0 };
 
 
-                    var asignaciones = context.Proyectos.Where(x => (x.Id_Proyectos == idProyecto || idProyecto == 0) 
+                    var asignaciones = context.Proyectos.Where(x => (x.Id_Proyectos == idProyecto || idProyecto == 0)
                                                                      && (x.Estado == (estado == 1) || estado == 2)
-                                                                     && (x.Id_Empresa == idEmpresa|| idEmpresa == 0)).ToList();
+                                                                     && (x.Id_Empresa == idEmpresa || idEmpresa == 0)).ToList();
                     response.Result = Mapper.Map<List<ProyectosDTO>>(asignaciones);
-                    
+
                     return response;
                 }
                 catch (Exception ex)
@@ -147,7 +147,7 @@ namespace ModeloDatos.Gestion
 
 
                     ObjectParameter totalrow = new ObjectParameter("totalrow", typeof(int));
-                    var asignacion = context.sp_GetProyectosPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter,filter2, totalrow).ToList();
+                    var asignacion = context.sp_GetProyectosPaginacion(page, size, sort, Id_Empresa, sortDireccion, filter, filter2, totalrow).ToList();
 
 
                     responsePag.data = Mapper.Map<List<ProyectosPaginadorDTO>>(asignacion);
@@ -160,6 +160,40 @@ namespace ModeloDatos.Gestion
                 catch (Exception ex)
                 {
                     return new MethodResponseDTO<PaginacionDTO<List<ProyectosPaginadorDTO>>> { Code = -100, Message = "ObtenerAsignaciones: " + ex.Message };
+                }
+            }
+        }
+
+        public MethodResponseDTO<List<SelectDTO>> ObtenerProyectoAsignacionCliente(int idCliente, int tipo)
+        {
+            using (var context = new DB_9F97CF_CatarsysSGCEntities())
+            {
+                try
+                {
+                    var response = new MethodResponseDTO<List<SelectDTO>>() { Code = 0 };
+
+                    if (tipo == 1) //tipo == asignacion
+                    {
+                        var objDB = context.Asignacion
+                            .Where(x => x.Id_Cliente_Asignacion == idCliente)
+                            .Join(context.Empleados, asig => asig.Id_Empleado_Asignacion, emp => emp.Id_Empleado, (Asg, Emp) => new { ASG = Asg, EMP = Emp })
+                            .Join(context.Clientes, asig => asig.ASG.Id_Cliente_Asignacion, clt => clt.Id_Cliente, (Asg_2, Clt) => new { ASG_2 = Asg_2, CLT = Clt })
+                            .Select(x => new SelectDTO { Id = x.ASG_2.ASG.Id_Asignacion, Value = (x.CLT.Nombre_Cliente +" - "+ x.ASG_2.EMP.Nombre_Empleado) })
+                            .Distinct()
+                            .ToList();
+                        response.Result = objDB;
+
+                    }
+                    else
+                    {
+                        var objDB = context.Proyectos.Where(x => x.Id_Clientes_Proyectos == idCliente).Select(x => new SelectDTO { Id = x.Id_Proyectos, Value = x.Nombre_Proyectos }).ToList();
+                        response.Result = objDB;
+                    }
+                    return response;
+                }
+                catch (Exception ex)
+                {
+                    return new MethodResponseDTO<List<SelectDTO>> { Code = -100, Message = "Obtener Proyecto Cliente: " + ex.Message };
                 }
             }
         }
